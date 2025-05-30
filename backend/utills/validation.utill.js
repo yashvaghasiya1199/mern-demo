@@ -90,14 +90,87 @@ const driverSignupValidation = Joi.object({
             "string.base": "Phone number must be a string",
             "string.pattern.base": "Phone number must be a 10-digit number",
             "any.required": "Phone number is required"
-        })
+        }),
+        profileimage:Joi.any()
+
 });
 
 
+const findRideSchema = Joi.object({
+  pickup_latitude: Joi.number()
+    .min(-90)
+    .max(90)
+    .required()
+    .messages({
+      'number.base': 'Pickup latitude must be a number number and valid ',
+      'number.min': 'Latitude must be at least -90',
+      'number.max': 'Latitude cannot exceed 90',
+      'any.required': 'Pickup latitude is required'
+    }),
 
+  pickup_longitude: Joi.number()
+    .min(-180)
+    .max(180)
+    .required()
+    .messages({
+      'number.base': 'Pickup longitude must be a number and valid ',
+      'number.min': 'Longitude must be at least -180',
+      'number.max': 'Longitude cannot exceed 180',
+      'any.required': 'Pickup longitude is required'
+    })
+});
+
+const bookRide = Joi.object({
+    pickup_latitude: Joi.number()
+    .min(-90)
+    .max(90)
+    .required()
+    .messages({
+      'number.base': 'Pickup latitude must be a number number and valid ',
+      'number.min': 'Latitude must be at least -90',
+      'number.max': 'Latitude cannot exceed 90',
+      'any.required': 'Pickup latitude is required'
+    }),
+
+  pickup_longitude: Joi.number()
+    .min(-180)
+    .max(180)
+    .required()
+    .messages({
+      'number.base': 'Pickup longitude must be a number and valid ',
+      'number.min': 'Longitude must be at least -180',
+      'number.max': 'Longitude cannot exceed 180',
+      'any.required': 'Pickup longitude is required'
+    }),
+    drop_latitude: Joi.number()
+    .min(-90)
+    .max(90)
+    .required()
+    .messages({
+      'number.base': 'Pickup latitude must be a number number and valid ',
+      'number.min': 'Latitude must be at least -90',
+      'number.max': 'Latitude cannot exceed 90',
+      'any.required': 'Pickup latitude is required'
+    }),
+
+  drop_longitude: Joi.number()
+    .min(-180)
+    .max(180)
+    .required()
+    .messages({
+      'number.base': 'Pickup longitude must be a number and valid ',
+      'number.min': 'Longitude must be at least -180',
+      'number.max': 'Longitude cannot exceed 180',
+      'any.required': 'Pickup longitude is required'
+    }),
+    status:Joi.string()
+
+})
 
 module.exports = {
     userSignUpValidation,
-    driverSignupValidation
+    driverSignupValidation,
+    findRideSchema,
+    bookRide
 };
 

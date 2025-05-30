@@ -3,40 +3,41 @@ import '../../componets/css/driveradmin.css';
 import { api } from "../../axios/axios";
 import { errorToast, successToast } from "../../componets/toast";
 import { ToastContainer } from "react-toastify";
+import { DriverHooks } from "../../componets/hooks/driver.hook";
+import { driverDeleteLocationAction } from "../../store/actions/driver.action";
+
+
 
 export function DriverLocation() {
+
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
   const [location, setLocation] = useState([])
 
+  const { driverLocations,driverGetLocations ,driverDeleteLocations } = DriverHooks()
+
   async function getLocations() {
-    const getLocation = await api.get('/api/driver/alllocation', {
-      withCredentials: true
-    });
-    // console.log("data", getLocation.data.driver.driverlocations);
-    setLocation(getLocation.data.driver.driverlocations)
+    const getLocation = await driverGetLocations()
+    console.log("data",getLocation );
+    setLocation(getLocation.driver.driverlocations)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can replace the URL with your actual API endpoint
     try {
 
-      const response = await api.post('/api/driver/addlocation', { latitude, longitude }, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
+
+      const response = await driverLocations({ longitude, latitude })
+      console.log(response);
+
       getLocations()
-      const result = response.data
-      if (!result.err) {
-        successToast(result.msg)
+      if (!response.err) {
+        successToast(response.msg)
         setLongitude('');
         setLatitude('');
       }
-      if (result.err) {
-        errorToast(result.msg)
+      if (response.err) {
+        errorToast(response.msg)
       }
     } catch (error) {
       console.error("Error submitting location:", error);
@@ -44,13 +45,11 @@ export function DriverLocation() {
     }
   };
 
-  async function deleteLocation(id){
-    let responce = await api.delete(`/api/driver/delete/location/${id}`,{
-      withCredentials:true
-    })
-    console.log(responce);
-    setLocation((prev)=> prev.filter((val,ind)=>val.location_id !== id))
-    
+  async function deleteLocation(id) {
+    const response = await driverDeleteLocations(id)
+    console.log(response);
+    setLocation((prev) => prev.filter((val, ind) => val.location_id !== id))
+
   }
 
   useEffect(() => {
@@ -108,7 +107,7 @@ export function DriverLocation() {
                   <td>{c.latitude}</td>
                   <td>{c.longitude}</td>
                   <td>{c.createdAt.slice(0, c.createdAt.indexOf('T'))} {c.createdAt.slice(c.createdAt + 1, c.createdAt + 9)}</td>
-                  <td><div><button onClick={()=>deleteLocation(c.location_id)} >delete</button></div></td>
+                  <td><div><button onClick={() => deleteLocation(c.location_id)} >delete</button></div></td>
                   {/* isoDate.slice(tIndex + 1, tIndex + 9); */}
                 </tr>
               ))

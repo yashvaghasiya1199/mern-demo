@@ -49,6 +49,7 @@ Rides.belongsTo(Vehicle, {
 });
 
 // ride and reviews
+
 Rides.hasMany(Review, {
   foreignKey: 'ride_id',
   onDelete: 'CASCADE'

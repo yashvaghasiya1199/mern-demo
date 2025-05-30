@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import "./css/navbar.css"
 // import Cookies from "js-cookie"
 import { useDispatch, useSelector } from 'react-redux';
-import {userlogout } from '../redux/slices/user.slice';
+import {userlogout } from '../store/redusers/userauth.reduser';
 export function Navbar() {
     const [open, setOpen] = useState(false);
 
@@ -37,7 +37,7 @@ export function Navbar() {
                     {!isUserLogIn && <NavLink to="/driver/signup" className={({ isActive }) => (isActive ? 'active' : '')}>Driver Signup</NavLink>}
                 </li>
                 <li>
-                    <NavLink to={isUserLogIn ? "/bookride" : "/user/signup"} className={({ isActive }) => (isActive ? "active" : "")}>{isUserLogIn ? "Book Ride" : "User Signup"}</NavLink>
+                    <NavLink to={isUserLogIn ? "/findride" : "/user/signup"} className={({ isActive }) => (isActive ? "active" : "")}>{isUserLogIn ? "Book Ride" : "User Signup"}</NavLink>
 
                 </li>
                 <li>

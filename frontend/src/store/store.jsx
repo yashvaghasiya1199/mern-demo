@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import isLogin from "./slices/user.slice"
-import driverLogin from './slices/driver.slice'
+import isLogin from "./redusers/userauth.reduser"
+import driverLogin from './redusers/driver.reduser'
 
 export const store = configureStore({
   reducer: {

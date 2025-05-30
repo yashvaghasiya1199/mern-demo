@@ -4,12 +4,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../componets/toast';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import Cookies from "js-cookie";
-import { userlogin } from '../../redux/slices/user.slice';
+import { userlogin } from '../../store/redusers/userauth.reduser';
 import { api } from '../../axios/axios';
-import { pink } from '@mui/material/colors';
+import { AuthHook } from '../../componets/hooks/auth';
+
 
 export const Login = () => {
+  const {userLogin, userMe} = AuthHook()
 
   const [logIn, setLogIn] = useState({
     emailorusername: "",
@@ -29,44 +30,54 @@ export const Login = () => {
     }));
   }
 
-async function myProfile(){
-  const responce = await api.get("/api/user/me",{
-    withCredentials:true
-  })
-  console.log(responce);
-  
-}
+  // async function myProfile() {
+    // const responce = await api.get("/api/user/me", {
+    //   withCredentials: true
+    // })
+    // console.log(responce);
+
+  // }
+
+  async function myProfile(){
+    try {
+      const responce = await userMe()
+      console.log(responce);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await api.post('/api/auth/user/login',logIn,{
-        withCredentials:true,
-        headers:{
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+   
+      console.log("hello");
+      
+      const response = await userLogin(logIn)
+     
 
-      const data = await response.data
+      if (response.error) {
+        errorToast(response.msg);
+      } else {
+        dispatch(userlogin()); // optional; reducer already sets userLogin = true
+        successToast(response.msg);
+        myProfile();
 
-      if (data.error) {
-        errorToast(data.msg)
-      }
-      if (!data.error) {
-        dispatch(userlogin())
-        successToast(data.msg)
-        myProfile()
         setTimeout(() => {
-          navigate("/")
+          navigate("/");
         }, 1000);
       }
-
     } catch (error) {
-      console.error("Error during login:", error);
+      errorToast(error.msg || "Login failed");
+      console.error("Login error:", error);
     }
   };
+
 
   return (
     <div className="login-container">
@@ -85,7 +96,7 @@ async function myProfile(){
         <button type="submit">Log In</button>
 
         <p className="login-footer">
-          Don't have an account? <NavLink to='/signup' >Sign up</NavLink>
+          Don't have an account? <NavLink to='/user/signup' >Sign up</NavLink>
         </p>
       </form>
       <ToastContainer />

@@ -4,10 +4,12 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../componets/toast';
 import { ToastContainer } from 'react-toastify';
 import { api } from '../../axios/axios';
+import { AuthHook } from '../../componets/hooks/auth';
 
 export const Signup = () => {
 
     const navigate = useNavigate()
+    const { userSignup } = AuthHook()
 
     const [signUp, setSignUp] = useState({
         first_name: "",
@@ -20,33 +22,28 @@ export const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
+         // const response = userSignup(signUp).then(()=>{
+            //     successToast("user signup successfully")
+
+            // }).catch((err)=>{
+            //     errorToast(err.msg)
+
+            // })
+
         try {
-            const response = await api.post('/api/auth/user/signup',signUp,{
-                withCredentials:true,
-                headers:{
-                    'Content-Type': 'multipart/form-data'
-                  }
-            })
-            const data = await response.data;
-            // console.log(data);
-
-            if(data.error){
-                errorToast(data.msg)
+            const responce = await userSignup(signUp)
+            if (!responce.error) {
+                successToast("ok")
+                navigate("/")
             }
-            if(!data.error){
-                successToast("user signup successfully")
 
-                setTimeout(() => {
-                    navigate("/user/login")
-                }, 1200);
-
-            }
         } catch (error) {
-             console.log(error)
+            console.log(error)
+            errorToast(error.msg)
         }
     };
-    
+
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -91,7 +88,7 @@ export const Signup = () => {
                     Already have an account? <NavLink to={"/user/login"} >Login</NavLink>
                 </p>
             </form>
-            <ToastContainer/>
+            <ToastContainer />
         </div>
     );
 };

@@ -5,12 +5,13 @@ import { ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
 import { errorToast, successToast } from '../../componets/toast';
-import { userlogout } from '../../redux/slices/user.slice';
-import { driverDocument, driverLogins } from '../../redux/slices/driver.slice';
-import { api } from '../../axios/axios';
-
+import { userlogout } from '../../store/redusers/userauth.reduser';
+import { AuthHook } from '../../componets/hooks/auth';
+import { driverDocument,driverLogins } from '../../store/redusers/driver.reduser';
 
 export const DriverLogin = () => {
+
+  const {driverLogin, driverMe} = AuthHook()
 
   const [logIn, setLogIn] = useState({
     emailorusername: "",
@@ -32,10 +33,11 @@ export const DriverLogin = () => {
   const navigate = useNavigate();
 
   async function verify(){
-       const responce = await api.get("/api/driver/me",{
-        withCredentials:true
-       })
-       console.log(responce);
+      //  const responce = await api.get("/api/driver/me",{
+      //   withCredentials:true
+      //  })
+      const response = await driverMe()
+       console.log(response);
        
   }
 
@@ -43,37 +45,25 @@ export const DriverLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post('/api/auth/driver/login', logIn, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await driverLogin(logIn)
       
-
-      const data = await response.data;
-      console.log(data);
-      
-
-      if (data.error) {
-        errorToast(data.msg)
-      }
-      if (!data.error) {
+      if (!response.error) {
         verify()
         dispatch(userlogout())
         dispatch(driverLogins())
         Cookies.remove("usertoken")
-        successToast(data.msg)
+        successToast(response.msg)
         setTimeout(() => {
           navigate("/driveradmin")
         }, 1000);
       }
-      if(data.driver.document_uploaded){
+      if(response.driver.document_uploaded){
         dispatch(driverDocument())
       }
 
     } catch (error) {
       console.error("Error during login:", error);
+      errorToast(error.msg)
     }
   };
 

@@ -1,114 +1,162 @@
 
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { api } from "../../axios/axios"
+import { useNavigate } from "react-router-dom"
+import { ridedata } from "../../store/redusers/userauth.reduser"
+import { errorToast } from "../../componets/toast"
+import { ToastContainer } from "react-toastify"
 
 export function BookRide() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    
+    const driverInformation = useSelector(state => state.userlogin.rideinformation)
 
-    const [data, setData] = useState({
-        pickup_latitude: "",
-        pickup_longitude: ""
+    const [loading,setloading]=useState(true)
+
+    const [rideData, setRideData] = useState({
+        pickup_latitude: '',
+        pickup_longitude: '',
+        drop_latitude: '',
+        drop_longitude: '',
+        driver_id: '',
+        vehicle_id: '',
+        status: 'completed',
     })
-     const[nearRide,setNearRide] = useState([])
 
-    function formHandel(e) {
+    if(loading){
+        const datas = localStorage.getItem("rideinformation")
+        if (datas) {
+            const result = JSON.parse(datas)
+            dispatch(ridedata(result))
+        }
+        // if   (driverInformation?.driver_id && driverInformation?.vehicle_id) {
+        //     setRideData(prev => ({
+        //         ...prev,
+        //         driver_id: driverInformation.driver_id,
+        //         vehicle_id: driverInformation.vehicle_id,
+        //     }))
+        // }
+        
+        setloading(false)
+    }
+
+    // Once driverInformation is ready, update rideData
+    useEffect(() => {
+        if (driverInformation?.driver_id && driverInformation?.vehicle_id) {
+            setRideData(prev => ({
+                ...prev,
+                driver_id: driverInformation.driver_id,
+                vehicle_id: driverInformation.vehicle_id,
+            }))
+        }
+    }, [driverInformation])
+
+    // Handle input change
+    function handleChange(e) {
         const { name, value } = e.target
-        setData((prev) => ({
+        setRideData(prev => ({
             ...prev,
             [name]: value
         }))
     }
 
-    async function formSumbit(e) {
+    // Handle form submission
+    async function handleSubmit(e) {
         e.preventDefault()
-   
-        const responce = await api.post('/api/ride/findride', data , {
-            withCredentials: true,
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          });
-          setNearRide(responce.data.drivers)
-
-        console.log(responce.data);
-
-
+        try {
+            const response = await api.post('/api/ride/create', rideData, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log(response)
+            setTimeout(() => {
+                navigate('/payment')
+            }, 1000)
+        } catch (error) {
+            errorToast("Failed to create ride. Please try again.")
+            console.error("Ride booking error:", error)
+        }
     }
 
-    return <>
-        <h2 className="text-center" >booking ride</h2>
-        <div className="location-form-container">
-            <form className="location-form" onSubmit={formSumbit} >
-                <h2>Find Ride</h2>
+    return (
+        <>
+            <h2 className="text-center">Create Ride</h2>
+            <div className="location-form-container">
+                <form className="location-form" onSubmit={handleSubmit}>
+                    <h2>Create Ride</h2>
 
-                <label htmlFor="longitude">pickup_latitude</label>
-                <input
-                    type="text"
-                    id="longitude"
-                    name="pickup_latitude"
-                    value={data.pickup_latitude}
-                    onChange={formHandel}
-                    placeholder="Enter longitude"
-                    required
-                />
+                    <label htmlFor="type">Type</label>
+                    <input
+                        type="text"
+                        id="type"
+                        name="type"
+                        value={driverInformation?.type || 'N/A'}
+                        disabled
+                        required
+                    />
 
-                <label htmlFor="latitude">pickup_longitude</label>
-                <input
-                    type="text"
-                    id="latitude"
-                    name="pickup_longitude"
-                    placeholder="Enter latitude"
-                    onChange={formHandel}
-                    value={data.pickup_longitude}
-                    required
-                />
+                    <label htmlFor="model">Model</label>
+                    <input
+                        type="text"
+                        id="model"
+                        name="model"
+                        value={driverInformation?.model || 'N/A'}
+                        disabled
+                        required
+                    />
 
-                <button type="submit">Submit Location</button>
-            </form>
+                    <label htmlFor="pickup_latitude">Pickup Latitude</label>
+                    <input
+                        type="text"
+                        id="pickup_latitude"
+                        name="pickup_latitude"
+                        placeholder="Enter latitude"
+                        value={rideData.pickup_latitude}
+                        onChange={handleChange}
+                        required
+                    />
 
-        </div>
-        <h2 className="text-center" >Choose driver and Car</h2>
-        <div className="location-table">
-            <table className="previosloc "style={{color:"black"}} > 
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Driver name</th>
-                        <th>type</th>
-                        <th>model</th>
-                        <th>phoneno</th>
-                        <th>Book Ride</th>
-                    </tr>
-                </thead>
-                <tbody>
-  {nearRide.length > 0 ? (
-    nearRide.flatMap((driverItem, i) =>
-      (driverItem.Driver?.Vehicles || []).map((vehicle, vi) => (
-        <tr key={`${i}-${vi}`}>
-          <td>{`${i + 1}.${vi + 1}`}</td>
-          <td>{`${driverItem.Driver.first_name} ${driverItem.Driver.last_name}`}</td>
-          <td>{vehicle.type}</td>
-          <td>{vehicle.model}</td>
-          <td>{driverItem.Driver.phone}</td>
-          <td>
-            <button onClick={() => console.log("Book ride with", vehicle.vehicle_id)}>
-              Book
-            </button>
-          </td>
-        </tr>
-      ))
+                    <label htmlFor="pickup_longitude">Pickup Longitude</label>
+                    <input
+                        type="text"
+                        id="pickup_longitude"
+                        name="pickup_longitude"
+                        placeholder="Enter longitude"
+                        value={rideData.pickup_longitude}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <label htmlFor="drop_latitude">Drop Latitude</label>
+                    <input
+                        type="text"
+                        id="drop_latitude"
+                        name="drop_latitude"
+                        placeholder="Enter latitude"
+                        value={rideData.drop_latitude}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <label htmlFor="drop_longitude">Drop Longitude</label>
+                    <input
+                        type="text"
+                        id="drop_longitude"
+                        name="drop_longitude"
+                        placeholder="Enter longitude"
+                        value={rideData.drop_longitude}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <button type="submit">Book your ride</button>
+                </form>
+            </div>
+            <ToastContainer />
+        </>
     )
-  ) : (
-    <tr>
-      <td colSpan="6" className="text-center">
-        No nearby rides found.
-      </td>
-    </tr>
-  )}
-</tbody>
-
-
-            </table>
-        </div>
-    </>
 }

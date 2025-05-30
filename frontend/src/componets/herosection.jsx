@@ -1,5 +1,5 @@
 import "./css/herosection.css"
-
+import carImage from '../assets/images/car.png'
 export function Hero() {
 
     return <>
@@ -13,7 +13,7 @@ export function Hero() {
 
             </div>
             <div className="right">
-                <img className="hero-car" src="/public/images/car.png" alt="" />
+                <img className="hero-car" src={carImage} alt="" />
             </div>
         </div>
     </>

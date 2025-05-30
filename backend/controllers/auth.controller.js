@@ -89,7 +89,7 @@ async function logIn(req, res) {
         const user = await findUserByEmailorUsername(emailorusername);
 
         if (!user) {
-            return res.json({ msg: "Invalid email or username", error: true });
+            return res.status(401).json({ msg: "Invalid email or username", error: true });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
@@ -186,6 +186,7 @@ async function driverSignup(req, res) {
             error: true
         });
     }
+    
     const { first_name, last_name, email, username, password, phone, } = value;
 
     // const { first_name, last_name, email, username, password, phone, } = req.body;
@@ -254,19 +255,19 @@ async function driverSignup(req, res) {
 async function driverLogin(req, res) {
     const { emailorusername, password } = req.body;
     if (!emailorusername || !password) {
-        return res.json({ msg: "Please enter both fields", error: true });
+        return res.status(401).json({ msg: "Please enter both fields", error: true });
     }
 
     let driver = await findDriverUsernameandEmail(emailorusername);
 
     if (!driver) {
-        return res.json({ msg: "Invalid username or password", error: true });
+        return res.status(401).json({ msg: "Invalid username or password", error: true });
     }
 
     const isMatch = await bcrypt.compare(password, driver.password);
 
     if (!isMatch) {
-        return res.json({ msg: "Invalid password", error: true });
+        return res.status(401).json({ msg: "Invalid password", error: true });
     }
 
     const payload = { driverid: driver.id };

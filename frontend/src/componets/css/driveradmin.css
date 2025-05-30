@@ -137,4 +137,8 @@
     text-align: center;
     color: #555;
   }
-  
+
+  .updatevheclebuttton{
+    display: flex;
+    gap: 2vw;
+  }

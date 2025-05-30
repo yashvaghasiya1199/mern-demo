@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { api } from "../../axios/axios"
 import { errorToast, successToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
 import '../../componets/css/driveradmin.css'
+import { DriverHooks } from "../../componets/hooks/driver.hook"
+
 
 export function DriverVehicle() {
 
@@ -12,6 +13,9 @@ export function DriverVehicle() {
         registration_number: "",
         color: ""
     })
+
+    const { driverGetVehicles, driverAddVehicles ,driverDeleteVehicles, driverUpdateVehicles } = DriverHooks()
+
     const [updateVehicals, setUpdateVehicle] = useState(false)
     const [getVehicle, setGetVehicle] = useState([])
     const [previousData, setPreviousdata] = useState()
@@ -22,21 +26,21 @@ export function DriverVehicle() {
             ...prev,
             [name]: value
         }))
-        setPreviousdata((prev)=>({
+        setPreviousdata((prev) => ({
             ...prev,
-            [name]:value
+            [name]: value
         }))
     }
 
     async function getVehicleData() {
-        let responce = await api.get("/api/vehicle/alldata", {
-            withCredentials: true
-        })
-        const result = responce.data
-        if (result.error) {
-            return errorToast(result.msg)
+
+        try {
+            const response = await driverGetVehicles()
+            setGetVehicle(response.driver.Vehicles)
+        } catch (error) {
+            errorToast(error.msg)
         }
-        setGetVehicle(result.driver.Vehicles)
+
     }
 
     async function handelSubmit(e) {
@@ -48,51 +52,60 @@ export function DriverVehicle() {
             color: ""
         })
 
-        const responce = await api.post('/api/vehicle/addvehicle', vehicle, {
-            withCredentials: true,
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            const response = await driverAddVehicles(vehicle)
+            console.log(response);
+            
+            if (!response.error) {
+                successToast(response.msg)
             }
-        })
-        console.log(responce.data);
-        const result = responce.data
-
-        if (result.error) {
-            return errorToast(result.msg)
-        }
-        if (!result.error) {
-            successToast(result.msg)
+        } catch (error) {
+            errorToast(error.msg)
         }
         getVehicleData()
     }
 
     async function deleteVehicle(id) {
-        const responce = await api.delete(`/api/vehicle/delete/${id}`, {
-            withCredentials: true
-        })
-        console.log(responce);
+        
+       try {
+        const response = await driverDeleteVehicles(id)
         setGetVehicle((prev) => prev.filter((val, ind) => val.vehicle_id !== id))
+       } catch (error) {
+        errorToast("not deleted")
+       }
 
     }
 
     async function updateVehical(data) {
         setUpdateVehicle(true)
         setPreviousdata(data)
-        console.log(previousData);
-
-
-
     }
 
-    async function updateSubmit(e){
-        e.preventDefault() 
-        const responce = await api.put(`/api/vehicle/updatevehicle/${previousData.vehicle_id}`, previousData,{
-            withCredentials: true
-        })
-        console.log(responce);
-        getVehicleData()
+
+    async function updateSubmit(e) {
+        e.preventDefault();
+        try {
+            const response = await driverUpdateVehicles(previousData.vehicle_id, previousData);
+            console.log(response);
+            setUpdateVehicle(false)
+            empty()         
+            successToast("vehicle updatae succesfully")
+            getVehicleData();
+        } catch (error) {
+            console.error("Update failed:", error);
+        }
     }
 
+    function empty(){
+        setVehicle({
+            vehicle:'',
+            registration_number: "",
+            model:'',
+            color:''   
+          })
+    }
+ 
+    
     useEffect(() => {
         getVehicleData()
     }, [])
@@ -147,7 +160,10 @@ export function DriverVehicle() {
                             onChange={handelChange}
                             required
                         />
+                        <div className="updatevheclebuttton" >
                         <button type="submit">Update vehicles</button>
+                        <button type="submit" onClick={()=>setUpdateVehicle(false)}>cancel</button>
+                        </div>
                     </form>
 
 
@@ -156,7 +172,7 @@ export function DriverVehicle() {
                 <form className="location-form" onSubmit={handelSubmit} >
                     <h2  >Add vehicle</h2>
 
-                    <label htmlFor="vehicleType">vehicleT ype</label>
+                    <label htmlFor="vehicleType">vehicle Type</label>
                     <input
                         type="text"
                         id="vehicleType"
