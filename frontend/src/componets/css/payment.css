@@ -1,0 +1,45 @@
+.text-center{
+    text-align: center;
+}
+.payment-form {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+    color: black;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 10px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  input[type="radio"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+    vertical-align: middle;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  .payment-submit-btn{
+    width: 7vw;
+    height: 3vh;
+    color: white;
+    background-color: black;
+    border-radius: 20px;
+  }

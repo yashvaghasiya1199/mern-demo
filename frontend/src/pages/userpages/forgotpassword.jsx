@@ -15,18 +15,7 @@ export const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // const response = await fetch("http://localhost:1/api/auth/user/forgot-password", {
-      //   method: "PUT",
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   credentials: 'include',
-      //   // body: JSON.stringify({emali:emali})
-      //   body: JSON.stringify({email:email})
-      // });
-
       const response = await api.put('/api/auth/user/forgot-password',{
         email:email
       },{

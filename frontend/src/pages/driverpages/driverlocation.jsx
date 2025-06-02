@@ -108,7 +108,6 @@ export function DriverLocation() {
                   <td>{c.longitude}</td>
                   <td>{c.createdAt.slice(0, c.createdAt.indexOf('T'))} {c.createdAt.slice(c.createdAt + 1, c.createdAt + 9)}</td>
                   <td><div><button onClick={() => deleteLocation(c.location_id)} >delete</button></div></td>
-                  {/* isoDate.slice(tIndex + 1, tIndex + 9); */}
                 </tr>
               ))
             ) : (

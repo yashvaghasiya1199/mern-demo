@@ -21,7 +21,7 @@ body {
 
 .right {
     width: 60vw;
-    height: 90vh;
+    /* height: 50vh; */
 }
 
 .hero-car {
@@ -42,4 +42,8 @@ body {
 }
 .hero-button:hover{
     transform: scale(1.06);
+}
+.navlink{
+    text-decoration: none;
+    color: black;
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import "./css/navbar.css"
-// import Cookies from "js-cookie"
+import Cookies from "js-cookie"
 import { useDispatch, useSelector } from 'react-redux';
-import {userlogout } from '../store/redusers/userauth.reduser';
+import {userlogout } from '../store/redusers/user.reduser';
 export function Navbar() {
     const [open, setOpen] = useState(false);
 
@@ -16,6 +16,7 @@ export function Navbar() {
   
     function logoutuser(){
         dispatch(userlogout())
+        Cookies.remove("usertoken")
     }
 
     return (
@@ -41,7 +42,7 @@ export function Navbar() {
 
                 </li>
                 <li>
-                    <NavLink to={isUserLogIn ? "/ride" : "/user/login"} className={({ isActive }) => (isActive ? 'active' : '')} >{isUserLogIn ? "Rides" : "User Login"}</NavLink>
+                    <NavLink to={isUserLogIn ? "/previousrides" : "/user/login"} className={({ isActive }) => (isActive ? 'active' : '')} >{isUserLogIn ? "Rides" : "User Login"}</NavLink>
                 </li>
                 <li>
                 {isUserLogIn && <NavLink onClick={logoutuser} >Logout</NavLink>}

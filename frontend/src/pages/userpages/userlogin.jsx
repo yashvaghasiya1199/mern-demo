@@ -4,9 +4,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../componets/toast';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { userlogin } from '../../store/redusers/userauth.reduser';
-import { api } from '../../axios/axios';
+import { userlogin } from '../../store/redusers/user.reduser';
 import { AuthHook } from '../../componets/hooks/auth';
+import Cookies from 'js-cookie'
 
 
 export const Login = () => {
@@ -17,7 +17,6 @@ export const Login = () => {
     password: ""
   });
 
-  // const token = Cookies.get("usertoken");
 
   const dispatch = useDispatch()
 
@@ -29,14 +28,6 @@ export const Login = () => {
       [name]: value
     }));
   }
-
-  // async function myProfile() {
-    // const responce = await api.get("/api/user/me", {
-    //   withCredentials: true
-    // })
-    // console.log(responce);
-
-  // }
 
   async function myProfile(){
     try {
@@ -64,12 +55,13 @@ export const Login = () => {
       if (response.error) {
         errorToast(response.msg);
       } else {
-        dispatch(userlogin()); // optional; reducer already sets userLogin = true
+        dispatch(userlogin());
+        Cookies.remove("drivertoken")
         successToast(response.msg);
         myProfile();
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/findride");
         }, 1000);
       }
     } catch (error) {

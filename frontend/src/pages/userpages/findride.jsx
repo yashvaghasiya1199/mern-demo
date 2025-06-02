@@ -1,19 +1,18 @@
 import { useState } from "react"
-import { api } from "../../axios/axios"
-import { useDispatch } from "react-redux"
-import { ridedata } from "../../store/redusers/userauth.reduser"
 import { useNavigate } from "react-router-dom"
 import { errorToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
+import { UserHooks } from "../../componets/hooks/user.hook"
 
 export function FindRide() {
+
+   const {findRide} = UserHooks()
 
   const [data, setData] = useState({
     pickup_latitude: "",
     pickup_longitude: ""
   })
   const [nearRide, setNearRide] = useState([])
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   function formHandel(e) {
@@ -28,21 +27,13 @@ export function FindRide() {
     e.preventDefault();
 
     try {
-      const response = await api.post('/api/ride/findride', data, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      setNearRide(response.data.drivers);
+      const response = await findRide(data)
+      setNearRide(response.drivers);
     } catch (error) {
       if (error.response) {
-        // console.error("Error response from server:", error.response.data.errors[0]);
         errorToast(error.response.data.errors[0])
       } else {
         console.error("Unexpected error:", error);
-        alert("An unexpected error occurred");
       }
     }
   }

@@ -3,13 +3,17 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { api } from "../../axios/axios"
 import { useNavigate } from "react-router-dom"
-import { ridedata } from "../../store/redusers/userauth.reduser"
-import { errorToast } from "../../componets/toast"
+import { ridedata } from "../../store/redusers/user.reduser"
+import { errorToast, successToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
+import { UserHooks } from "../../componets/hooks/user.hook"
 
 export function BookRide() {
+    
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const{bookRide} = UserHooks()
     
     const driverInformation = useSelector(state => state.userlogin.rideinformation)
 
@@ -31,18 +35,9 @@ export function BookRide() {
             const result = JSON.parse(datas)
             dispatch(ridedata(result))
         }
-        // if   (driverInformation?.driver_id && driverInformation?.vehicle_id) {
-        //     setRideData(prev => ({
-        //         ...prev,
-        //         driver_id: driverInformation.driver_id,
-        //         vehicle_id: driverInformation.vehicle_id,
-        //     }))
-        // }
-        
         setloading(false)
     }
 
-    // Once driverInformation is ready, update rideData
     useEffect(() => {
         if (driverInformation?.driver_id && driverInformation?.vehicle_id) {
             setRideData(prev => ({
@@ -66,16 +61,17 @@ export function BookRide() {
     async function handleSubmit(e) {
         e.preventDefault()
         try {
-            const response = await api.post('/api/ride/create', rideData, {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+            const response = await bookRide(rideData)
+            console.log(response);
+            
+            localStorage.setItem("rideid",JSON.stringify(response))
+             if(response){
+                successToast(response.msg)
+             }
             console.log(response)
             setTimeout(() => {
                 navigate('/payment')
-            }, 1000)
+            }, 1200)
         } catch (error) {
             errorToast("Failed to create ride. Please try again.")
             console.error("Ride booking error:", error)

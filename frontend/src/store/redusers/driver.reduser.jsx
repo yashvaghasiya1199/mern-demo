@@ -24,7 +24,7 @@ const driverSlice = createSlice({
         },
     },
     extraReducers:(builder)=>{
-        builder.addCase(driverLoginAction.pending,(state,action)=>{
+        builder.addCase(driverLoginAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverLoginAction.fulfilled,(state,action)=>{
@@ -35,7 +35,7 @@ const driverSlice = createSlice({
             state.isError=true
             state.message=action.payload
         })
-        builder.addCase(DriverMeAction.pending,(state,action)=>{
+        builder.addCase(DriverMeAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(DriverMeAction.fulfilled,(state,action)=>{
@@ -46,7 +46,7 @@ const driverSlice = createSlice({
             state.isError=true
             state.message=action.payload
         })      
-        builder.addCase(driverSignupAction.pending,(state,action)=>{
+        builder.addCase(driverSignupAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverSignupAction.fulfilled,(state,action)=>{
@@ -57,7 +57,7 @@ const driverSlice = createSlice({
             state.isError=true
             state.message=action.payload
         })   
-        builder.addCase(driverLocationAction.pending,(state,action)=>{
+        builder.addCase(driverLocationAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverLocationAction.fulfilled,(state,action)=>{
@@ -68,7 +68,7 @@ const driverSlice = createSlice({
             state.isError=true
             state.message=action.payload
         })       
-        builder.addCase(driverGetLocationAction.pending,(state,action)=>{
+        builder.addCase(driverGetLocationAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverGetLocationAction.fulfilled,(state,action)=>{
@@ -78,7 +78,7 @@ const driverSlice = createSlice({
         builder.addCase(driverGetLocationAction.rejected,(state)=>{
             state.isError = true
         })
-        builder.addCase(driverGetReviewsAction.pending,(state,action)=>{
+        builder.addCase(driverGetReviewsAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverGetReviewsAction.fulfilled,(state,action)=>{
@@ -89,7 +89,7 @@ const driverSlice = createSlice({
             state.isError = true
             state.message = action.payload
         })
-        builder.addCase(driverGetVehiclesAction.pending,(state,action)=>{
+        builder.addCase(driverGetVehiclesAction.pending,(state,)=>{
             state.isPending=true
         })
         builder.addCase(driverGetVehiclesAction.fulfilled,(state,action)=>{
@@ -100,7 +100,7 @@ const driverSlice = createSlice({
             state.isError = true
             state.message = action.payload
         })
-        builder.addCase(driverAddVehiclesAction.pending,(state,action)=>{
+        builder.addCase(driverAddVehiclesAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverAddVehiclesAction.fulfilled,(state,action)=>{
@@ -111,7 +111,7 @@ const driverSlice = createSlice({
             state.isError = true
             state.message = action.payload
         })
-        builder.addCase(driverDeleteVehiclesAction.pending,(state,action)=>{
+        builder.addCase(driverDeleteVehiclesAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverDeleteVehiclesAction.fulfilled,(state,action)=>{
@@ -122,7 +122,7 @@ const driverSlice = createSlice({
             state.isError = true
             state.message = action.payload
         })
-        builder.addCase(driverUpdateVehiclesAction.pending,(state,action)=>{
+        builder.addCase(driverUpdateVehiclesAction.pending,(state)=>{
             state.isPending=true
         })
         builder.addCase(driverUpdateVehiclesAction.fulfilled,(state,action)=>{

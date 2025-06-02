@@ -3,7 +3,6 @@ import '../../componets/css/signup.css'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../componets/toast';
 import { ToastContainer } from 'react-toastify';
-import { api } from '../../axios/axios';
 import { AuthHook } from '../../componets/hooks/auth';
 
 export const Signup = () => {
@@ -22,15 +21,6 @@ export const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-         // const response = userSignup(signUp).then(()=>{
-            //     successToast("user signup successfully")
-
-            // }).catch((err)=>{
-            //     errorToast(err.msg)
-
-            // })
-
         try {
             const responce = await userSignup(signUp)
             if (!responce.error) {

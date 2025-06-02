@@ -1,0 +1,122 @@
+import { useEffect, useState } from "react";
+import { UserHooks } from "../../componets/hooks/user.hook";
+import '../../componets/css/userprofile.css'
+import { errorToast, successToast } from "../../componets/toast";
+import { ToastContainer } from "react-toastify";
+
+export function UserProfile() {
+
+    const [data, setData] = useState([])
+    const [update, setIsUpdate] = useState(false)
+    const { userProfile, userProfileUpdate } = UserHooks()
+
+    async function getUserData() {
+        const data = await userProfile()
+        console.log(data.msg);
+        setData(data.msg)
+    }
+
+    function handelChange(e) {
+        const { name, value } = e.target
+        setData((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    async function formSumit(e) {
+        e.preventDefault()
+        try {
+            const responce = await userProfileUpdate(data)
+            console.log(responce);
+            setIsUpdate(false)
+            successToast("profile update succesfully")
+            if (responce.error) {
+                errorToast(responce.msg)
+            }
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
+    useEffect(() => {
+        getUserData()
+    }, [])
+
+    return <>
+
+
+        
+        {
+            update ? <div className="location-form-container">
+                <form className="location-form" onSubmit={formSumit} >
+                    <h2>Update Profile</h2>
+
+                    <label htmlFor="vehicleType">first name</label>
+                    <input
+                        type="text"
+                        id="vehicleType"
+                        name="first_name"
+                        value={data.first_name}
+                        onChange={handelChange}
+                        placeholder="Car or Bike"
+                        required
+                    />
+
+                    <label htmlFor="model">last name</label>
+                    <input
+                        type="text"
+                        id="model"
+                        name="last_name"
+                        value={data.last_name}
+                        onChange={handelChange}
+                        placeholder="Enter Model"
+                        required
+                    />
+
+                    <label htmlFor="registration_number">email</label>
+                    <input
+                        type="text"
+                        id="registration_number"
+                        name="email"
+                        value={data.email}
+                        onChange={handelChange}
+                        placeholder="Registration Number"
+                        required
+                    />
+
+                    <label htmlFor="color">phone number</label>
+                    <input
+                        type="text"
+                        id="color"
+                        name="phone"
+                        value={data.phone}
+                        onChange={handelChange}
+                        placeholder="Enter Color"
+                        required
+                    />
+
+                    <div className="updatevheclebuttton">
+                        <button type="submit" >Save</button>
+                        <button type="button" onClick={() => setIsUpdate(!update)} >Cancel</button>
+                    </div>
+                </form>
+            </div> :
+                <div className="user-profile" >
+                    <div className="inner-up">
+                        <div>
+                            <h1>Name: {data.first_name} {data.last_name}</h1>
+                            <h2>Username: {data.username}</h2>
+                            <h2>Email: {data.email}</h2>
+                            <h2>Phone: {data.phone}</h2>
+                            <button className="btn-edit" onClick={() => setIsUpdate(!update)} >Edit</button>
+                        </div>
+                    </div>
+                </div>
+        }
+        <ToastContainer />
+    </>
+
+}

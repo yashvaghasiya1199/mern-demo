@@ -142,3 +142,46 @@
     display: flex;
     gap: 2vw;
   }
+  .edit-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    max-width: 300px;
+    margin: 20px auto;
+  }
+  
+  .upload-label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .upload-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .update-button {
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .update-button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
 import { errorToast, successToast } from '../../componets/toast';
-import { userlogout } from '../../store/redusers/userauth.reduser';
+import { userlogout } from '../../store/redusers/user.reduser';
 import { AuthHook } from '../../componets/hooks/auth';
 import { driverDocument,driverLogins } from '../../store/redusers/driver.reduser';
 
@@ -52,6 +52,7 @@ export const DriverLogin = () => {
         dispatch(userlogout())
         dispatch(driverLogins())
         Cookies.remove("usertoken")
+        Cookies.remove("userid")
         successToast(response.msg)
         setTimeout(() => {
           navigate("/driveradmin")

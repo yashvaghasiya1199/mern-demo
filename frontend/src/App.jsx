@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux"
 import { routes } from "./routes"
 import { useEffect } from "react"
 import Cookies from 'js-cookie'
-import { userlogin } from "./store/redusers/userauth.reduser"
+import { userlogin } from "./store/redusers/user.reduser"
 import { RouterProvider } from "react-router-dom"
 
 function App() {

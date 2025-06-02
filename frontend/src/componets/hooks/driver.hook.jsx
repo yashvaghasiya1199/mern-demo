@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { driverAddVehiclesAction, driverDeleteLocationAction, driverDeleteVehiclesAction, driverGetLocationAction, driverGetReviewsAction, driverGetVehiclesAction, driverLocationAction, driverUpdateVehiclesAction,  } from "../../store/actions/driver.action";
+import { driverAddVehiclesAction, driverDeleteLocationAction, driverDeleteVehiclesAction, driverGetLocationAction, driverGetReviewsAction, driverGetVehiclesAction, driverLocationAction, driverUpdateVehiclesAction, driverMeAction, driverImageUpdateAction, driverProfileUpdateAction  } from "../../store/actions/driver.action";
 
 export function DriverHooks(){
 
@@ -32,7 +32,16 @@ export function DriverHooks(){
     async function driverUpdateVehicles(id, body) {
         return await dispatch(driverUpdateVehiclesAction({ id, credentials: body })).unwrap();
     }
-        
+    async function driverMe() {
+        return await dispatch(driverMeAction()).unwrap();
+    }
+    async function driverImageUpdate(body) {
+        return await dispatch(driverImageUpdateAction(body)).unwrap();
+    }
+    async function driverProfileUpdate(body) {
+        return await dispatch(driverProfileUpdateAction(body)).unwrap();
+    }
+
     return{
         driverLocations,
         driverGetLocations,
@@ -41,7 +50,10 @@ export function DriverHooks(){
         driverGetVehicles,
         driverAddVehicles,
         driverDeleteVehicles,
-        driverUpdateVehicles
-    }
+        driverUpdateVehicles,
+        driverMe,
+        driverImageUpdate,
+        driverProfileUpdate
 
+}
 }

@@ -1,27 +1,337 @@
-import '../../componets/css/driverprofile.css'
+// import { useEffect, useState } from 'react';
+// import '../../componets/css/driverprofile.css';
+// import { DriverHooks } from '../../componets/hooks/driver.hook';
+// import defaultpng from '../../../src/assets/images/default.png';
 
-export function DriverProfile(){
-    
-    let profileImage ='data:image/png;base64,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'
-    let firstName = 'ere'
-    let lastName ='rere'
-    let username ='232'
-    let email = 'dfdfd'
+// export function DriverProfile() {
 
-    return<>
-    <h2 className='text-center' >driver profile</h2>
-    <div className="driver-card">
-      <img src={profileImage} alt={`${firstName} ${lastName}`} className="driver-image" />
-      <div className="driver-info">
-        <h2>{firstName} {lastName}</h2>
-        <p><strong>Username:</strong> {username}</p>
-        <p><strong>Email:</strong> {email}</p>
-      </div>
-    </div>
+//   const {driverImageUpdate} = DriverHooks()
+//   const [data, setData] = useState(null);
+//   const [imageFile, setImageFile] = useState(null);
+//   const[loading,setLoading]=useState(false)
+//   const [isprofileUpdate,setProfileUpdate]=useState(false)
 
-    
+//   const { driverMe } = DriverHooks();
+
+//   useEffect(() => {
+//     async function driverData() {
+//       try {
+//         let driver = await driverMe();
+//         setData(driver.driverData);
+//       } catch (error) {
+//         console.log(error);
+//         setData(null);
+//       }
+//     }
+//     driverData();
+//   }, []);
+
+//   async function imageUpload() {
+//     setLoading(true)
+//     if (!imageFile) {
+//      alert("Please select an image");
+//      setLoading(false)
+//     }  
+
+//     const formData = new FormData();
+//     formData.append('profileimage', imageFile);
+
+//     try {
+//       const response = await driverImageUpdate(formData)
+
+//       console.log("Upload success:", response);
+
+//       if(response){
+//         setLoading(false)
+//       }
+
+//       const driver = await driverMe();
+
+//       setData(driver.driverData);
+//     } catch (error) {
+//       console.log("Upload error:", error);
+//     }
+//   }
+
+//   function updateprofile(){
+//     setProfileUpdate((p)=>!p)
+//   }
+
+//   const profileImage = data?.profile_image || defaultpng;
+
+//   return (
+//     <>
+//       {data ?  (
+//         <div>
+//           <h2 className="text-center">Driver Profile</h2>
+//           <div className="driver-card">
+//             <img src={profileImage} alt="profile" className="driver-image" />
+//             <div className="driver-info">
+//               <h2>
+//                 {data.first_name} {data.last_name}
+//               </h2>
+//               <p>
+//                 <strong>Username:</strong> {data.username}
+//               </p>
+//               <p>
+//                 <strong>Email:</strong> {data.email}
+//               </p>
+//             </div>
+//           </div>
+ 
+//           {
+//             isprofileUpdate ? <div>
+//                  <div className="location-form-container">
+//                     <form className="location-form" >
+//                         <h2  >Update vehicle</h2>
+
+//                         <label htmlFor="vehicleType">vehicle Type</label>
+//                         <input
+//                             type="text"
+//                             id="vehicleType"
+//                             name="type"
+//                             placeholder="Car or Bike"
+//                             required
+//                         />
+
+//                         <label htmlFor="model">Vehicle model</label>
+//                         <input
+//                             type="text"
+//                             id="model"
+//                             name="model"
+//                             placeholder="Enter Model"
+//                             required
+//                         />
+
+//                         <label htmlFor="registration_number">registration_number </label>
+//                         <input
+//                             type="text"
+//                             id="registration_number"
+//                             name="registration_number"
+//                             placeholder="registration number"
+//                             required
+//                         />
+//                         <label htmlFor="color">Vehicle Color</label>
+//                         <input
+//                             type="text"
+//                             id="color"
+//                             name="color"
+//                             placeholder="Enter color"
+//                             required
+//                         />
+//                         <div className="updatevheclebuttton" >
+//                         <button type="submit">Update vehicles</button>
+//                         <button type="submit">cancel</button>
+//                         </div>
+//                     </form>
+
+
+//                 </div>
+//             </div>:""
+//           }
+
+
+//           <div className="edit-profile">
+//             <label htmlFor="updateimage" className="upload-label">
+//               Update Image
+//             </label>
+//             <input
+//               type="file"
+//               id="updateimage"
+//               className="upload-input"
+//               name="profileimage"
+//               accept="image/*"
+//               onChange={(e) => setImageFile(e.target.files[0])}
+//             />
+//             <button className="update-button" onClick={imageUpload} disabled={loading}>
+//               Upload Image
+//             </button>
+//           <button className="update-button" onClick={updateprofile} >profile update</button>
+//           </div>
+//         </div>
+//       ) : (
+//         <h2>Loading...</h2>
+//       )}
+//     </>
+//   );
+// }
+
+import { useEffect, useState } from 'react';
+import '../../componets/css/driverprofile.css';
+import { DriverHooks } from '../../componets/hooks/driver.hook';
+import defaultpng from '../../../src/assets/images/default.png';
+
+export function DriverProfile() {
+  const [data, setData] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isProfileFormVisible, setProfileFormVisible] = useState(false);
+
+  const { driverMe, driverImageUpdate , driverProfileUpdate } = DriverHooks();
+
+
+  const fetchDriverData = async () => {
+    try {
+      const driver = await driverMe();
+      setData(driver.driverData);
+    } catch (error) {
+      console.log('Fetch error:', error);
+      setData(null);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!imageFile) {
+      alert('Please select an image');
+      return;
+    }
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('profileimage', imageFile);
+
+    try {
+      const response = await driverImageUpdate(formData);
+      console.log('Upload success:', response);
+      await fetchDriverData();
+    } catch (error) {
+      console.log('Upload error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleProfileForm = () => setProfileFormVisible(!isProfileFormVisible);
+
+  const profileImage = data?.profile_image || defaultpng;
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+  
+  async function formSumbit(e) {
+    e.preventDefault()
+    try {
+      const responce = await driverProfileUpdate(data)
+      console.log(responce);
+      setProfileFormVisible(false)
+      
+    } catch (error) {
+      console.log(error);
+      setProfileFormVisible(false)
+    }
+  }
+
+
+
+  useEffect(() => {
+    fetchDriverData();
+  }, []);
+
+  return (
+    <>
+      {data ? (
+        <div className="profile-container">
+          <h2 className="text-center">Driver Profile</h2>
+
+          <div className="driver-card">
+            <img src={profileImage} alt="profile" className="driver-image" />
+            <div className="driver-info">
+              <h2>{data.first_name} {data.last_name}</h2>
+              <p><strong>Username:</strong> {data.username}</p>
+              <p><strong>Email:</strong> {data.email}</p>
+            </div>
+          </div>
+
+          
+
+          {isProfileFormVisible && (
+            <div className="location-form-container">
+              <form className="location-form" onSubmit={formSumbit}>
+                <h2>Update Profile</h2>
+
+                <label htmlFor="vehicleType">first name</label>
+                <input
+                  type="text"
+                  id="vehicleType"
+                  name="first_name"
+                  placeholder="Car or Bike"
+                  value={data.first_name}
+                  onChange={handleChange}
+                  required
+                />
+
+                <label htmlFor="model">last name</label>
+                <input
+                  type="text"
+                  id="model"
+                  name="last_name"
+                  placeholder="Enter Model"
+                  value={data.last_name}
+                  onChange={handleChange}
+                  required
+                />
+
+                <label htmlFor="registration_number">email</label>
+                <input
+                  type="text"
+                  id="registration_number"
+                  name="email"
+                  placeholder="Registration Number"
+                  value={data.email}
+                  onChange={handleChange}
+                  required
+                />
+
+                <label htmlFor="color">phone number</label>
+                <input
+                  type="text"
+                  id="color"
+                  name="phone"
+                  placeholder="Enter Color"
+                  value={data.phone}
+                  onChange={handleChange}
+                  required
+                />
+
+                <div className="updatevheclebuttton">
+                  <button type="submit" >Save</button>
+                  <button type="button" onClick={toggleProfileForm}>Cancel</button>
+                </div>
+              </form>
+            </div>
+          )}
+          <div className="edit-profile">
+            <label htmlFor="updateimage" className="upload-label">
+              Update Profile Image
+            </label>
+            <input
+              type="file"
+              id="updateimage"
+              className="upload-input"
+              accept="image/*"
+              onChange={(e) => setImageFile(e.target.files[0])}
+            />
+            <button
+              className="update-button"
+              onClick={handleImageUpload}
+              disabled={loading}
+            >
+              {loading ? 'Uploading...' : 'Upload Image'}
+            </button>
+            <button className="update-button" onClick={toggleProfileForm}>
+              {isProfileFormVisible ? 'Close Update Form' : 'Edit Vehicle Info'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <h2>Loading...</h2>
+      )}
+      
     </>
+  );
 }
-
-
-

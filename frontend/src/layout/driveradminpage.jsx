@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { Navigate, NavLink, Outlet } from 'react-router-dom'
 import '../componets/css/driveradmin.css'
 
 
@@ -7,7 +7,7 @@ export function DriverAdmin() {
         <div className="admin-main">
             <div className="admin-left">
                 {/* <NavLink to="./location">Add location</NavLink> */}
-                <NavLink to="/driveradmin/me">profile</NavLink>
+                <NavLink to="/driveradmin">Profile</NavLink>
                 <NavLink to="/driveradmin/location">Add location</NavLink>
                 <NavLink to="/driveradmin/reviews">Reviews</NavLink>
                 <NavLink to="/driveradmin/vehicle">Add vehicle</NavLink>

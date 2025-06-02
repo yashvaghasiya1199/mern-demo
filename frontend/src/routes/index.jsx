@@ -19,90 +19,133 @@ import { DriverLocation } from "../pages/driverpages/driverlocation";
 import { Reviews } from "../pages/driverpages/driverreviews";
 import { DriverVehicle } from "../pages/driverpages/drivervehicle";
 import { DriverProfile } from "../pages/driverpages/driverprofile";
+import { CurrentPage } from "../pages/userpages/currentpage";
+import { PreviousRides } from "../pages/userpages/previosride";
+import { UserProtection } from "../pages/userpages/userprotected";
+import { UserProfile } from "../pages/userpages/userprofile";
 
 export const routes = createBrowserRouter([
-    {
+  {
 
-      path: "/",
-      element: <AppLayout />,
-      children: [
-        {
-          path: '/',
-          element: <Home />
-        },
-        {
-          path: '/user/signup',
-          element: <Signup />
-        },
-        {
-          path: '/user/login',
-          element: <Login />
-        },
-        {
-          path: '/user/forgot-password',
-          element: <ForgotPassword />
-        },
-        {
-          path: '/user/reset-password',
-          element: <ResetPassword />
-        },
-        {
-          path:"/findride",
-          element:<FindRide/>
-        },
-        {
-          path:'/bookride',
-          element:<BookRide/>
-        },
-        {
-          path:'/payment',
-          element:<Payments/>
-        },
-        {
-          path: '/driver/signup',
-          element: <DriverSignup />
-        },
-        {
-          path: '/driver/login',
-          element: <DriverLogin />
-        },
-        {
-          path: '/driver/forgot-password',
-          element: <DriverForgotPassword />
-        },
-        {
-          path: '/driver/reset-password',
-          element: <DriverResetPassword />
-        },
-        {
-          path: '/driver/document',
-          element: <DriverDocuments />
-        },
-        {
-          path: '/driveradmin',
-          element: <DriverProtection>
-            <DriverAdmin />
-          </DriverProtection>,
-          children: [
-            {
-              path: 'location',
-              element: <DriverLocation />
-            },
-            {
-              path: 'reviews',
-              element: <Reviews />
-            },
-            {
-              path: 'vehicle',
-              element: <DriverVehicle />
-            },{
-              path: 'me',
-              element: <DriverProfile/>
-            },
-          ]
-        },
-        
-      ]
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Home />
+      },
+      {
+        path: '/user/signup',
+        element: <Signup />
+      },
+      {
+        path: '/user/login',
+        element: <Login />
+      },
+      {
+        path: '/user/forgot-password',
+        element: <ForgotPassword />
+      },
+      {
+        path: '/user/reset-password',
+        element: <ResetPassword />
+      },
+      {
+        path: "/findride",
+        element: <>
+          <UserProtection>
+            <FindRide />
+          </UserProtection>
+        </>
+      },
+      {
+        path: '/bookride',
+        element: <>
+          <UserProtection>
+            <BookRide />
+          </UserProtection>
+        </>
+      },
+      {
+        path: '/payment',
+        element: <>
+          <UserProtection>
+            <Payments />
+          </UserProtection>
+        </>
+      },
+      {
+        path: '/payment/complated',
+        element: <>
+          <UserProtection>
+            <CurrentPage />
+          </UserProtection>
+        </>
+      },
+      {
+        path: '/user/me',
+        element: <>
+          <UserProtection>
+            <UserProfile />
+          </UserProtection>
+        </>
+      },
+      {
+        path: '/previousrides',
+        element: <UserProtection>
+          <PreviousRides />
+        </UserProtection>
+      },
+      {
+        path: '/driver/signup',
+        element: <DriverSignup />
+      },
+      {
+        path: '/driver/login',
+        element: <DriverLogin />
+      },
+      {
+        path: '/driver/forgot-password',
+        element: <DriverForgotPassword />
+      },
+      {
+        path: '/driver/reset-password',
+        element: <DriverResetPassword />
+      },
+      {
+        path: '/driver/document',
+        element: <DriverDocuments />
+      },
+      {
+        path: '/driveradmin',
+        element: <DriverProtection>
+          <DriverAdmin />
+        </DriverProtection>,
+        children: [
+          {
+            index: true,
+            element: <DriverProfile />
+          },
+          {
+            path: 'location',
+            element: <DriverLocation />
+          },
+          {
+            path: 'reviews',
+            element: <Reviews />
+          },
+          {
+            path: 'vehicle',
+            element: <DriverVehicle />
+          },
+          // {
+          //   path: 'me',
+          //   element: <DriverProfile/>,
+          // },
+        ]
+      },
 
-    }
-  ])
+    ]
+
+  }
+])

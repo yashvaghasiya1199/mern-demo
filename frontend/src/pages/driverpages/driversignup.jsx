@@ -48,14 +48,6 @@ export const DriverSignup = () => {
     });
 
     try {
-      // const re = await api.post('/api/auth/driver/signup', newform, {
-      //   withCredentials: true,
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // });
-      // const responce = re.data
-      
      const responce = await driverSignup(newform)
      console.log(responce);
      

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userLoginAction, userMeAction, userSignupAction } from "../actions/auth.action";
+import { bookRideAction, findRideAction } from "../actions/user.action";
 
 const userSlice = createSlice({
     name: "userslice",
@@ -37,7 +38,7 @@ const userSlice = createSlice({
       })
 
       //user signup
-      builder.addCase(userSignupAction.pending,(state,action)=>{
+      builder.addCase(userSignupAction.pending,(state)=>{
         state.isPending=true
       }),
       builder.addCase(userSignupAction.fulfilled,(state,action)=>{
@@ -49,7 +50,7 @@ const userSlice = createSlice({
         state.message = action.payload
       })
 
-      builder.addCase(userMeAction.pending,(state,action)=>{
+      builder.addCase(userMeAction.pending,(state)=>{
         state.isPending=true
       }),
       builder.addCase(userMeAction.fulfilled,(state,action)=>{
@@ -57,6 +58,28 @@ const userSlice = createSlice({
         state.userInformation = action.payload
       }),
       builder.addCase(userMeAction.rejected,(state,action)=>{
+        state.isError=true
+        state.userInformation = action.payload
+      })
+      builder.addCase(findRideAction.pending,(state)=>{
+        state.isPending=true
+      }),
+      builder.addCase(findRideAction.fulfilled,(state,action)=>{
+        state.isPending=false
+        state.userInformation = action.payload
+      }),
+      builder.addCase(findRideAction.rejected,(state,action)=>{
+        state.isError=true
+        state.userInformation = action.payload
+      })
+      builder.addCase(bookRideAction.pending,(state)=>{
+        state.isPending=true
+      }),
+      builder.addCase(bookRideAction.fulfilled,(state,action)=>{
+        state.isPending=false
+        state.userInformation = action.payload
+      }),
+      builder.addCase(bookRideAction.rejected,(state,action)=>{
         state.isError=true
         state.userInformation = action.payload
       })

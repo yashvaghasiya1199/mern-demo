@@ -30,4 +30,28 @@
     font-size: 0.95em;
     color: #333;
   }
+  .profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
   
+  .update-button {
+    margin-top: 10px;
+    padding: 8px 14px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .update-button:hover {
+    background-color: #0056b3;
+  }
+.profile-container{
+  height: 150vh;
+  background-color: white;
+}  
