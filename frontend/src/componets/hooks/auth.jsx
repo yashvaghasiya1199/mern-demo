@@ -1,7 +1,11 @@
-import { useDispatch } from "react-redux";
-import { driverLoginAction, DriverMeAction, driverSignupAction, userLoginAction, userMeAction, userSignupAction } from "../../store/actions/auth.action";
+import { useDispatch, useSelector } from "react-redux";
+import { driverForgotPasswordAction, driverLoginAction, DriverMeAction, driverResetPasswordAction, driverSignupAction, userForgotPasswordAction, userLoginAction, userMeAction, userResetPasswordAction, userSignupAction } from "../../store/actions/auth.action";
 
-export function AuthHook(){
+export function useAuthHook(){
+
+    const {isPending,isError} = useSelector(state => state.driverLogin)
+    const {userPending,userError} = useSelector(state => state.userlogin)
+
     const dispatch = useDispatch()
 
     async function userLogin(body){
@@ -26,13 +30,35 @@ export function AuthHook(){
     async function driverSignup(body) {
         return await dispatch(driverSignupAction(body)).unwrap()
     }
+    async function driverForgotPassword(body) {
+        return await dispatch(driverForgotPasswordAction(body)).unwrap()
+    }
+    async function driverResetPassword(body) {
+        return await dispatch(driverResetPasswordAction(body)).unwrap()
+    }
+    async function userForgotPassword(body) {
+        return await dispatch(userForgotPasswordAction(body)).unwrap()
+    }
+    async function userResetPassword(body) {
+        return await dispatch(userResetPasswordAction(body)).unwrap()
+    }
+
     return{
         userLogin,
         userSignup,
         userMe,
         driverLogin,
         driverMe,
-        driverSignup
+        driverSignup,
+        driverForgotPassword,
+        driverResetPassword,
+        userForgotPassword,
+        userResetPassword,
+        isPending,
+        isError,
+        userPending,
+        userError,
+
     }
 }
 //use of .unwrap() is return pure data

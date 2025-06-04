@@ -14,8 +14,14 @@
   .navbar-brand {
     font-size: 1.5rem;
     font-weight: bold;
+    color: white;
+    text-decoration: none;
   }
   
+  .nav{
+    text-decoration: none;
+  }
+
   .nav-links {
     list-style: none;
     display: flex;

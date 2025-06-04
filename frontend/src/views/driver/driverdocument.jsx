@@ -6,11 +6,13 @@ import { errorToast, successToast } from "../../componets/toast";
 import { useDispatch } from "react-redux";
 import { driverDocument } from "../../store/redusers/driver.reduser";
 import { api } from "../../axios/axios";
+import { useNavigate } from "react-router-dom";
 
-export function DriverDoumentCom(){
+export function DriverDoument() {
 
     const [docType, setDocType] = useState('pancard');
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     async function handelSubmit(e) {
         e.preventDefault();
@@ -31,14 +33,14 @@ export function DriverDoumentCom(){
         }
 
         try {
-        
+
             const response = await api.post('/api/driver/adddocument', formData, {
                 withCredentials: true,
                 headers: {
-                  'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data'
                 }
-              });
-              
+            });
+
             let result = await response.data
             console.log(response);
 
@@ -46,17 +48,18 @@ export function DriverDoumentCom(){
             if (!result.error) {
                 successToast(result.msg)
                 dispatch(driverDocument())
+                navigate('/driveradmin')
             }
             if (result.err) {
-                   errorToast(result.msg)
+                errorToast(result.msg)
             }
         } catch (error) {
             console.error("Upload error:", error);
             toast.error("An error occurred while uploading");
         }
     }
-  return<>
-  <div className="login-container">
+    return <>
+        <div className="login-container">
             <form className="login-form" onSubmit={handelSubmit}>
                 <label>Document Type</label>
                 <div className="radio-group">
@@ -104,5 +107,5 @@ export function DriverDoumentCom(){
             <ToastContainer />
         </div>
 
-  </>
+    </>
 }

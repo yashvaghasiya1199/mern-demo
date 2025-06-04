@@ -1,32 +1,33 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AppLayout } from "../layout/applayout";
 import { Home } from "../pages/home";
-import { Signup } from "../pages/userpages/usersignup";
-import { Login } from "../pages/userpages/userlogin";
-import { ForgotPassword } from "../pages/userpages/forgotpassword";
-import { ResetPassword } from "../pages/userpages/resetpassword";
-import { FindRide } from "../pages/userpages/findride";
-import { BookRide } from "../pages/userpages/bookride";
-import { Payments } from "../pages/userpages/payment";
-import { DriverSignup } from "../pages/driverpages/driversignup";
-import { DriverLogin } from "../pages/driverpages/driverlogin";
-import { DriverForgotPassword } from "../pages/driverpages/driverforgotpassword";
-import { DriverResetPassword } from "../pages/driverpages/driverresetpassword";
-import { DriverDocuments } from "../pages/driverpages/driverdocument";
-import { DriverProtection } from "../pages/driverpages/driverprotected";
+import { UserSignupPage } from "../pages/userpages/usersignup";
+import { UserLoginPage } from "../pages/userpages/userlogin";
+import { UserResetPasswordPage } from "../pages/userpages/resetpassword";
+import { FindRidePage } from "../pages/userpages/findride";
+import { BookRidePage } from "../pages/userpages/bookride";
+import { PaymentsPage } from "../pages/userpages/payment";
+import { DriverSignupPage } from "../pages/driverpages/driversignup";
+import { DriverLoginPage } from "../pages/driverpages/driverlogin";
+import { DriverForgotPasswordpage } from "../pages/driverpages/driverforgotpassword";
+import { DriverResetPasswordPage } from "../pages/driverpages/driverresetpassword";
+import { DriverDocumentsPage } from "../pages/driverpages/driverdocument";
+import { DriverProtectionPage } from "../pages/driverpages/driverprotected";
 import { DriverAdmin } from "../layout/driveradminpage";
-import { DriverLocation } from "../pages/driverpages/driverlocation";
-import { Reviews } from "../pages/driverpages/driverreviews";
-import { DriverVehicle } from "../pages/driverpages/drivervehicle";
-import { DriverProfile } from "../pages/driverpages/driverprofile";
+import { DriverLocationPage } from "../pages/driverpages/driverlocation";
+import { ReviewsPage } from "../pages/driverpages/driverreviews";
+import { DriverVehiclePage } from "../pages/driverpages/drivervehicle";
+import { DriverProfilePage } from "../pages/driverpages/driverprofile";
 import { CurrentPage } from "../pages/userpages/currentpage";
-import { PreviousRides } from "../pages/userpages/previosride";
-import { UserProtection } from "../pages/userpages/userprotected";
-import { UserProfile } from "../pages/userpages/userprofile";
+import { PreviousRidesPages } from "../pages/userpages/previosride";
+import { UserProtectionPage } from "../pages/userpages/userprotected";
+import { UserProfilePage } from "../pages/userpages/userprofile";
+import { UserForgotPassword, } from "../views/auth";
+import { ErrorPage } from "../componets/errorpage";
 
 export const routes = createBrowserRouter([
-  {
 
+  {
     path: "/",
     element: <AppLayout />,
     children: [
@@ -36,116 +37,116 @@ export const routes = createBrowserRouter([
       },
       {
         path: '/user/signup',
-        element: <Signup />
+        element: <UserSignupPage />
       },
       {
         path: '/user/login',
-        element: <Login />
+        element: <UserLoginPage />
       },
       {
         path: '/user/forgot-password',
-        element: <ForgotPassword />
+        element: <UserForgotPassword />
       },
       {
         path: '/user/reset-password',
-        element: <ResetPassword />
+        element: <UserResetPasswordPage />
       },
       {
         path: "/findride",
         element: <>
-          <UserProtection>
-            <FindRide />
-          </UserProtection>
+          <UserProtectionPage>
+            <FindRidePage />
+          </UserProtectionPage>
         </>
       },
       {
         path: '/bookride',
         element: <>
-          <UserProtection>
-            <BookRide />
-          </UserProtection>
+          <UserProtectionPage>
+            <BookRidePage />
+          </UserProtectionPage>
         </>
       },
       {
         path: '/payment',
         element: <>
-          <UserProtection>
-            <Payments />
-          </UserProtection>
+          <UserProtectionPage>
+            <PaymentsPage />
+          </UserProtectionPage>
         </>
       },
       {
         path: '/payment/complated',
         element: <>
-          <UserProtection>
+          <UserProtectionPage>
             <CurrentPage />
-          </UserProtection>
+          </UserProtectionPage>
         </>
       },
       {
         path: '/user/me',
         element: <>
-          <UserProtection>
-            <UserProfile />
-          </UserProtection>
+          <UserProtectionPage>
+            <UserProfilePage />
+          </UserProtectionPage>
         </>
       },
       {
         path: '/previousrides',
-        element: <UserProtection>
-          <PreviousRides />
-        </UserProtection>
+        element: <UserProtectionPage>
+          <PreviousRidesPages />
+        </UserProtectionPage>
       },
       {
         path: '/driver/signup',
-        element: <DriverSignup />
+        element: <DriverSignupPage />
       },
       {
         path: '/driver/login',
-        element: <DriverLogin />
+        element: <DriverLoginPage />
       },
       {
         path: '/driver/forgot-password',
-        element: <DriverForgotPassword />
+        element: <DriverForgotPasswordpage />
       },
       {
         path: '/driver/reset-password',
-        element: <DriverResetPassword />
+        element: <DriverResetPasswordPage />
       },
       {
         path: '/driver/document',
-        element: <DriverDocuments />
+        element: <DriverDocumentsPage />
       },
       {
         path: '/driveradmin',
-        element: <DriverProtection>
+        element: <DriverProtectionPage>
           <DriverAdmin />
-        </DriverProtection>,
+        </DriverProtectionPage>,
         children: [
           {
             index: true,
-            element: <DriverProfile />
+            element: <DriverProfilePage />
           },
           {
             path: 'location',
-            element: <DriverLocation />
+            element: <DriverLocationPage />
           },
           {
             path: 'reviews',
-            element: <Reviews />
+            element: <ReviewsPage />
           },
           {
             path: 'vehicle',
-            element: <DriverVehicle />
+            element: <DriverVehiclePage />
           },
-          // {
-          //   path: 'me',
-          //   element: <DriverProfile/>,
-          // },
         ]
       },
 
     ]
+
+  }, {
+    path: "*",
+    element: <ErrorPage />,
 
   }
 ])

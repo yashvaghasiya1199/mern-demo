@@ -26,3 +26,20 @@
 .btn-edit:hover{
   transform: scale(1.1);
 }
+.star-rating {
+  display: flex;
+  flex-direction: row;
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.star {
+  color: lightgray;
+  transition: color 0.2s;
+}
+
+.star.filled {
+  color: gold;
+}
+

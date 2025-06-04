@@ -4,7 +4,7 @@ import { api } from "../../axios/axios";
 
 export const userLoginAction = createAsyncThunk(
   "userLoginAction",
-  async function (credentials, { rejectWithValue }) {
+  async function (credentials, {fulfillWithValue, rejectWithValue }) {
     console.log(rejectWithValue.meta);
 
     try {
@@ -15,7 +15,7 @@ export const userLoginAction = createAsyncThunk(
         }
       });
 
-      return response.data;
+      return fulfillWithValue(response?.data)
     } catch (error) {
       return rejectWithValue(error.response?.data || { error: true, msg: "Login failed" });
     }
@@ -121,6 +121,83 @@ export const driverSignupAction = createAsyncThunk(
   }
 )
 
+export const driverForgotPasswordAction = createAsyncThunk(
+  "driverForgotPasswordAction",
+  async function (credentials, { rejectWithValue }) {
+    try {
+      const responce = await api.put('/api/auth/driver/forgot-password',credentials , {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
 
-//return responce.data karvu
+      })
+      return responce.data
+    } catch (error) {
+      const message =
+        error.response?.data?.msg || 'Failed to reset password';
+      return rejectWithValue({ error: true, msg: message });
+    }
+  }
+)
 
+export const driverResetPasswordAction = createAsyncThunk(
+  "driverResetPasswordAction",
+  async function (credentials, { rejectWithValue }) {
+    try {
+      const responce = await api.put('/api/auth/driver/change-password',credentials , {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+
+      })
+      return responce.data
+    } catch (error) {
+      const message =
+        error.response?.data?.msg || 'Failed to reset password';
+      return rejectWithValue({ error: true, msg: message });
+    }
+  }
+)
+
+
+export const userForgotPasswordAction = createAsyncThunk(
+  "userForgotPasswordAction",
+  async function (credentials, { rejectWithValue }) {
+    try {
+      const responce = await api.put('/api/auth/user/forgot-password',credentials , {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+
+      })
+      return responce.data
+    } catch (error) {
+      const message =
+        error.response?.data?.msg || 'Failed to reset password';
+      return rejectWithValue({ error: true, msg: message });
+    }
+  }
+)
+
+export const userResetPasswordAction = createAsyncThunk(
+  "userResetPasswordAction",
+  async function (credentials, { rejectWithValue }) {
+    try {
+      const responce = await api.put('/api/auth/user/change-password',credentials , {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+
+      })
+      return responce.data
+    } catch (error) {
+      const message =
+        error.response?.data?.msg || 'Failed to reset password';
+      return rejectWithValue({ error: true, msg: message });
+    }
+  }
+)

@@ -10,7 +10,7 @@ export const Map = () => {
   const [userLocation, setUserLocation] = useState(null);
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyCuGCIzMoGroJFKhQGYzvQ9DLumhHMesBE', // Store API key in .env
+    googleMapsApiKey: 'AIzaSyCuGCIzMoGroJFKhQGYzvQ9DLumhHMesBE',
   });
 
   useEffect(() => {
@@ -20,8 +20,8 @@ export const Map = () => {
           setUserLocation({
             // lat: position.coords.latitude,
             // lng: position.coords.longitude,
-            lat:22.468702,
-            lng:69.069824
+            lat:21.424757,
+            lng:72.107018 
 
           });
         },

@@ -1,55 +1,99 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import "./css/navbar.css"
-import Cookies from "js-cookie"
+import "./css/navbar.css";
+import Cookies from "js-cookie";
 import { useDispatch, useSelector } from 'react-redux';
-import {userlogout } from '../store/redusers/user.reduser';
+import { userlogout } from '../store/redusers/user.reduser';
+
 export function Navbar() {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
 
-    const toggleMenu = () => setOpen(!open);
+  // Redux selectors
+  const isUserLogIn = useSelector(state => state.userlogin.userLogin);
+  const isDriverLogin = useSelector(state => state.driverLogin.driverLogin);
 
-    const dispatch = useDispatch()
+  // Toggle mobile menu
+  const toggleMenu = () => setOpen(!open);
 
-    const isUserLogIn = useSelector(state => state.userlogin.userLogin)
-    // console.log(isUserLogIn);
-  
-    function logoutuser(){
-        dispatch(userlogout())
-        Cookies.remove("usertoken")
-    }
+  // Logout handler
+  const logoutUser = () => {
+    dispatch(userlogout());
+    Cookies.remove("usertoken");
+  };
 
-    return (
-        <header className="navbar">
-            <div className="navbar-brand">Uber</div>
+  // If driver is logged in, hide the navbar (based on your original logic)
+  if (isDriverLogin) return null;
 
-            <button className="menu-toggle" onClick={toggleMenu}>
-                ☰
-            </button>
+  return (
+    <header className="navbar">
+      <NavLink className="navbar-brand" to="/">
+        Uber
+      </NavLink>
 
-            <ul className={`nav-links ${open ? 'open' : ''}`}>
-                <li>
-                    <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>Home</NavLink>
-                </li>
-                <li>
-                   { isUserLogIn || <NavLink to="/driver/document" className={({ isActive }) => (isActive ? 'active' : '')}>driver document</NavLink>}
-                </li>
-                <li>
-                    {!isUserLogIn && <NavLink to="/driver/signup" className={({ isActive }) => (isActive ? 'active' : '')}>Driver Signup</NavLink>}
-                </li>
-                <li>
-                    <NavLink to={isUserLogIn ? "/findride" : "/user/signup"} className={({ isActive }) => (isActive ? "active" : "")}>{isUserLogIn ? "Book Ride" : "User Signup"}</NavLink>
+      <button
+        className="menu-toggle"
+        onClick={toggleMenu}
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+      >
+        ☰
+      </button>
 
-                </li>
-                <li>
-                    <NavLink to={isUserLogIn ? "/previousrides" : "/user/login"} className={({ isActive }) => (isActive ? 'active' : '')} >{isUserLogIn ? "Rides" : "User Login"}</NavLink>
-                </li>
-                <li>
-                {isUserLogIn && <NavLink onClick={logoutuser} >Logout</NavLink>}
-                </li>
-            </ul>
-        </header>
-    );
+      <ul className={`nav-links ${open ? 'open' : ''}`}>
+        <li>
+          <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Home
+          </NavLink>
+        </li>
+
+        {!isUserLogIn && (
+          <li>
+            <NavLink to="/driver/signup" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Driver Signup
+            </NavLink>
+          </li>
+        )}
+
+        {!isUserLogIn && (
+          <li>
+            <NavLink to="/driver/login" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Driver Login
+            </NavLink>
+          </li>
+        )}
+
+        <li>
+          <NavLink
+            to={isUserLogIn ? "/findride" : "/user/signup"}
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            {isUserLogIn ? "Book Ride" : "User Signup"}
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to={isUserLogIn ? "/previousrides" : "/user/login"}
+            className={({ isActive }) => (isActive ? 'active' : '')}
+          >
+            {isUserLogIn ? "Rides" : "User Login"}
+          </NavLink>
+        </li>
+
+        {isUserLogIn && (
+          <>
+            <li>
+              <NavLink to="/user/me">Profile</NavLink>
+            </li>
+            <li>
+              <NavLink onClick={logoutUser}>
+                Logout
+              </NavLink>
+            </li>
+          </>
+        )}
+      </ul>
+    </header>
+  );
 }
-
-

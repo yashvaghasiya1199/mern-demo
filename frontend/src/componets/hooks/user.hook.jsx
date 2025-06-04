@@ -1,7 +1,9 @@
-import { useDispatch } from "react-redux";
-import {  bookRideAction, findRideAction, paymentAction, userAllRidesAction, userProfileAction, userProfileUpdateAction } from "../../store/actions/user.action";
+import { useDispatch, useSelector } from "react-redux";
+import {  bookRideAction, findRideAction, paymentAction, userAllRidesAction, userProfileAction, userProfileUpdateAction, userReviewAction } from "../../store/actions/user.action";
 
-export function UserHooks(){
+export function useUserHooks(){
+
+    const {userPending,UserError} = useSelector(state => state.userlogin)
 
     const dispatch = useDispatch()
 
@@ -23,14 +25,19 @@ export function UserHooks(){
         async function userProfileUpdate(body) {
             return await dispatch(userProfileUpdateAction(body)).unwrap();
         }
-
+        async function userReview(body) {
+            return await dispatch(userReviewAction(body)).unwrap();
+        }
         return{
             findRide,
             bookRide,
             payment,
             userAllRide,
             userProfile,
-            userProfileUpdate
+            userProfileUpdate,
+            userReview,
+            userPending,
+            UserError
         }
 
 }

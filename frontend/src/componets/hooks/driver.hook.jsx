@@ -1,9 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { driverAddVehiclesAction, driverDeleteLocationAction, driverDeleteVehiclesAction, driverGetLocationAction, driverGetReviewsAction, driverGetVehiclesAction, driverLocationAction, driverUpdateVehiclesAction, driverMeAction, driverImageUpdateAction, driverProfileUpdateAction  } from "../../store/actions/driver.action";
 
-export function DriverHooks(){
+export function useDriverHooks(){
 
     const dispatch = useDispatch()
+
+    const {isPending,isError} = useSelector(state => state.driverLogin)
 
     async function driverLocations(body) {
         return await dispatch(driverLocationAction(body)).unwrap()
@@ -53,7 +55,9 @@ export function DriverHooks(){
         driverUpdateVehicles,
         driverMe,
         driverImageUpdate,
-        driverProfileUpdate
+        driverProfileUpdate,
+        isPending,
+        isError,
 
 }
 }

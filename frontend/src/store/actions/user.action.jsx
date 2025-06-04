@@ -113,3 +113,22 @@ export const userProfileUpdateAction = createAsyncThunk(
         }
     }
 );
+
+export const userReviewAction = createAsyncThunk(
+    'userProfileUpdateAction',
+    async (credentials, { rejectWithValue }) => {
+        
+        try {
+            const response = await api.post(`/api/review/postreview`,credentials,{
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            return response.data;
+        } catch (error) {
+            const message = error.response?.data?.msg || 'Failed to fetch user data';
+            return rejectWithValue({ error: true, msg: message });
+        }
+    }
+);
