@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../../componets/css/payment.css'
-import { useUserHooks } from '../../componets/hooks/user.hook';
+import '../../assets/css/payment.css'
+import { useUserHooks } from '../../hooks/user.hook';
 import { errorToast, successToast } from '../../componets/toast';
 import { ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';

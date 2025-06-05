@@ -1,5 +1,5 @@
 import { Navigate, NavLink, Outlet } from 'react-router-dom'
-import '../componets/css/driveradmin.css'
+import "../assets/css/driveradmin.css"
 import Cookies from 'js-cookie'
 import { useDispatch } from 'react-redux'
 import { driverLogout } from '../store/redusers/driver.reduser'

@@ -1,29 +1,26 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useDriverHooks } from '../componets/hooks/driver.hook';
 import { errorToast } from '../componets/toast';
-import { useUserHooks } from "../componets/hooks/user.hook";
-import { useSelector } from 'react-redux';
+import { useDriverHooks } from '../hooks/driver.hook';
+import { useUserHooks } from '../hooks/user.hook';
+
 
 export function DriverProtection({ children }) {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const { driverMe } = useDriverHooks();
-  const navigate = useNavigate(); 
-  
-  useEffect(() => {  
+  const navigate = useNavigate();
+
+  useEffect(() => {
     async function validateDriver() {
       try {
         const driver = await driverMe();
-        const documentUploaded = driver.driverData.document_uploaded;
-        // console.log(documentUploaded);
+        const documentUploaded = driver?.driverData?.document_uploaded;
 
         if (!documentUploaded) {
-          errorToast("please upload driver documnet")
-          setTimeout(() => {
-            navigate('/driver/document');
-          }, 1200);
-          return; 
+          errorToast("Please upload driver document");
+          navigate('/driver/document');
+          return;
         }
 
         if (driver && !driver.error && documentUploaded) {
@@ -32,6 +29,7 @@ export function DriverProtection({ children }) {
           setAuthenticated(false);
         }
       } catch (error) {
+        console.error("Error validating driver:", error);
         setAuthenticated(false);
       } finally {
         setLoading(false);
@@ -41,7 +39,7 @@ export function DriverProtection({ children }) {
     validateDriver();
   }, [driverMe, navigate]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading ...</div>;
 
   if (!authenticated) return <Navigate to="/driver/login" replace />;
 
@@ -49,34 +47,35 @@ export function DriverProtection({ children }) {
 }
 
 
-export function UserProtection({children}){
-    const { userProfile } = useUserHooks();
-    const [loading, setLoading] = useState(true);       // start with loading = true
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
+
+export function UserProtection({ children }) {
+  const { userProfile } = useUserHooks();
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
     async function fetchUserInfo() {
       try {
         const response = await userProfile();
         if (response && !response.error) {
-          setIsAuthenticated(true);
+          setIsAuthenticated(true);  
         } else {
-          setIsAuthenticated(false);
+          setIsAuthenticated(false); 
         }
       } catch (error) {
         console.error("Error fetching user profile:", error);
         setIsAuthenticated(false);
       } finally {
-        setLoading(false);
+        setLoading(false); 
       }
     }
-  
-    useEffect(() => {
-      fetchUserInfo();
-    }, []);
-  
-    if (loading) return <h1>Loading...</h1>;
-  
-    if (!isAuthenticated) return <Navigate to="/user/login" replace />;
-  
-    return children;
+
+    fetchUserInfo();
+  }, [userProfile]);  
+
+  if (loading) return <h1>Loading...</h1>;
+
+  if (!isAuthenticated) return <Navigate to="/user/login" replace />;
+
+  return children; 
 }

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../../axios/axios";
+import { api } from "../../libs/axios";
 
 export const findRideAction = createAsyncThunk(
-    'findRideAction',
+    'find/ride',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.post('/api/ride/findride', credentials,{
@@ -20,7 +20,7 @@ export const findRideAction = createAsyncThunk(
 );
 
 export const bookRideAction = createAsyncThunk(
-    'bookRideAction',
+    'book/Ride',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.post('/api/ride/create', credentials,{

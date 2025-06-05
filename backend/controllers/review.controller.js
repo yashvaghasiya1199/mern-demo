@@ -63,21 +63,20 @@ async function deleteReview(req,res){
 
   const userId = userIdFromRequest(req,res); 
 
-
   if(!reviewId){
     return res.json({msg:"please provide review id",error:true})
   }
 
-  const findReview = await Review.findOne({where:{id:reviewId}})
-
+  const findReview = await Review.findOne({where:{review_id:reviewId}})
+ 
   // only that user delete review who create
-  if (findReview.user_id !== userId) {
-    return res.status(403).json({ message: "You are not allowed to review this ride" ,error:true});
-  }
+  // if (findReview.user_id !== userId) {
+  //   return res.status(403).json({ message: "You are not allowed to review this ride" ,error:true});
+  // }
 
 
   if(!findReview){
-    return res.josn({msg:"review can't find",error:true})
+    return res.json({msg:"review can't find",error:true})
   }
 
   await findReview.destroy()

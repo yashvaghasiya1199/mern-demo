@@ -13,7 +13,6 @@ cloudinary.config({
 
 async function findDriverUsernameandEmail(emailorusername){
   
-    // console.log("emailorusername",emailorusername);
     return await driver.findOne({
         where: {
           [Op.or]: [{ email: emailorusername }, { username: emailorusername }],

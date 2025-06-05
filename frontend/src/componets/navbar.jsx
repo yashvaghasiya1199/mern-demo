@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import "./css/navbar.css";
+import "../assets/css/navbar.css"
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from 'react-redux';
 import { userlogout } from '../store/redusers/user.reduser';

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import '../../componets/css/driverprofile.css';
-import { useDriverHooks } from '../../componets/hooks/driver.hook';
+import '../../assets/css/driverprofile.css'
+import { useDriverHooks } from '../../hooks/driver.hook';
 import defaultpng from '../../../src/assets/images/default.png'
 
 export function DriverProfile(){
@@ -9,7 +9,7 @@ export function DriverProfile(){
       const [loading, setLoading] = useState(false);
       const [isProfileFormVisible, setProfileFormVisible] = useState(false);
     
-      const { driverMe, driverImageUpdate , driverProfileUpdate } = useDriverHooks();
+      const { driverMe, imageupdateDriver , profileUpdateDriver } = useDriverHooks();
     
     
       const fetchDriverData = async () => {
@@ -33,7 +33,7 @@ export function DriverProfile(){
         formData.append('profileimage', imageFile);
     
         try {
-          const response = await driverImageUpdate(formData);
+          const response = await imageupdateDriver(formData);
           console.log('Upload success:', response);
           await fetchDriverData();
         } catch (error) {
@@ -58,7 +58,7 @@ export function DriverProfile(){
       async function formSumbit(e) {
         e.preventDefault()
         try {
-          const responce = await driverProfileUpdate(data)
+          const responce = await profileUpdateDriver(data)
           console.log(responce);
           setProfileFormVisible(false)
           

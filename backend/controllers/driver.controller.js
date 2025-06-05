@@ -210,36 +210,32 @@ async function updateDriverDocument(req, res) {
     }
 }
 
+
 async function driverAllInformation(req, res) {
-
-    const driverId = driverIdFromRequest(req,res)
-
+    const driverId = driverIdFromRequest(req);
+  
     try {
-        const driverData = await drivers.findOne({
-            where: { id: driverId },
-            include: [
-                {
-                    model: driverDocumetModel,
-                },
-                {
-                    model: Vehicle,
-                },
-            ],
-        });
-
-        if (!driverData) {
-            return { message: 'Driver not found', error: true };
-        }
-        const jwtCreate = jwtTokenCreate({driverid:driverData.id})
-       res.cookie("driverid",jwtCreate)
-        return res.json({ driverData, error: false });
+      const driverData = await drivers.findOne({
+        where: { id: driverId },
+        include: [
+          { model: driverDocumetModel },
+          { model: Vehicle },
+        ],
+      });
+  
+      if (!driverData) {
+        return res.status(404).json({ message: 'Driver not found', error: true });
+      }
+  
+      return res.json({ driverData, error: false });
     } catch (error) {
-        console.error('Error fetching driver info:', error);
-        throw new Error('Error fetching driver info');
+      console.error('Error fetching driver info:', error);
+      return res.status(500).json({ message: 'Internal Server Error', error: true });
     }
-};
+  }
+  
+
 const Users = require("../models/user.model")
-const { jwtTokenCreate } = require("../utills/jwtToken.utill")
 
 review.belongsTo(Users, { foreignKey: 'user_id' });
 
@@ -249,7 +245,6 @@ Users.hasMany(review, { foreignKey: 'user_id' });
 async function AllDriverReviews(req, res) {
     try {
         const driverId = driverIdFromRequest(req, res);
-        console.log(driverId);
 
         const findreview = await reviews.findAll({
             where: { driver_id: driverId },

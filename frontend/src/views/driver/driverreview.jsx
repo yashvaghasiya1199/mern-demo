@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import '../../componets/css/driveradmin.css';
-import { useDriverHooks } from "../../componets/hooks/driver.hook";
+import '../../assets/css/driveradmin.css'
+import { useDriverHooks } from "../../hooks/driver.hook";
 
 
 export function Reviews(){
     const [reviews, setReviews] = useState(null);
     const [error, setError] = useState(false);
 
-    const {driverGetReviews} = useDriverHooks()
+    const {getDriverReview} = useDriverHooks()
 
     useEffect(() => {
         async function getReviews() {
             try {
-                const response = await driverGetReviews()
+                const response = await getDriverReview()
                 setReviews(response.reviews)
                 
             } catch (err) {

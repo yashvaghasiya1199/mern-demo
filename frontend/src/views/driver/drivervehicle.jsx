@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { errorToast, successToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import '../../componets/css/driveradmin.css'
-import { useDriverHooks } from "../../componets/hooks/driver.hook"
+import '../../assets/css/driveradmin.css'
+import { useDriverHooks } from "../../hooks/driver.hook"
 import { CircularIndeterminate } from "../../componets/loadder"
+import { MdDelete, MdEditSquare } from "react-icons/md"
 
 
 export function DriverVehical() {
@@ -14,7 +15,7 @@ export function DriverVehical() {
         color: ""
     })
 
-    const { isPending,driverGetVehicles, driverAddVehicles, driverDeleteVehicles, driverUpdateVehicles } = useDriverHooks()
+    const { isPending,getDriverVehicle, addVehicle, deleteVehicle, updateVehicle } = useDriverHooks()
 
     const [updateVehicals, setUpdateVehicle] = useState(false)
     const [getVehicle, setGetVehicle] = useState([])
@@ -35,7 +36,7 @@ export function DriverVehical() {
     async function getVehicleData() {
 
         try {
-            const response = await driverGetVehicles()
+            const response = await getDriverVehicle()
             setGetVehicle(response.driver.Vehicles)
           
         } catch (error) {
@@ -54,7 +55,7 @@ export function DriverVehical() {
         })
 
         try {
-            const response = await driverAddVehicles(vehicle)
+            const response = await addVehicle(vehicle)
             console.log(response);
 
             if (!response.error) {
@@ -69,10 +70,10 @@ export function DriverVehical() {
         getVehicleData()
     }
 
-    async function deleteVehicle(id) {
+    async function deleteVehicles(id) {
 
         try {
-            const response = await driverDeleteVehicles(id)
+            const response = await deleteVehicle(id)
             setGetVehicle((prev) => prev.filter((val, ind) => val.vehicle_id !== id))
         } catch (error) {
             errorToast("not deleted")
@@ -89,7 +90,7 @@ export function DriverVehical() {
     async function updateSubmit(e) {
         e.preventDefault();
         try {
-            const response = await driverUpdateVehicles(previousData.vehicle_id, previousData);
+            const response = await updateVehicle(previousData.vehicle_id, previousData);
             console.log(response);
             setUpdateVehicle(false)
             empty()
@@ -225,7 +226,7 @@ export function DriverVehical() {
                              disabled={isPending}
                              style={{ backgroundColor: `${isPending ? "#9b9090" : "green"}` }}
                            >
-                             {isPending ? <CircularIndeterminate /> : "Login"}
+                             {isPending ? <CircularIndeterminate /> : "Add vehicle"}
                            </button>
                 </form>
 
@@ -254,8 +255,7 @@ export function DriverVehical() {
                                 <td>{c.registration_number}</td>
                                 <td>{c.color}</td>
                                 <td>
-                                    <div><button onClick={() => deleteVehicle(c.vehicle_id)} style={{ marginLeft: "2vw" }} >delete</button><button onClick={() => updateVehical(c)} >Update</button></div>
-
+                                    <div><span  className="tbl-delete-btn" ><MdDelete onClick={() => deleteVehicles(c.vehicle_id)}  color="lightred" fontSize='25px' /><MdEditSquare onClick={() => updateVehical(c)} color="lightblue" fontSize='25px' /></span></div>
                                 </td>
                             </tr>
                         ))

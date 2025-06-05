@@ -13,10 +13,10 @@ const userSlice = createSlice({
         userError:null
     },
     reducers: {
-     userlogin:(state,action)=>{
+     userlogin:(state)=>{
         state.userLogin=true
      },
-    userlogout:(state,action)=>{
+    userlogout:(state)=>{
        state.userLogin=false
     },
     ridedata:(state,action)=>{
@@ -25,7 +25,7 @@ const userSlice = createSlice({
     
     },
     extraReducers: (builder)=>{
-      builder.addCase(userLoginAction.pending ,(state,action)=>{
+      builder.addCase(userLoginAction.pending ,(state)=>{
         state.userPending =true
       }),
       builder.addCase(userLoginAction.fulfilled , (state,action)=>{
@@ -82,24 +82,14 @@ const userSlice = createSlice({
         state.userError=true
         state.userInformation = action.payload
       })
-      builder.addCase(userAllRidesAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(userProfileAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userInformation = action.payload
-      }),
-      builder.addCase(userProfileAction.rejected,(state,action)=>{
-        state.userError=true
-        state.userInformation = action.payload
-      })
+
       builder.addCase(userProfileUpdateAction.pending,(state)=>{
         state.userPending =true
       }),
       builder.addCase(userProfileUpdateAction.fulfilled,(state,action)=>{
         state.userPending =false
         state.userInformation = action.payload
-      }),
+      })
       builder.addCase(userProfileUpdateAction.rejected,(state,action)=>{
         state.userError=true
         state.userInformation = action.payload
@@ -115,17 +105,7 @@ const userSlice = createSlice({
         state.userError=true
         state.userInformation = action.payload
       })
-      builder.addCase(userResetPasswordAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(userResetPasswordAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userInformation = action.payload
-      }),
-      builder.addCase(userResetPasswordAction.rejected,(state,action)=>{
-        state.userError=true
-        state.userInformation = action.payload
-      })
+    
     }
 });
 

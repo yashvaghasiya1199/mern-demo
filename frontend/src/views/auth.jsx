@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../componets/toast';
-import { useAuthHook } from '../componets/hooks/auth';
-import '../componets/css/login.css'
+import { useAuthHook } from '../hooks/auth';
+import '../assets/css/login.css'
 import { useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
 import { userlogout } from '../store/redusers/user.reduser';
 import { driverDocument, driverLogins } from '../store/redusers/driver.reduser';
-import '../componets/css/login.css'
-import { api } from '../axios/axios';
 import { userlogin } from '../store/redusers/user.reduser';
-import '../componets/css/signup.css'
-import '../componets/css/login.css'
+import '../assets/css/signup.css'
 import { CircularIndeterminate, Loaders } from '../componets/loadder';
+import { ErrorNote } from '../componets/common/errornote';  
 
 export function DriverSignup() {
 
@@ -27,7 +25,7 @@ export function DriverSignup() {
     profileimage: null
   });
 
-  const { isPending, driverSignup } = useAuthHook()
+  const {message,isError,isPending, signupDriver } = useAuthHook()
   console.log(isPending);
 
   const navigate = useNavigate()
@@ -56,7 +54,7 @@ export function DriverSignup() {
     });
 
     try {
-      const responce = await driverSignup(newform)
+      const responce = await signupDriver(newform)
       console.log(responce);
 
 
@@ -85,7 +83,7 @@ export function DriverSignup() {
     <div className="signup-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <h2 className="form-title">Driver Signup</h2>
-
+        {/* { isError && <ErrorNote data={message.msg} /> } */}
         <div className="name-row">
           <div>
             <label htmlFor="firstname">First Name</label>
@@ -118,7 +116,7 @@ export function DriverSignup() {
           disabled={isPending}
           style={{ backgroundColor: `${isPending ? "#9b9090" : "white"}` }}
         >
-          {isPending ? <CircularIndeterminate /> : "Login"}
+          {isPending ? <CircularIndeterminate /> : "signup"}
         </button>
 
         <p className="form-footer">
@@ -133,7 +131,7 @@ export function DriverSignup() {
 
 export function DriverLogin() {
 
-  const { isPending, driverLogin, driverMe } = useAuthHook()
+  const { message,isError,isPending, loginDriver, driverMe } = useAuthHook()
 
   const [logIn, setLogIn] = useState({
     emailorusername: "",
@@ -159,14 +157,15 @@ export function DriverLogin() {
     console.log(response);
 
   }
+  
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await driverLogin(logIn)
+      const response = await loginDriver(logIn)
 
       if (!response.error) {
-        verify()
+        
         dispatch(userlogout())
         dispatch(driverLogins())
         Cookies.remove("usertoken")
@@ -191,12 +190,16 @@ export function DriverLogin() {
   if (driverToken) {
     return <Navigate to='/driveradmin' />
   }
-
+  // useEffect(()=>{
+    // verify()
+  // },[])
+ 
   return <>
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Driver Login</h2>
 
+        {/* { isError && <ErrorNote data={message.msg} /> } */}
         <label htmlFor="email">Email or Username</label>
         <input type="text" id="email" placeholder="Enter your email" name='emailorusername' value={logIn.emailorusername} onChange={formHandel} required />
 
@@ -228,13 +231,13 @@ export function DriverPassword() {
 
   const navigate = useNavigate();
 
-  const { isPending, driverForgotPassword } = useAuthHook()
+  const { isPending, forgotPasswordDriver } = useAuthHook()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await driverForgotPassword({ email: email })
+      const response = await forgotPasswordDriver({ email: email })
 
       console.log(response);
       if (response.error) {
@@ -279,7 +282,7 @@ export const UserForgotPassword = () => {
 
   const [email, setEmail] = useState("")
 
-  const { userPending,userForgotPassword } = useAuthHook();
+  const { userPending,forgotPasswordUser } = useAuthHook();
 
 
   const navigate = useNavigate();
@@ -287,7 +290,7 @@ export const UserForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await userForgotPassword({ email: email })
+      const response = await forgotPasswordUser({ email: email })
       console.log(response);
 
 
@@ -331,7 +334,7 @@ export const UserForgotPassword = () => {
 
 export function UserResetPassword() {
 
-  const { userPending,userResetPassword } = useAuthHook();
+  const { userPending,resetPasswordUser } = useAuthHook();
 
   const [newData, setNewdata] = useState({
     otp: "",
@@ -349,14 +352,8 @@ export function UserResetPassword() {
     }
 
     try {
-      // const response = await api.put('/api/auth/user/change-password', newData, {
-      //   withCredentials: true,
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // })
- 
-      const response = await userResetPassword(newData)
+
+      const response = await resetPasswordUser(newData)
 
       if (response.error) {
         errorToast(response.msg)
@@ -409,7 +406,7 @@ export function UserResetPassword() {
 }
 
 export function UserLogin() {
-  const { userPending, userLogin, userMe } = useAuthHook();
+  const { userPending, loginUser, userMe } = useAuthHook();
 
   const [logIn, setLogIn] = useState({
     emailorusername: "",
@@ -421,12 +418,9 @@ export function UserLogin() {
 
   const userToken = Cookies.get("usertoken");
 
-  console.log(userToken);
-
   if (userToken) {
     return <Navigate to='/' />
   }
-
 
   function formHandel(e) {
     const { name, value } = e.target;
@@ -449,7 +443,7 @@ export function UserLogin() {
     e.preventDefault();
 
     try {
-      const response = await userLogin(logIn);
+      const response = await loginUser(logIn);
 
       if (response.error) {
         errorToast(response.msg);
@@ -458,6 +452,7 @@ export function UserLogin() {
         Cookies.remove("drivertoken");
         successToast(response.msg);
         myProfile();
+        
 
         setTimeout(() => {
           navigate("/findride");
@@ -468,7 +463,6 @@ export function UserLogin() {
       console.error("Login error:", error);
     }
   };
-
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
@@ -522,7 +516,7 @@ export function UserLogin() {
 export function UserSignup() {
 
   const navigate = useNavigate()
-  const { userPending, userSignup } = useAuthHook()
+  const { userPending, signupUser } = useAuthHook()
 
   const [signUp, setSignUp] = useState({
     first_name: "",
@@ -536,7 +530,7 @@ export function UserSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const responce = await userSignup(signUp)
+      const responce = await signupUser(signUp)
       if (!responce.error) {
         successToast("ok")
         navigate("/")
@@ -598,7 +592,7 @@ export function UserSignup() {
           disabled={userPending}
           style={{ backgroundColor: `${userPending ? "#9b9090" : "white"}` }}
         >
-          {userPending ? <CircularIndeterminate /> : "Login"}
+          {userPending ? <CircularIndeterminate /> : "signup"}
         </button>
         <p className="form-footer">
           Already have an account? <NavLink to={"/user/login"} >Login</NavLink>
@@ -618,7 +612,7 @@ export function DriverResetPassword() {
     checkpassword: ""
   })
 
-  const { isPending, driverResetPassword } = useAuthHook();
+  const { isPending, resetPasswordDriver } = useAuthHook();
 
   const navigate = useNavigate();
 
@@ -629,7 +623,7 @@ export function DriverResetPassword() {
     }
 
     try {
-      const response = await driverResetPassword(newData)
+      const response = await resetPasswordDriver(newData)
       console.log(response);
 
 

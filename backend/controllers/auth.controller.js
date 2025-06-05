@@ -219,7 +219,7 @@ async function driverSignup(req, res) {
     let uploadResult;
     try {
         uploadResult = await cloudinary.uploader.upload(file.tempFilePath);
-        console.log(uploadResult);
+        // console.log(uploadResult);
 
     } catch (err) {
         console.error("Cloudinary Upload Error:", err);
@@ -301,8 +301,6 @@ async function driverSendOtp(req, res) {
     );
 
     let num = Math.floor(Math.random() * 10000 + 10000)
-    console.log(num);
-
 
     const sendOtp = emailService(email, otp)
 

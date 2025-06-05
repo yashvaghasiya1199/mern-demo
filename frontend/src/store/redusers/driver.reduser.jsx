@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { driverForgotPasswordAction, driverLoginAction,driverResetPasswordAction,driverSignupAction } from "../actions/auth.action";
-import { driverAddVehiclesAction, driverDeleteVehiclesAction, driverLocationAction, driverUpdateVehiclesAction } from "../actions/driver.action";
+import { driverAddVehiclesAction, driverDeleteVehiclesAction, driverLocationAction, driverMeAction, driverUpdateVehiclesAction } from "../actions/driver.action";
 
 const driverSlice = createSlice({
     name:"driver",
@@ -21,6 +21,7 @@ const driverSlice = createSlice({
         driverDocument:(state)=>{
             state.driverDocument = true
         },
+
     },
     extraReducers:(builder)=>{
         builder.addCase(driverLoginAction.pending,(state)=>{
@@ -119,6 +120,19 @@ const driverSlice = createSlice({
             state.message = action.payload
             state.isPending = false
         })
+     
+        // builder.addCase(driverMeAction.pending,(state)=>{
+        //     state.isPending=true
+        // })
+        // builder.addCase(driverMeAction.fulfilled,(state,action)=>{
+        //     state.isPending = false
+        //     state.message = action.payload
+        // })
+        // builder.addCase(driverMeAction.rejected,(state,action)=>{
+        //     state.isError = true
+        //     state.message = action.payload
+        //     state.isPending = false
+        // })
     }
    
     

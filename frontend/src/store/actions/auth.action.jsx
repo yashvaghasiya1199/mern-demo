@@ -1,9 +1,9 @@
 // actions/userauth.action.js
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../../axios/axios";
+import { api } from "../../libs/axios";
 
 export const userLoginAction = createAsyncThunk(
-  "userLoginAction",
+  "user/login",
   async function (credentials, {fulfillWithValue, rejectWithValue }) {
     console.log(rejectWithValue.meta);
 
@@ -63,7 +63,7 @@ export const userMeAction = createAsyncThunk(
 );
 
 export const driverLoginAction = createAsyncThunk(
-  "driverLoginAction",
+  "driver/login",
   async function (credentials, { rejectWithValue }) {
     try {
       const response = await api.post('/api/auth/driver/login', credentials, {
@@ -82,7 +82,7 @@ export const driverLoginAction = createAsyncThunk(
 )
 
 export const DriverMeAction = createAsyncThunk(
-  "driverMeAction",
+  "driver/me",
   async function (_, { rejectWithValue }) {
     try {
       const responce = await api.get('/api/driver/me', {
@@ -102,7 +102,7 @@ export const DriverMeAction = createAsyncThunk(
 )
 
 export const driverSignupAction = createAsyncThunk(
-  "driverSignUp",
+  "driver/signUp",
   async function (credentials, { rejectWithValue }) {
     try {
       const responce = await api.post('/api/auth/driver/signup',credentials , {
@@ -122,7 +122,7 @@ export const driverSignupAction = createAsyncThunk(
 )
 
 export const driverForgotPasswordAction = createAsyncThunk(
-  "driverForgotPasswordAction",
+  "driver/forgotpassword",
   async function (credentials, { rejectWithValue }) {
     try {
       const responce = await api.put('/api/auth/driver/forgot-password',credentials , {
@@ -142,7 +142,7 @@ export const driverForgotPasswordAction = createAsyncThunk(
 )
 
 export const driverResetPasswordAction = createAsyncThunk(
-  "driverResetPasswordAction",
+  "driver/resetPassword",
   async function (credentials, { rejectWithValue }) {
     try {
       const responce = await api.put('/api/auth/driver/change-password',credentials , {
@@ -163,7 +163,7 @@ export const driverResetPasswordAction = createAsyncThunk(
 
 
 export const userForgotPasswordAction = createAsyncThunk(
-  "userForgotPasswordAction",
+  "user/ForgotPassword",
   async function (credentials, { rejectWithValue }) {
     try {
       const responce = await api.put('/api/auth/user/forgot-password',credentials , {
@@ -183,7 +183,7 @@ export const userForgotPasswordAction = createAsyncThunk(
 )
 
 export const userResetPasswordAction = createAsyncThunk(
-  "userResetPasswordAction",
+  "user/ResetPassword",
   async function (credentials, { rejectWithValue }) {
     try {
       const responce = await api.put('/api/auth/user/change-password',credentials , {

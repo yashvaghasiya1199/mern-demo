@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../../axios/axios";
+import { api } from "../../libs/axios";
 
 export const driverLocationAction = createAsyncThunk(
-    'driverLocationAction',
+    'driver/location',
     async function (credentials,{rejectWithValue}) {
         try {
             const responce = await api.post('/api/driver/addlocation', credentials,{
@@ -22,7 +22,7 @@ export const driverLocationAction = createAsyncThunk(
 )
 
 export const driverGetLocationAction = createAsyncThunk(
-    'driverGetLocationAction',
+    'driver/getLocation',
     async function (_,{rejectWithValue}) {
         try {
             const responce = await api.get('/api/driver/alllocation',{
@@ -42,7 +42,7 @@ export const driverGetLocationAction = createAsyncThunk(
 )
 
 export const driverDeleteLocationAction = createAsyncThunk(
-    'driverDeleteLocationAction',
+    'driver/DeleteLocation',
     async function (credentials,{rejectWithValue}) {
         try {
             const responce = await api.delete(`/api/driver/delete/location/${credentials}` ,{
@@ -62,7 +62,7 @@ export const driverDeleteLocationAction = createAsyncThunk(
 )
 
 export const driverGetReviewsAction = createAsyncThunk(
-    'driverDeleteLocationAction',
+    'driver/review',
     async function (_,{rejectWithValue}) {
         try {
             const responce = await api.get('/api/driver/allreview' ,{
@@ -82,7 +82,7 @@ export const driverGetReviewsAction = createAsyncThunk(
 )
 
 export const driverGetVehiclesAction = createAsyncThunk(
-    'driverGetVehiclesAction',
+    'driver/getVehicles',
     async function (_,{rejectWithValue}) {
         try {
             const responce = await api.get('/api/vehicle/alldata',{
@@ -102,7 +102,7 @@ export const driverGetVehiclesAction = createAsyncThunk(
 )
 
 export const driverAddVehiclesAction = createAsyncThunk(
-    'driverAddVehiclesAction',
+    'driver/addVehicles',
     async function (credentials,{rejectWithValue}) {
         try {
             const responce = await api.post('/api/vehicle/addvehicle', credentials ,{
@@ -122,7 +122,7 @@ export const driverAddVehiclesAction = createAsyncThunk(
 )
 
 export const driverDeleteVehiclesAction = createAsyncThunk(
-    'driverDeleteVehiclesAction',
+    'driver/deleteVehicles',
     async function (id,{rejectWithValue}) {
         try {
             const responce = await api.delete(`/api/vehicle/delete/${id}` ,{
@@ -142,7 +142,7 @@ export const driverDeleteVehiclesAction = createAsyncThunk(
 )
 
 export const driverUpdateVehiclesAction = createAsyncThunk(
-    'driverUpdateVehiclesAction',
+    'driver/updateVehicles',
     async ({ id, credentials }, { rejectWithValue }) => {
         try {
             const response = await api.put(`/api/vehicle/updatevehicle/${id}`, credentials, {
@@ -160,7 +160,7 @@ export const driverUpdateVehiclesAction = createAsyncThunk(
 );
 
 export const driverMeAction = createAsyncThunk(
-    'driverMeAction',
+    'driver/Mes',
     async (_, { rejectWithValue }) => {
         try {
             const response = await api.get('/api/driver/me', {
@@ -178,7 +178,7 @@ export const driverMeAction = createAsyncThunk(
 );
 
 export const driverImageUpdateAction = createAsyncThunk(
-    'driverImageUpdateAction',
+    'driver/ImageUpdate',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.put('/api/driver/profile-image', credentials,{
@@ -196,7 +196,7 @@ export const driverImageUpdateAction = createAsyncThunk(
 );
 
 export const driverProfileUpdateAction = createAsyncThunk(
-    'driverProfileUpdateAction',
+    'driver/profileUpdate',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.put('/api/driver/profile', credentials,{

@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { errorToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import { useUserHooks } from "../../componets/hooks/user.hook"
+import { useUserHooks } from "../../hooks/user.hook"
 import { CircularIndeterminate } from "../../componets/loadder"
 
 
@@ -80,7 +80,7 @@ export function FindRide() {
                     disabled={userPending}
                     style={{ backgroundColor: `${userPending ? "#9b9090" : "green"}` }}
                 >
-                    {userPending ? <CircularIndeterminate /> : "Login"}
+                    {userPending ? <CircularIndeterminate /> : "Find ride"}
                 </button>
             </form>
 

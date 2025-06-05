@@ -3,6 +3,7 @@ const payments = require("../models/payment.model")
 const jwt = require("jsonwebtoken");
 const { userIdFromRequest } = require('../services/user.services');
 const { jwtTokenCreate } = require('../utills/jwtToken.utill');
+const { configDotenv } = require('dotenv');
 
 
 async function userProfileUpdate(req, res) {
@@ -17,13 +18,13 @@ async function userProfileUpdate(req, res) {
             return res.status(400).json({ msg: "No fields to update. Please provide at least one field to update." ,error:true});
         }
 
-        const user = await Users.findOne({ where: { id: userId } });
+        const user = await Users.findOne({ where: { user_id: userId } });
         if (!user) {
             return res.status(404).json({ msg: "User not found." ,error:true});
         }
-        if (user.email === email) {
-            return res.json({ msg: "privious email id found must enter new email id" ,error:true})
-        }
+        // if (user.email === email) {
+        //     return res.json({ msg: "privious email id found must enter new email id" ,error:true})
+        // }
 
         const updatedUser = await user.update({
             first_name: first_name || user.first_name,
@@ -80,3 +81,4 @@ module.exports = {
     allPayment,
     myProfile
 };
+

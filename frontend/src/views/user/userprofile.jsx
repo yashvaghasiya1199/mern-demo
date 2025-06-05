@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useUserHooks } from "../../componets/hooks/user.hook";
-import '../../componets/css/userprofile.css'
+import { useUserHooks } from "../../hooks/user.hook";
+import '../../assets/css/userprofile.css'
 import { errorToast, successToast } from "../../componets/toast";
 import { ToastContainer } from "react-toastify";
 

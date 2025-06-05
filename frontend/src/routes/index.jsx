@@ -20,10 +20,10 @@ import { DriverVehiclePage } from "../pages/driverpages/drivervehicle";
 import { DriverProfilePage } from "../pages/driverpages/driverprofile";
 import { CurrentPage } from "../pages/userpages/currentpage";
 import { PreviousRidesPages } from "../pages/userpages/previosride";
-import { UserProtectionPage } from "../pages/userpages/userprotected";
 import { UserProfilePage } from "../pages/userpages/userprofile";
 import { UserForgotPassword, } from "../views/auth";
 import { ErrorPage } from "../componets/errorpage";
+import { UserProtectionPage } from "../pages/userpages/userprotected";
 
 export const routes = createBrowserRouter([
 

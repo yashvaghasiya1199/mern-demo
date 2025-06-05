@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Map } from "../../componets/map";
-import { useUserHooks } from "../../componets/hooks/user.hook";
+import { useEffect, useState } from "react";
+import { Map } from "../../componets/common/map";
+import { useUserHooks } from "../../hooks/user.hook";
 
 export function Current(){
 
@@ -33,6 +33,11 @@ export function Current(){
         setReview(false);
         alert("Thank you for your review!");
     };
+    useEffect(()=>{
+        setTimeout(() => {
+            setReview(true)
+        }, 1500);
+    },[])
 
     return (
         <>
@@ -67,9 +72,6 @@ export function Current(){
                         <h2>Ride will arrive in 5 minutes</h2>
                     </div>
                     <Map />
-                    <button className="btn3" onClick={() => setReview(true)}>
-                        Send Review
-                    </button>
                 </div>
             )}
         </>

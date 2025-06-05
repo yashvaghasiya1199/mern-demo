@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import '../../componets/css/driveradmin.css';
-import { api } from "../../axios/axios";
+import '../../assets/css/driveradmin.css'
 import { errorToast, successToast } from "../../componets/toast";
 import { ToastContainer } from "react-toastify";
-import { useDriverHooks } from "../../componets/hooks/driver.hook";
+import { useDriverHooks } from "../../hooks/driver.hook";
 import { CircularIndeterminate } from "../../componets/loadder";
+import { MdDelete } from "react-icons/md";
 // import { driverDeleteLocationAction } from "../../store/actions"
 export function DriverLocation(){
 
@@ -12,10 +12,10 @@ export function DriverLocation(){
     const [latitude, setLatitude] = useState('');
     const [location, setLocation] = useState([])
   
-    const { isPending,driverLocations,driverGetLocations ,driverDeleteLocations } = useDriverHooks()
+    const { isPending,locationDriver,getDriverLocation ,deleteDriverLocation } = useDriverHooks()
   
     async function getLocations() {
-      const getLocation = await driverGetLocations()
+      const getLocation = await getDriverLocation()
       console.log("data",getLocation );
       setLocation(getLocation.driver.driverlocations)
     }
@@ -25,7 +25,7 @@ export function DriverLocation(){
       try {
   
   
-        const response = await driverLocations({ longitude, latitude })
+        const response = await locationDriver({ longitude, latitude })
         console.log(response);
   
         getLocations()
@@ -44,7 +44,7 @@ export function DriverLocation(){
     };
   
     async function deleteLocation(id) {
-      const response = await driverDeleteLocations(id)
+      const response = await deleteDriverLocation(id)
       console.log(response);
       setLocation((prev) => prev.filter((val, ind) => val.location_id !== id))
   
@@ -87,7 +87,7 @@ export function DriverLocation(){
                     disabled={isPending}
                     style={{ backgroundColor: `${isPending ? "#9b9090" : "green"}` }}
                   >
-                    {isPending ? <CircularIndeterminate /> : "Login"}
+                    {isPending ? <CircularIndeterminate /> : "Add Location"}
                   </button>
         </form>
 
@@ -112,7 +112,8 @@ export function DriverLocation(){
                   <td>{c.latitude}</td>
                   <td>{c.longitude}</td>
                   <td>{c.createdAt.slice(0, c.createdAt.indexOf('T'))} {c.createdAt.slice(c.createdAt + 1, c.createdAt + 9)}</td>
-                  <td><div><button onClick={() => deleteLocation(c.location_id)} >delete</button></div></td>
+                  {/* <td><div><button onClick={() => deleteLocation(c.location_id)} ><MdDelete /></button></div></td> */}
+                  <td className="tbl-delete-btn" onClick={() => deleteLocation(c.location_id)}  ><MdDelete  color="red" fontSize='25px' /></td>
                 </tr>
               ))
             ) : (

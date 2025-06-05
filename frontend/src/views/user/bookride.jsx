@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { api } from "../../axios/axios"
+import { api } from "../../libs/axios"
 import { useNavigate } from "react-router-dom"
 import { ridedata } from "../../store/redusers/user.reduser"
 import { errorToast, successToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import { useUserHooks } from "../../componets/hooks/user.hook"
+import { useUserHooks } from "../../hooks/user.hook"
 import { CircularIndeterminate } from "../../componets/loadder"
 
 export function Bookride() {
@@ -153,7 +153,7 @@ export function Bookride() {
                     disabled={userPending}
                     style={{ backgroundColor: `${userPending ? "#9b9090" : "green"}` }}
                 >
-                    {userPending ? <CircularIndeterminate /> : "Login"}
+                    {userPending ? <CircularIndeterminate /> : "Book ride"}
                 </button>
             </form>
         </div>

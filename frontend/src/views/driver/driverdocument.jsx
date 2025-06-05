@@ -1,11 +1,11 @@
 import { useState } from "react";
-import '../../componets/css/login.css';
 import { ToastContainer, toast } from "react-toastify";
+import '../../assets/css/login.css'
 import "react-toastify/dist/ReactToastify.css";
 import { errorToast, successToast } from "../../componets/toast";
 import { useDispatch } from "react-redux";
 import { driverDocument } from "../../store/redusers/driver.reduser";
-import { api } from "../../axios/axios";
+import { api } from "../../libs/axios";
 import { useNavigate } from "react-router-dom";
 
 export function DriverDoument() {

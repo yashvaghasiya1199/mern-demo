@@ -5,7 +5,6 @@ const {Op} = require("sequelize")
 
 async function findUserByEmailorUsername(emailorusername){
   
-    // console.log("emailorusername" , emailorusername);
 
     return await Users.findOne({
         where: {
@@ -16,7 +15,6 @@ async function findUserByEmailorUsername(emailorusername){
 
 }
 function userIdFromRequest(req,res){
-  // console.log(req.user);
   const userToken = req.user
   const jwtverify = jwt.verify(userToken,process.env.JWT_SECRET)
   const userId = jwtverify.userid

@@ -1,7 +1,7 @@
-import "./css/herosection.css"
-import { Map } from "./map"
 import { Navigate, NavLink } from "react-router-dom"
+import '../assets/css/herosection.css'
 import { useSelector } from "react-redux"
+import { Map } from "./common/map"
 
 export function Hero() {
     const isDriverLogin = useSelector(state => state.driverLogin.driverLogin)
