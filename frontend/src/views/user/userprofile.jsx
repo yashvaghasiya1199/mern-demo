@@ -40,6 +40,9 @@ export function UserProfile() {
 
         }
     }
+    const firstName = data?.first_name?.split('')
+    const lastName = data?.last_name?.split('')
+  
 
     useEffect(() => {
         getUserData()
@@ -104,17 +107,23 @@ export function UserProfile() {
                     </div>
                 </form>
             </div> :
-                <div className="user-profile" >
-                    <div className="inner-up">
-                        <div>
-                            <h1>Name: {data.first_name} {data.last_name}</h1>
-                            <h2>Username: {data.username}</h2>
-                            <h2>Email: {data.email}</h2>
-                            <h2>Phone: {data.phone}</h2>
-                            <button className="btn-edit" onClick={() => setIsUpdate(!update)} >Edit</button>
+                <div className="user-profile-card">
+                    <div className="profile-header">
+                        <div className="avatar-placeholder">
+                            {data && firstName}
+                        </div>
+                        <div className="profile-info">
+                            <h1>{data.first_name} {data.last_name}</h1>
+                            <p>@{data.username}</p>
                         </div>
                     </div>
+                    <div className="profile-details">
+                        <h2>Email: <span>{data.email}</span></h2>
+                        <h2>Phone: <span>{data.phone}</span></h2>
+                        <button className="btn-edit" onClick={() => setIsUpdate(!update)}>Edit Profile</button>
+                    </div>
                 </div>
+
         }
         <ToastContainer />
 

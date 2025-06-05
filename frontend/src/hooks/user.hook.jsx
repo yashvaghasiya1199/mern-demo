@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {  bookRideAction, findRideAction, paymentAction, userAllRidesAction, userProfileAction, userProfileUpdateAction, userReviewAction } from "../store/actions/user.action";
+import { clearUserData } from "../store/redusers/user.reduser";
 
 export function useUserHooks(){
 
@@ -28,6 +29,10 @@ export function useUserHooks(){
         async function userReview(body) {
             return await dispatch(userReviewAction(body)).unwrap();
         }
+        async function userClear() {
+            return await dispatch(clearUserData())
+        }
+        
         return{
             findRide,
             bookRide,
@@ -37,7 +42,8 @@ export function useUserHooks(){
             userProfileUpdate,
             userReview,
             userPending,
-            UserError
+            UserError,
+            userClear
         }
 
 }

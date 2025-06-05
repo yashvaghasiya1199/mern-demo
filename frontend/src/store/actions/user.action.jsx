@@ -5,12 +5,7 @@ export const findRideAction = createAsyncThunk(
     'find/ride',
     async (credentials, { rejectWithValue }) => {
         try {
-            const response = await api.post('/api/ride/findride', credentials,{
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await api.post('/api/ride/findride', credentials);
             return response.data;
         } catch (error) {
             const message = error.response?.data?.msg || 'Failed to find ride';
@@ -23,12 +18,7 @@ export const bookRideAction = createAsyncThunk(
     'book/Ride',
     async (credentials, { rejectWithValue }) => {
         try {
-            const response = await api.post('/api/ride/create', credentials,{
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await api.post('/api/ride/create', credentials);
             return response.data;
         } catch (error) {
             const message = error.response?.data?.msg || 'Failed to book ride';
@@ -43,12 +33,7 @@ export const paymentAction = createAsyncThunk(
         console.log(credentials);
         
         try {
-            const response = await api.post(`/api/payment/pay/${credentials.ride_id}`, credentials,{
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await api.post(`/api/payment/pay/${credentials.ride_id}`, credentials);
             return response.data;
         } catch (error) {
             const message = error.response?.data?.msg || 'Failed to payment';
@@ -62,12 +47,7 @@ export const userAllRidesAction = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         
         try {
-            const response = await api.get(`/api/ride/userallride`,{
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await api.get(`/api/ride/userallride`);
             return response.data;
         } catch (error) {
             const message = error.response?.data?.msg || 'Failed to fetch all rides';
@@ -81,12 +61,7 @@ export const userProfileAction = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         
         try {
-            const response = await api.get(`/api/user/me`,{
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await api.get(`/api/user/me`);
             return response.data;
         } catch (error) {
             const message = error.response?.data?.msg || 'Failed to fetch user data';
@@ -100,12 +75,7 @@ export const userProfileUpdateAction = createAsyncThunk(
     async (credentials, { rejectWithValue }) => {
         
         try {
-            const response = await api.put(`/api/user/profile`,credentials,{
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await api.put(`/api/user/profile`,credentials);
             return response.data;
         } catch (error) {
             const message = error.response?.data?.msg || 'Failed to fetch user data';
@@ -119,12 +89,7 @@ export const userReviewAction = createAsyncThunk(
     async (credentials, { rejectWithValue }) => {
         
         try {
-            const response = await api.post(`/api/review/postreview`,credentials,{
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await api.post(`/api/review/postreview`,credentials);
             return response.data;
         } catch (error) {
             const message = error.response?.data?.msg || 'Failed to fetch user data';

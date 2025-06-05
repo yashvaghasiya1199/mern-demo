@@ -4,7 +4,7 @@ import { driverForgotPasswordAction, driverLoginAction, DriverMeAction, driverRe
 export function useAuthHook(){
 
     const {message,isPending,isError} = useSelector(state => state.driverLogin)
-    const {userPending,userError} = useSelector(state => state.userlogin)
+    const {userPending,userError,userMessage} = useSelector(state => state.userlogin)
 
     const dispatch = useDispatch()
 
@@ -60,6 +60,7 @@ export function useAuthHook(){
         userPending,
         userError,
         message,
+        userMessage
 
     }
 }

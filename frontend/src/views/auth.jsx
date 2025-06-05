@@ -12,6 +12,8 @@ import { userlogin } from '../store/redusers/user.reduser';
 import '../assets/css/signup.css'
 import { CircularIndeterminate, Loaders } from '../componets/loadder';
 import { ErrorNote } from '../componets/common/errornote';  
+import { useDriverHooks } from '../hooks/driver.hook';
+import { useUserHooks } from '../hooks/user.hook';
 
 export function DriverSignup() {
 
@@ -26,6 +28,7 @@ export function DriverSignup() {
   });
 
   const {message,isError,isPending, signupDriver } = useAuthHook()
+  const {clearData} = useDriverHooks()
   console.log(isPending);
 
   const navigate = useNavigate()
@@ -68,7 +71,7 @@ export function DriverSignup() {
       }
     } catch (err) {
       console.error("Signup failed", err);
-      errorToast(err.msg)
+      // errorToast(err.msg)
     }
   };
 
@@ -78,12 +81,17 @@ export function DriverSignup() {
   if (driverToken) {
     return <Navigate to='/driveradmin' />
   }
+  useEffect(()=>{
+    return()=>{
+      clearData()
+    }
+  },[])
 
   return (<>
     <div className="signup-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <h2 className="form-title">Driver Signup</h2>
-        {/* { isError && <ErrorNote data={message.msg} /> } */}
+          {isError && <ErrorNote data={message.msg}/>}
         <div className="name-row">
           <div>
             <label htmlFor="firstname">First Name</label>
@@ -124,7 +132,10 @@ export function DriverSignup() {
         </p>
       </form>
       <ToastContainer />
-    </div></>
+    </div>
+
+    
+    </>
   );
 
 }
@@ -132,6 +143,8 @@ export function DriverSignup() {
 export function DriverLogin() {
 
   const { message,isError,isPending, loginDriver, driverMe } = useAuthHook()
+
+  const {clearData} = useDriverHooks()
 
   const [logIn, setLogIn] = useState({
     emailorusername: "",
@@ -165,7 +178,7 @@ export function DriverLogin() {
       const response = await loginDriver(logIn)
 
       if (!response.error) {
-        
+        verify()
         dispatch(userlogout())
         dispatch(driverLogins())
         Cookies.remove("usertoken")
@@ -181,7 +194,7 @@ export function DriverLogin() {
 
     } catch (error) {
       console.error("Error during login:", error);
-      errorToast(error.msg)
+      // errorToast(error.msg)
     }
   };
 
@@ -190,16 +203,16 @@ export function DriverLogin() {
   if (driverToken) {
     return <Navigate to='/driveradmin' />
   }
-  // useEffect(()=>{
-    // verify()
-  // },[])
- 
+  useEffect(()=>{
+    return()=>{
+      clearData()
+    }
+  },[]) 
   return <>
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Driver Login</h2>
-
-        {/* { isError && <ErrorNote data={message.msg} /> } */}
+        {isError && <ErrorNote data={message.msg}/>}
         <label htmlFor="email">Email or Username</label>
         <input type="text" id="email" placeholder="Enter your email" name='emailorusername' value={logIn.emailorusername} onChange={formHandel} required />
 
@@ -231,7 +244,8 @@ export function DriverPassword() {
 
   const navigate = useNavigate();
 
-  const { isPending, forgotPasswordDriver } = useAuthHook()
+  const { isPending, forgotPasswordDriver,isError,message } = useAuthHook()
+  const {clearData} = useDriverHooks()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -254,12 +268,16 @@ export function DriverPassword() {
       console.error("Error during login:", error);
     }
   };
-
+  useEffect(()=>{
+    return()=>{
+      clearData()
+    }
+  },[])
   return <>
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2 className="login-title"> d Forgot password</h2>
-
+        <h2 className="login-title"> driver Forgot password</h2>
+        {isError && <ErrorNote data={message.msg}/>}
         <label htmlFor="email">Enter email</label>
         <input type="text" id="email" placeholder="Enter your email" name='emailorusername' value={email} onChange={(e) => setEmail(e.target.value)} required />
 
@@ -282,8 +300,8 @@ export const UserForgotPassword = () => {
 
   const [email, setEmail] = useState("")
 
-  const { userPending,forgotPasswordUser } = useAuthHook();
-
+  const { userPending, forgotPasswordUser,userError,userMessage } = useAuthHook()
+  const {userClear} =useUserHooks()
 
   const navigate = useNavigate();
 
@@ -308,12 +326,18 @@ export const UserForgotPassword = () => {
       console.error("Error during login:", error);
     }
   };
+  useEffect(()=>{
+    return()=>{
+      userClear()
+    }
+  },[])
+
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Forgot password</h2>
-
+        {userError && <ErrorNote data={userMessage.msg}/>}
         <label htmlFor="email">Enter email</label>
         <input type="text" id="email" placeholder="Enter your email" name='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
 
@@ -334,7 +358,9 @@ export const UserForgotPassword = () => {
 
 export function UserResetPassword() {
 
-  const { userPending,resetPasswordUser } = useAuthHook();
+  const { userPending,resetPasswordUser,userError,userMessage } = useAuthHook();
+
+  const {userClear} =useUserHooks()
 
   const [newData, setNewdata] = useState({
     otp: "",
@@ -354,10 +380,6 @@ export function UserResetPassword() {
     try {
 
       const response = await resetPasswordUser(newData)
-
-      if (response.error) {
-        errorToast(response.msg)
-      }
       if (!response.error) {
         successToast(response.msg)
         setTimeout(() => {
@@ -378,11 +400,17 @@ export function UserResetPassword() {
       [name]: value
     }));
   }
+
+  useEffect(()=>{
+    return()=>{
+      userClear()
+    }
+  },[])
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Reset password</h2>
-
+        {userError && <ErrorNote data={userMessage.msg}/>}
         <label htmlFor="email">Enter OTP</label>
         <input type="text" id="email" placeholder="Enter your otp" name='otp' value={newData.otp} onChange={formHandel} required />
 
@@ -406,8 +434,8 @@ export function UserResetPassword() {
 }
 
 export function UserLogin() {
-  const { userPending, loginUser, userMe } = useAuthHook();
-
+  const { userPending, loginUser, userMe,userError,userMessage } = useAuthHook();
+ const {userClear} =useUserHooks()
   const [logIn, setLogIn] = useState({
     emailorusername: "",
     password: "",
@@ -459,15 +487,19 @@ export function UserLogin() {
         }, 1000);
       }
     } catch (error) {
-      errorToast(error.msg || "Login failed");
       console.error("Login error:", error);
     }
   };
+  useEffect(()=>{
+    return()=>{
+      userClear()
+    }
+  },[])
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Login</h2>
-
+        {userError && <ErrorNote data={userMessage.msg}/>}
         <label htmlFor="email">Email or Username</label>
         <input
           type="text"
@@ -516,7 +548,8 @@ export function UserLogin() {
 export function UserSignup() {
 
   const navigate = useNavigate()
-  const { userPending, signupUser } = useAuthHook()
+  const { userPending, signupUser,userError,userMessage } = useAuthHook()
+  const {userClear} =useUserHooks()
 
   const [signUp, setSignUp] = useState({
     first_name: "",
@@ -553,17 +586,21 @@ export function UserSignup() {
   }
   const userToken = Cookies.get("usertoken");
 
-  console.log(userToken)
 
   if (userToken) {
     return <Navigate to='/' />
   }
 
+  useEffect(()=>{
+    return()=>{
+      userClear()
+    }
+  },[])
   return (
     <div className="signup-container">
       <form className="signup-form" onSubmit={handleSubmit}>
         <h2 className="form-title">User Signup</h2>
-
+        {userError && <ErrorNote data={userMessage.msg}/>}
         <div className="name-row">
           <div>
             <label htmlFor="firstname">First Name</label>
@@ -612,7 +649,9 @@ export function DriverResetPassword() {
     checkpassword: ""
   })
 
-  const { isPending, resetPasswordDriver } = useAuthHook();
+  const {clearData} = useDriverHooks()
+
+  const { isPending, resetPasswordDriver ,isError,message} = useAuthHook();
 
   const navigate = useNavigate();
 
@@ -651,11 +690,16 @@ export function DriverResetPassword() {
     }));
   }
 
+  useEffect(()=>{
+    return()=>{
+      clearData()
+    }
+  },[])
   return <>
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Reset password</h2>
-
+        {isError && <ErrorNote data={message.msg}/>}
         <label htmlFor="email">Enter OTP</label>
         <input type="text" id="email" placeholder="Enter your otp" name='otp' value={newData.otp} onChange={formHandel} required />
 

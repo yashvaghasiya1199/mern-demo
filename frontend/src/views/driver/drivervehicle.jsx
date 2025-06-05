@@ -5,6 +5,7 @@ import '../../assets/css/driveradmin.css'
 import { useDriverHooks } from "../../hooks/driver.hook"
 import { CircularIndeterminate } from "../../componets/loadder"
 import { MdDelete, MdEditSquare } from "react-icons/md"
+import { ErrorNote } from "../../componets/common/errornote"
 
 
 export function DriverVehical() {
@@ -15,7 +16,8 @@ export function DriverVehical() {
         color: ""
     })
 
-    const { isPending,getDriverVehicle, addVehicle, deleteVehicle, updateVehicle } = useDriverHooks()
+    const { isPending,getDriverVehicle, addVehicle, deleteVehicle, updateVehicle,isError,message } = useDriverHooks()
+    const {clearData} = useDriverHooks()
 
     const [updateVehicals, setUpdateVehicle] = useState(false)
     const [getVehicle, setGetVehicle] = useState([])
@@ -113,6 +115,9 @@ export function DriverVehical() {
 
     useEffect(() => {
         getVehicleData()
+        return()=>{
+            clearData()
+        }
     }, [])
 
     return <>
@@ -124,7 +129,7 @@ export function DriverVehical() {
                 <div className="location-form-container">
                     <form className="location-form" onSubmit={updateSubmit} >
                         <h2  >Update vehicle</h2>
-
+                        {isError && <ErrorNote />}
                         <label htmlFor="vehicleType">vehicle Type</label>
                         <input
                             type="text"
@@ -178,7 +183,7 @@ export function DriverVehical() {
             </div> : <div className="location-form-container">
                 <form className="location-form" onSubmit={handelSubmit} >
                     <h2  >Add vehicle</h2>
-
+                    {isError && <ErrorNote data={message.msg} />}
                     <label htmlFor="vehicleType">vehicle Type</label>
                     <input
                         type="text"

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { driverForgotPasswordAction, driverLoginAction,driverResetPasswordAction,driverSignupAction } from "../actions/auth.action";
-import { driverAddVehiclesAction, driverDeleteVehiclesAction, driverLocationAction, driverMeAction, driverUpdateVehiclesAction } from "../actions/driver.action";
+import {  addLocationAction, driverAddVehiclesAction, driverDeleteVehiclesAction, driverMeAction, driverUpdateVehiclesAction } from "../actions/driver.action";
 
 const driverSlice = createSlice({
     name:"driver",
@@ -21,6 +21,10 @@ const driverSlice = createSlice({
         driverDocument:(state)=>{
             state.driverDocument = true
         },
+        messageClear:(state)=>{
+            state.isError=false
+            state.message=[]
+        }
 
     },
     extraReducers:(builder)=>{
@@ -48,14 +52,14 @@ const driverSlice = createSlice({
             state.message=action.payload
             state.isPending = false
         })   
-        builder.addCase(driverLocationAction.pending,(state)=>{
+        builder.addCase(addLocationAction.pending,(state)=>{
             state.isPending=true
         })
-        builder.addCase(driverLocationAction.fulfilled,(state,action)=>{
+        builder.addCase(addLocationAction.fulfilled,(state,action)=>{
             state.isPending=false,
             state.message=action.payload
         })
-        builder.addCase(driverLocationAction.rejected,(state,action)=>{
+        builder.addCase(addLocationAction.rejected,(state,action)=>{
             state.isError=true
             state.message=action.payload
             state.isPending = false
@@ -68,9 +72,9 @@ const driverSlice = createSlice({
             state.message = action.payload
         })
         builder.addCase(driverAddVehiclesAction.rejected,(state,action)=>{
+            state.isPending = false
             state.isError = true
             state.message = action.payload
-            state.isPending = false
         })
         builder.addCase(driverDeleteVehiclesAction.pending,(state)=>{
             state.isPending=true
@@ -98,14 +102,16 @@ const driverSlice = createSlice({
         })
         builder.addCase(driverForgotPasswordAction.pending,(state)=>{
             state.isPending=true
+            state.isError=false
         })
         builder.addCase(driverForgotPasswordAction.fulfilled,(state,action)=>{
             state.isPending = false
             state.message = action.payload
+            state.isError=false
         })
         builder.addCase(driverForgotPasswordAction.rejected,(state,action)=>{
+            state.message = action.payload 
             state.isError = true
-            state.message = action.payload
             state.isPending = false
         })
         builder.addCase(driverResetPasswordAction.pending,(state)=>{
@@ -121,23 +127,25 @@ const driverSlice = createSlice({
             state.isPending = false
         })
      
-        // builder.addCase(driverMeAction.pending,(state)=>{
-        //     state.isPending=true
-        // })
-        // builder.addCase(driverMeAction.fulfilled,(state,action)=>{
-        //     state.isPending = false
-        //     state.message = action.payload
-        // })
-        // builder.addCase(driverMeAction.rejected,(state,action)=>{
-        //     state.isError = true
-        //     state.message = action.payload
-        //     state.isPending = false
-        // })
+        builder.addCase(driverMeAction.pending,(state)=>{
+            state.isPending=true
+        })
+        builder.addCase(driverMeAction.fulfilled,(state,action)=>{
+            state.isPending = false
+            state.message = action.payload
+        })
+        builder.addCase(driverMeAction.rejected,(state,action)=>{
+            state.isError = true
+            state.message = action.payload
+            state.isPending = false
+        })
     }
    
     
 })
 
-export const {driverLogins,driverLogout,driverDocument} = driverSlice.actions
+export const {driverLogins,driverLogout,driverDocument,messageClear} = driverSlice.actions
 
 export default driverSlice.reducer
+
+

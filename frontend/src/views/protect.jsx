@@ -3,12 +3,13 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { errorToast } from '../componets/toast';
 import { useDriverHooks } from '../hooks/driver.hook';
 import { useUserHooks } from '../hooks/user.hook';
+import { useAuthHook } from '../hooks/auth';
 
 
 export function DriverProtection({ children }) {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
-  const { driverMe } = useDriverHooks();
+  const { driverMe } = useAuthHook();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,11 +18,11 @@ export function DriverProtection({ children }) {
         const driver = await driverMe();
         const documentUploaded = driver?.driverData?.document_uploaded;
 
-        if (!documentUploaded) {
-          errorToast("Please upload driver document");
-          navigate('/driver/document');
-          return;
-        }
+        // if (!documentUploaded) {
+        //   errorToast("Please upload driver document");
+        //   navigate('/driver/document');
+        //   return;
+        // }
 
         if (driver && !driver.error && documentUploaded) {
           setAuthenticated(true);
@@ -45,6 +46,7 @@ export function DriverProtection({ children }) {
 
   return children;
 }
+
 
 
 

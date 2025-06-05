@@ -1,25 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
-import { driverAddVehiclesAction, driverDeleteLocationAction, driverDeleteVehiclesAction, driverGetLocationAction, driverGetReviewsAction, driverGetVehiclesAction, driverLocationAction, driverUpdateVehiclesAction, driverMeAction, driverImageUpdateAction, driverProfileUpdateAction  } from "../store/actions/driver.action";
+import { driverAddVehiclesAction,  driverDeleteVehiclesAction, getDriverReviews, driverGetVehiclesAction, driverUpdateVehiclesAction, driverMeAction, driverImageUpdateAction, driverProfileUpdateAction, getDriverLocations, addLocationAction  } from "../store/actions/driver.action";
+import { messageClear } from "../store/redusers/driver.reduser";
 
 export function useDriverHooks(){
 
     const dispatch = useDispatch()
 
-    const {isPending,isError} = useSelector(state => state.driverLogin)
+    const {isPending,isError,message} = useSelector(state => state.driverLogin)
 
     async function locationDriver(body) {
-        return await dispatch(driverLocationAction(body)).unwrap()
+        return await dispatch(addLocationAction(body)).unwrap()
     }
 
     async function getDriverLocation() {
-        return await dispatch(driverGetLocationAction()).unwrap()
+        return await dispatch(getDriverLocations()).unwrap()
     }
 
     async function deleteDriverLocation(body) {
-        return await dispatch(driverDeleteLocationAction(body)).unwrap()
+        return await dispatch(deleteDriverLocation(body)).unwrap()
     }
     async function  getDriverReview() {
-        return await dispatch(driverGetReviewsAction()).unwrap()
+        return await dispatch(getDriverReviews()).unwrap()
     }
 
     async function  getDriverVehicle() {
@@ -44,6 +45,11 @@ export function useDriverHooks(){
     async function profileUpdateDriver(body) { 
         return await dispatch(driverProfileUpdateAction(body)).unwrap();
     }
+    async function clearData() { 
+        return await dispatch(messageClear())
+    }
+    
+
 
     return{
         locationDriver,
@@ -57,8 +63,10 @@ export function useDriverHooks(){
         profileUpdateDriver,
         getDriverVehicle,
         addVehicle,
+        clearData,
         isPending,
         isError,
+        message
 
 }
 }

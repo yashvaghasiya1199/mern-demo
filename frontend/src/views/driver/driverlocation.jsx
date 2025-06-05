@@ -5,14 +5,15 @@ import { ToastContainer } from "react-toastify";
 import { useDriverHooks } from "../../hooks/driver.hook";
 import { CircularIndeterminate } from "../../componets/loadder";
 import { MdDelete } from "react-icons/md";
-// import { driverDeleteLocationAction } from "../../store/actions"
+import { ErrorNote } from "../../componets/common/errornote";
 export function DriverLocation(){
 
     const [longitude, setLongitude] = useState('');
     const [latitude, setLatitude] = useState('');
     const [location, setLocation] = useState([])
   
-    const { isPending,locationDriver,getDriverLocation ,deleteDriverLocation } = useDriverHooks()
+    const { isPending,locationDriver,getDriverLocation ,deleteDriverLocation,message,isError } = useDriverHooks()
+
   
     async function getLocations() {
       const getLocation = await getDriverLocation()
@@ -39,7 +40,7 @@ export function DriverLocation(){
         }
       } catch (error) {
         console.error("Error submitting location:", error);
-        alert("Something went wrong.");
+        errorToast("falied to add location")
       }
     };
   
@@ -59,7 +60,7 @@ export function DriverLocation(){
       <div className="location-form-container">
         <form className="location-form" onSubmit={handleSubmit}>
           <h2>Driver Location</h2>
-
+          {/* {isError && <ErrorNote data={"falied to add location"}/>} */}
           <label htmlFor="longitude">Longitude</label>
           <input
             type="text"
