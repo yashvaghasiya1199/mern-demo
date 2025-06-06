@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../libs/axios";
 
-export const findRideAction = createAsyncThunk(
-    'find/ride',
+export const rideFindAction = createAsyncThunk(
+    '/api/ride/findride',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.post('/api/ride/findride', credentials);
@@ -15,7 +15,7 @@ export const findRideAction = createAsyncThunk(
 );
 
 export const bookRideAction = createAsyncThunk(
-    'book/Ride',
+    '/api/ride/create',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.post('/api/ride/create', credentials);
@@ -28,7 +28,7 @@ export const bookRideAction = createAsyncThunk(
 );
 
 export const paymentAction = createAsyncThunk(
-    'paymentAction',
+    '/api/payment/pay/',
     async (credentials, { rejectWithValue }) => {
         console.log(credentials);
         
@@ -42,8 +42,8 @@ export const paymentAction = createAsyncThunk(
     }
 );
 
-export const userAllRidesAction = createAsyncThunk(
-    'userAllRides',
+export const AllUserRidesAction = createAsyncThunk(
+    '/api/ride/userallride',
     async (_, { rejectWithValue }) => {
         
         try {
@@ -57,7 +57,7 @@ export const userAllRidesAction = createAsyncThunk(
 );
 
 export const userProfileAction = createAsyncThunk(
-    'userProfileAction',
+    '/api/user/me',
     async (_, { rejectWithValue }) => {
         
         try {
@@ -71,7 +71,7 @@ export const userProfileAction = createAsyncThunk(
 );
 
 export const userProfileUpdateAction = createAsyncThunk(
-    'userProfileUpdateAction',
+    '/api/user/profile',
     async (credentials, { rejectWithValue }) => {
         
         try {
@@ -85,7 +85,7 @@ export const userProfileUpdateAction = createAsyncThunk(
 );
 
 export const userReviewAction = createAsyncThunk(
-    'userProfileUpdateAction',
+    '/api/review/postreview',
     async (credentials, { rejectWithValue }) => {
         
         try {

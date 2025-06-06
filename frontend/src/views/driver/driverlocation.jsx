@@ -18,7 +18,7 @@ export function DriverLocation(){
     async function getLocations() {
       const getLocation = await getDriverLocation()
       console.log("data",getLocation );
-      setLocation(getLocation.driver.driverlocations)
+      setLocation(getLocation.payload.driver.driverlocations)
     }
   
     const handleSubmit = async (e) => {
@@ -27,7 +27,7 @@ export function DriverLocation(){
   
   
         const response = await locationDriver({ longitude, latitude })
-        console.log(response);
+        console.log(response.payload);
   
         getLocations()
         if (!response.err) {
@@ -46,7 +46,7 @@ export function DriverLocation(){
   
     async function deleteLocation(id) {
       const response = await deleteDriverLocation(id)
-      console.log(response);
+      console.log(response.payload);
       setLocation((prev) => prev.filter((val, ind) => val.location_id !== id))
   
     }

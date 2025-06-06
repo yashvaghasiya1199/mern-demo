@@ -52,7 +52,7 @@ async function signUp(req, res) {
 
 
         if (checkUserName) {
-            return res.json({ msg: "username already taken", error: true })
+            return res.status(400).json({ msg: "username already taken", error: true })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -123,12 +123,12 @@ async function sendOtp(req, res) {
 
     const { email } = req.body
     if (!email) {
-        return res.json({ msg: "please enter email", error: true })
+        return res.status(401).json({ msg: "please enter email", error: true })
     }
 
     const findUser = await Users.findOne({ where: { email: email } })
     if (!findUser) {
-        return res.json({ msg: "please enter valid email", error: true })
+        return res.status(401).json({ msg: "please enter valid email", error: true })
     }
 
     let updated = await Users.update(
@@ -287,12 +287,12 @@ async function driverSendOtp(req, res) {
 
     const { email, duplicate } = req.body
     if (!email) {
-        return res.json({ msg: "please enter email", error: true })
+        return res.json.status(401)({ msg: "please enter email", error: true })
     }
 
     const findUser = await drivers.findOne({ where: { email: email } })
     if (!findUser) {
-        return res.json({ msg: "please enter valid email", error: true })
+        return res.json.status(401)({ msg: "please enter valid email", error: true })
     }
 
     let updated = await drivers.update(
@@ -304,7 +304,8 @@ async function driverSendOtp(req, res) {
 
     const sendOtp = emailService(email, otp)
 
-    return res.json({ msg: "otp has been send", error: false })
+    return res.status(200).json({ msg: "otp has been send", error: false })
+    
 }
 
 async function driverChangePassword(req, res) {

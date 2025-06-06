@@ -73,8 +73,8 @@ export function DriverProfile() {
   async function formSumbit(e) {
     e.preventDefault()
     try {
-      const responce = await profileUpdateDriver(data)
-      console.log(responce);
+      const response = await profileUpdateDriver(data)
+      console.log(response);
       setProfileFormVisible(false)
 
     } catch (error) {

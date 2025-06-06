@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userForgotPasswordAction, userLoginAction, userMeAction, userResetPasswordAction, userSignupAction } from "../actions/auth.action";
-import { bookRideAction, findRideAction, paymentAction, userAllRidesAction, userProfileAction, userProfileUpdateAction } from "../actions/user.action";
+import { bookRideAction, rideFindAction, paymentAction, AllUserRidesAction, userProfileAction, userProfileUpdateAction } from "../actions/user.action";
 
 const userSlice = createSlice({
     name: "userslice",
@@ -9,7 +9,7 @@ const userSlice = createSlice({
         userMessage:[],
         rideinformation:null,
         userPending:null,
-        userMessage:[],
+        // userMessage:[],
         userError:null
     },
     reducers: {
@@ -53,14 +53,14 @@ const userSlice = createSlice({
         state.userError=true
         state.userMessage = action.payload
       })
-      builder.addCase(findRideAction.pending,(state)=>{
+      builder.addCase(rideFindAction.pending,(state)=>{
         state.userPending =true
       }),
-      builder.addCase(findRideAction.fulfilled,(state,action)=>{
+      builder.addCase(rideFindAction.fulfilled,(state,action)=>{
         state.userPending =false
         state.userMessage = action.payload
       }),
-      builder.addCase(findRideAction.rejected,(state,action)=>{
+      builder.addCase(rideFindAction.rejected,(state,action)=>{
         state.userError=true
         state.userMessage = action.payload
       })

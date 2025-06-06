@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../libs/axios";
 
 export const userLoginAction = createAsyncThunk(
-  "user/login",
+  "/api/auth/user/login",
   async function (credentials, { rejectWithValue }) {
     try {
       const response = await api.post('/api/auth/user/login', credentials);
@@ -15,7 +15,7 @@ export const userLoginAction = createAsyncThunk(
 );
 
 export const userSignupAction = createAsyncThunk(
-  "user/signup",
+  "/api/auth/user/signup",
   async function (credentials, { rejectWithValue }) {
     try {
       const response = await api.post('/api/auth/user/signup', credentials);
@@ -29,7 +29,7 @@ export const userSignupAction = createAsyncThunk(
 );
 
 export const userMeAction = createAsyncThunk(
-  'user/me',
+  '/api/user/me',
   async function (_, { rejectWithValue }) {
     try {
       const response = await api.get('/api/user/me');
@@ -43,7 +43,7 @@ export const userMeAction = createAsyncThunk(
 );
 
 export const driverLoginAction = createAsyncThunk(
-  "driver/login",
+  "/api/auth/driver/login",
   async function (credentials, { rejectWithValue }) {
     try {
       const response = await api.post('/api/auth/driver/login', credentials)
@@ -57,11 +57,11 @@ export const driverLoginAction = createAsyncThunk(
 )
 
 export const DriverMeAction = createAsyncThunk(
-  "driver/me",
+  "/api/driver/me",
   async function (_, { rejectWithValue }) {
     try {
-      const responce = await api.get('/api/driver/me')
-      return responce.data
+      const response = await api.get('/api/driver/me')
+      return response.data
     } catch (error) {
       const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -71,16 +71,16 @@ export const DriverMeAction = createAsyncThunk(
 )
 
 export const driverSignupAction = createAsyncThunk(
-  "driver/signUp",
+  "/api/auth/driver/signup",
   async function (credentials, { rejectWithValue }) {
     try {
-      const responce = await api.post('/api/auth/driver/signup',credentials , {
+      const response = await api.post('/api/auth/driver/signup',credentials , {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
 
       })
-      return responce.data
+      return response.data
     } catch (error) {
       const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -90,11 +90,11 @@ export const driverSignupAction = createAsyncThunk(
 )
 
 export const driverForgotPasswordAction = createAsyncThunk(
-  "driver/forgotpassword",
+  "/api/auth/driver/forgot-password",
   async function (credentials, { rejectWithValue }) {
     try {
-      const responce = await api.put('/api/auth/driver/forgot-password',credentials )
-      return responce.data
+      const response = await api.put('/api/auth/driver/forgot-password',credentials )
+      return response.data
     } catch (error) {
       const message =
         error.response?.data?.msg || 'Failed to reset password';
@@ -104,11 +104,11 @@ export const driverForgotPasswordAction = createAsyncThunk(
 )
 
 export const driverResetPasswordAction = createAsyncThunk(
-  "driver/resetPassword",
+  "/api/auth/driver/change-password",
   async function (credentials, { rejectWithValue }) {
     try {
-      const responce = await api.put('/api/auth/driver/change-password',credentials )
-      return responce.data
+      const response = await api.put('/api/auth/driver/change-password',credentials )
+      return response.data
     } catch (error) {
       const message =
         error.response?.data?.msg || 'Failed to reset password';
@@ -119,11 +119,11 @@ export const driverResetPasswordAction = createAsyncThunk(
 
 
 export const userForgotPasswordAction = createAsyncThunk(
-  "user/ForgotPassword",
+  "/api/auth/user/forgot-password",
   async function (credentials, { rejectWithValue }) {
     try {
-      const responce = await api.put('/api/auth/user/forgot-password',credentials )
-      return responce.data
+      const response = await api.put('/api/auth/user/forgot-password',credentials )
+      return response.data
     } catch (error) {
       const message =
         error.response?.data?.msg || 'Failed to reset password';
@@ -133,11 +133,11 @@ export const userForgotPasswordAction = createAsyncThunk(
 )
 
 export const userResetPasswordAction = createAsyncThunk(
-  "user/ResetPassword",
+  "/api/auth/user/change-password",
   async function (credentials, { rejectWithValue }) {
     try {
-      const responce = await api.put('/api/auth/user/change-password',credentials )
-      return responce.data
+      const response = await api.put('/api/auth/user/change-password',credentials )
+      return response.data
     } catch (error) {
       const message =
         error.response?.data?.msg || 'Failed to reset password';

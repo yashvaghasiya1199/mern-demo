@@ -21,7 +21,7 @@ export function Current(){
 
         try {
             const response = await userReview(data)
-            console.log(response);
+            console.log(response.payload);
 
         } catch (error) {
             console.log(error);

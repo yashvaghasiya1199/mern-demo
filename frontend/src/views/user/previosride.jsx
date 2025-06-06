@@ -10,8 +10,8 @@ export function PreviousRides(){
     async function myinfo() {
       try {
         const response = await userAllRide();
-        console.log(response.rides);
-        setRideData(response.rides);
+        console.log(response.payload.rides);
+        setRideData(response.payload.rides);
       } catch (error) {
         console.error("Error fetching rides:", error);
       }

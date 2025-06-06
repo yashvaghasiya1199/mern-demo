@@ -14,7 +14,7 @@ async function addVehicle(req, res) {
   }
 
   if (type !== 'car' && type !== 'bike') {
-    return res.json({ msg: "vehicle must be car or bike" ,error:true});
+    return res.status(401).json({ msg: "vehicle must be car or bike" ,error:true});
   }
 
   const driverId = driverIdFromRequest(req,res)

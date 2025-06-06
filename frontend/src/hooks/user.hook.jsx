@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import {  bookRideAction, findRideAction, paymentAction, userAllRidesAction, userProfileAction, userProfileUpdateAction, userReviewAction } from "../store/actions/user.action";
+import {  bookRideAction, rideFindAction, paymentAction, AllUserRidesAction, userProfileAction, userProfileUpdateAction, userReviewAction } from "../store/actions/user.action";
 import { clearUserData } from "../store/redusers/user.reduser";
 
 export function useUserHooks(){
@@ -9,25 +9,25 @@ export function useUserHooks(){
     const dispatch = useDispatch()
 
       async function findRide(body) {
-            return await dispatch(findRideAction(body)).unwrap();
+            return await dispatch(rideFindAction(body));
         }
         async function bookRide(body) {
             return await dispatch(bookRideAction(body)).unwrap();
         }
         async function payment(body) {
-            return await dispatch(paymentAction(body)).unwrap();
+            return await dispatch(paymentAction(body));
         }
         async function userAllRide() {
-            return await dispatch(userAllRidesAction()).unwrap();
+            return await dispatch(AllUserRidesAction());
         }
         async function userProfile() {
-            return await dispatch(userProfileAction()).unwrap();
+            return await dispatch(userProfileAction());
         }
         async function userProfileUpdate(body) {
-            return await dispatch(userProfileUpdateAction(body)).unwrap();
+            return await dispatch(userProfileUpdateAction(body))
         }
         async function userReview(body) {
-            return await dispatch(userReviewAction(body)).unwrap();
+            return await dispatch(userReviewAction(body));
         }
         async function userClear() {
             return await dispatch(clearUserData())

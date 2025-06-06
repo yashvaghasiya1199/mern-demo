@@ -24,6 +24,8 @@ import { UserProfilePage } from "../pages/userpages/userprofile";
 import { UserForgotPassword, } from "../views/auth";
 import { ErrorPage } from "../componets/errorpage";
 import { UserProtectionPage } from "../pages/userpages/userprotected";
+import { DriverProtectedRoute } from "./DriverProtectedRoute";
+import { DriverAuthProvider } from "../context/DriverAuthContext";
 
 export const routes = createBrowserRouter([
 
@@ -119,9 +121,13 @@ export const routes = createBrowserRouter([
       },
       {
         path: '/driveradmin',
-        element: <DriverProtectionPage>
-          <DriverAdmin />
-        </DriverProtectionPage>,
+        element: (
+          <DriverAuthProvider>
+            <DriverProtectedRoute>
+              <DriverAdmin />
+            </DriverProtectedRoute>
+          </DriverAuthProvider>
+        ),
         children: [
           {
             index: true,
@@ -143,7 +149,6 @@ export const routes = createBrowserRouter([
       },
 
     ]
-
   }, {
     path: "*",
     element: <ErrorPage />,

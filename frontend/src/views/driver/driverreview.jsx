@@ -13,7 +13,9 @@ export function Reviews(){
         async function getReviews() {
             try {
                 const response = await getDriverReview()
-                setReviews(response.reviews)
+                setReviews(response.payload.reviews)
+                console.log("erer");
+                
                 
             } catch (err) {
                 console.error("Error fetching reviews", err);

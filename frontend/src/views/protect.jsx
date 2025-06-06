@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { errorToast } from '../componets/toast';
 import { useDriverHooks } from '../hooks/driver.hook';
 import { useUserHooks } from '../hooks/user.hook';
@@ -10,7 +10,7 @@ export function DriverProtection({ children }) {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const { driverMe } = useAuthHook();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     async function validateDriver() {
@@ -38,10 +38,9 @@ export function DriverProtection({ children }) {
     }
 
     validateDriver();
-  }, [driverMe, navigate]);
+  }, [driverMe]);
 
   if (loading) return <div>Loading ...</div>;
-
   if (!authenticated) return <Navigate to="/driver/login" replace />;
 
   return children;

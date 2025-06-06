@@ -57,12 +57,12 @@ export function DriverSignup() {
     });
 
     try {
-      const responce = await signupDriver(newform)
-      console.log(responce);
+      const response = await signupDriver(newform)
+      console.log(response);
 
 
-      if (!responce.error) {
-        successToast(responce.msg)
+      if (!response.error) {
+        successToast(response.msg)
 
         setTimeout(() => {
           navigate("/driver/login")
@@ -563,8 +563,8 @@ export function UserSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const responce = await signupUser(signUp)
-      if (!responce.error) {
+      const response = await signupUser(signUp)
+      if (!response.error) {
         successToast("ok")
         navigate("/")
       }

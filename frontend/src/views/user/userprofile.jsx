@@ -12,8 +12,7 @@ export function UserProfile() {
 
     async function getUserData() {
         const data = await userProfile()
-        console.log(data.msg);
-        setData(data.msg)
+        setData(data.payload.msg)
     }
 
     function handelChange(e) {
@@ -27,12 +26,11 @@ export function UserProfile() {
     async function formSumit(e) {
         e.preventDefault()
         try {
-            const responce = await userProfileUpdate(data)
-            console.log(responce);
+            const response = await userProfileUpdate(data)
             setIsUpdate(false)
             successToast("profile update succesfully")
-            if (responce.error) {
-                errorToast(responce.msg)
+            if (response.payload.error) {
+                errorToast(response.msg)
             }
 
         } catch (error) {

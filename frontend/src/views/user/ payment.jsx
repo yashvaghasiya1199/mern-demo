@@ -35,13 +35,13 @@ export function Payments(){
     
         try {
             const response = await payment(data)
-            if(response){
+            if(response.payload){
                 successToast("payment successfully your ride is booked")
                 navigate("/payment/complated")
     
             }
             console.log(response);
-            if(response.error){
+            if(response.payload.error){
                 // errorToast(response.msg)    
             }
             

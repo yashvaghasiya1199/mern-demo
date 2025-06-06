@@ -2,11 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../libs/axios";
 
 export const addLocationAction = createAsyncThunk(
-    'driver/location',
+    '/api/driver/addlocation',
     async function (credentials,{rejectWithValue}) {
         try {
-            const responce = await api.post('/api/driver/addlocation', credentials)
-            return responce.data
+            const response = await api.post('/api/driver/addlocation', credentials)
+            return response.data
         } catch (error) {
             const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -16,12 +16,12 @@ export const addLocationAction = createAsyncThunk(
     }
 )
 
-export const getDriverLocations = createAsyncThunk(
-    'driver/getLocation',
+export const getDriverLocationsAction = createAsyncThunk(
+    '/api/driver/alllocation',
     async function (_,{rejectWithValue}) {
         try {
-            const responce = await api.get('/api/driver/alllocation')
-            return responce.data
+            const response = await api.get('/api/driver/alllocation')
+            return response.data
         } catch (error) {
             const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -31,12 +31,12 @@ export const getDriverLocations = createAsyncThunk(
     }
 )
 
-export const deleteDriverLocation = createAsyncThunk(
-    'driver/DeleteLocation',
+export const deleteDriverLocationAction = createAsyncThunk(
+    '/api/driver/delete/location/',
     async function (credentials,{rejectWithValue}) {
         try {
-            const responce = await api.delete(`/api/driver/delete/location/${credentials}` )
-            return responce.data
+            const response = await api.delete(`/api/driver/delete/location/${credentials}` )
+            return response.data
         } catch (error) {
             const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -46,12 +46,12 @@ export const deleteDriverLocation = createAsyncThunk(
     }
 )
 
-export const getDriverReviews = createAsyncThunk(
-    'driver/review',
+export const getDriverReviewsAction = createAsyncThunk(
+    '/api/driver/allreview',
     async function (_,{rejectWithValue}) {
         try {
-            const responce = await api.get('/api/driver/allreview' )
-            return responce.data
+            const response = await api.get('/api/driver/allreview' )
+            return response.data
         } catch (error) {
             const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -61,12 +61,12 @@ export const getDriverReviews = createAsyncThunk(
     }
 )
 
-export const driverGetVehiclesAction = createAsyncThunk(
-    'driver/getVehicles',
+export const getVehicleAction = createAsyncThunk(
+    '/api/vehicle/alldata',
     async function (_,{rejectWithValue}) {
         try {
-            const responce = await api.get('/api/vehicle/alldata')
-            return responce.data
+            const response = await api.get('/api/vehicle/alldata')
+            return response.data
         } catch (error) {
             const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -76,12 +76,12 @@ export const driverGetVehiclesAction = createAsyncThunk(
     }
 )
 
-export const driverAddVehiclesAction = createAsyncThunk(
-    'driver/addVehicles',
+export const addVehicleAction = createAsyncThunk(
+    '/api/vehicle/addvehicle',
     async function (credentials,{rejectWithValue}) {
         try {
-            const responce = await api.post('/api/vehicle/addvehicle', credentials )
-            return responce.data
+            const response = await api.post('/api/vehicle/addvehicle', credentials )
+            return response.data
         } catch (error) {
             const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -91,12 +91,12 @@ export const driverAddVehiclesAction = createAsyncThunk(
     }
 )
 
-export const driverDeleteVehiclesAction = createAsyncThunk(
-    'driver/deleteVehicles',
+export const deleteVehiclesAction = createAsyncThunk(
+    '/api/vehicle/delete',
     async function (id,{rejectWithValue}) {
         try {
-            const responce = await api.delete(`/api/vehicle/delete/${id}` )
-            return responce.data
+            const response = await api.delete(`/api/vehicle/delete/${id}` )
+            return response.data
         } catch (error) {
             const message =
         error.response?.data?.msg || 'Failed to fetch user details';
@@ -106,8 +106,8 @@ export const driverDeleteVehiclesAction = createAsyncThunk(
     }
 )
 
-export const driverUpdateVehiclesAction = createAsyncThunk(
-    'driver/updateVehicles',
+export const updateVehicleAction = createAsyncThunk(
+    '/api/vehicle/updatevehicle/',
     async ({ id, credentials }, { rejectWithValue }) => {
         try {
             const response = await api.put(`/api/vehicle/updatevehicle/${id}`, credentials);
@@ -120,7 +120,7 @@ export const driverUpdateVehiclesAction = createAsyncThunk(
 );
 
 export const driverMeAction = createAsyncThunk(
-    'driver/Mes',
+    '/api/driver/me/d',
     async (_, { rejectWithValue }) => {
         try {
             const response = await api.get('/api/driver/me');
@@ -132,8 +132,8 @@ export const driverMeAction = createAsyncThunk(
     }
 );
 
-export const driverImageUpdateAction = createAsyncThunk(
-    'driver/ImageUpdate',
+export const imageUpdateAction = createAsyncThunk(
+    '/api/driver/profile-image',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.put('/api/driver/profile-image', credentials,{
@@ -149,8 +149,8 @@ export const driverImageUpdateAction = createAsyncThunk(
     }
 );
 
-export const driverProfileUpdateAction = createAsyncThunk(
-    'driver/profileUpdate',
+export const profileUpdateDriverAction = createAsyncThunk(
+    '/api/driver/profile',
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.put('/api/driver/profile', credentials);

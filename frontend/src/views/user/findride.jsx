@@ -30,7 +30,9 @@ export function FindRide() {
 
         try {
             const response = await findRide(data)
-            setNearRide(response.drivers);
+            console.log(response.payload);
+            
+            setNearRide(response.payload.drivers);
         } catch (error) {
             if (error.response) {
                 errorToast(error.response.data.errors[0])

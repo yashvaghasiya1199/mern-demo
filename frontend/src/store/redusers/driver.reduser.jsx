@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { driverForgotPasswordAction, driverLoginAction,driverResetPasswordAction,driverSignupAction } from "../actions/auth.action";
-import {  addLocationAction, driverAddVehiclesAction, driverDeleteVehiclesAction, driverMeAction, driverUpdateVehiclesAction } from "../actions/driver.action";
+import {  addLocationAction, addVehicleAction, deleteVehiclesAction, driverMeAction, updateVehicleAction } from "../actions/driver.action";
 
 const driverSlice = createSlice({
     name:"driver",
@@ -64,38 +64,38 @@ const driverSlice = createSlice({
             state.message=action.payload
             state.isPending = false
         })       
-        builder.addCase(driverAddVehiclesAction.pending,(state)=>{
+        builder.addCase(addVehicleAction.pending,(state)=>{
             state.isPending=true
         })
-        builder.addCase(driverAddVehiclesAction.fulfilled,(state,action)=>{
+        builder.addCase(addVehicleAction.fulfilled,(state,action)=>{
             state.isPending = false
             state.message = action.payload
         })
-        builder.addCase(driverAddVehiclesAction.rejected,(state,action)=>{
+        builder.addCase(addVehicleAction.rejected,(state,action)=>{
             state.isPending = false
             state.isError = true
             state.message = action.payload
         })
-        builder.addCase(driverDeleteVehiclesAction.pending,(state)=>{
+        builder.addCase(deleteVehiclesAction.pending,(state)=>{
             state.isPending=true
         })
-        builder.addCase(driverDeleteVehiclesAction.fulfilled,(state,action)=>{
+        builder.addCase(deleteVehiclesAction.fulfilled,(state,action)=>{
             state.isPending = false
             state.message = action.payload
         })
-        builder.addCase(driverDeleteVehiclesAction.rejected,(state,action)=>{
+        builder.addCase(deleteVehiclesAction.rejected,(state,action)=>{
             state.isError = true
             state.message = action.payload
             state.isPending = false
         })
-        builder.addCase(driverUpdateVehiclesAction.pending,(state)=>{
+        builder.addCase(updateVehicleAction.pending,(state)=>{
             state.isPending=true
         })
-        builder.addCase(driverUpdateVehiclesAction.fulfilled,(state,action)=>{
+        builder.addCase(updateVehicleAction.fulfilled,(state,action)=>{
             state.isPending = false
             state.message = action.payload
         })
-        builder.addCase(driverUpdateVehiclesAction.rejected,(state,action)=>{
+        builder.addCase(updateVehicleAction.rejected,(state,action)=>{
             state.isError = true
             state.message = action.payload
             state.isPending = false
