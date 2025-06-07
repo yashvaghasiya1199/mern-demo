@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { errorToast, successToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
 import '../../assets/css/driveradmin.css'
-import { useDriverHooks } from "../../hooks/driver.hook"
+import { useDriverHooks } from "../../hooks/usedriver"
 import { CircularIndeterminate } from "../../componets/loadder"
 import { MdDelete, MdEditSquare } from "react-icons/md"
 import { ErrorNote } from "../../componets/common/errornote"

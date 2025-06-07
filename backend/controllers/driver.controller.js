@@ -23,7 +23,7 @@ async function driverProfilUpdate(req, res) {
     const driverId = driverIdFromRequest(req, res)
 
     if (!driverId) {
-        return res.json({ msg: "driver id is not enter ", error: true })
+        return res.status(401).json({ msg: "driver id is not enter ", error: true })
     }
 
     // const { first_name, last_name, email, profile, phone } = req.body
@@ -38,13 +38,13 @@ async function driverProfilUpdate(req, res) {
 
 
     if (!first_name && !last_name && !email && !profile && !phone && !file) {
-        return res.json({ msg: "no fild for update atleast enter one fild for update", error: true })
+        return res.status(401).json({ msg: "no fild for update atleast enter one fild for update", error: true })
     }
 
     let driver = await drivers.findOne({ where: { id: driverId } })
 
     if (!driver) {
-        return res.json({ msg: "driver id not found", error: true })
+        return res.status(401).json({ msg: "driver id not found", error: true })
     }
 
     let updatedriver = await driver.update({

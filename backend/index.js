@@ -1,10 +1,10 @@
-const express      = require("express");
-const sequelize    = require("./config/db");
+const express = require("express");
+const sequelize = require("./config/db");
 const cookieparser = require("cookie-parser")
-const app          = express()
-const fileUpload   = require("express-fileupload")
+const app = express()
+const fileUpload = require("express-fileupload")
 const cors = require("cors")
-const port =8011
+const port = 8011
 require("dotenv").config()
 const db = require("./config/associate")
 
@@ -17,23 +17,23 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // app.options('*', cors(corsOptions));
 
-const userRoute    = require("./routes/user.route")
-const driverRoute  = require("./routes/driver.route")
+const userRoute = require("./routes/user.route")
+const driverRoute = require("./routes/driver.route")
 const vehicleRoute = require("./routes/vehicle.route")
-const rideRoute    = require("./routes/ride.route")
-const reviewRoute  = require("./routes/review.route")
+const rideRoute = require("./routes/ride.route")
+const reviewRoute = require("./routes/review.route")
 const paymentRoute = require("./routes/payment.route")
-const authRoute    = require("./routes/auth.route")
+const authRoute = require("./routes/auth.route")
 
 // middelwere 
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 const { driverAuth } = require("./middelweres/driverauth");
 const { userAuth } = require("./middelweres/userauth");
 app.use(cookieparser())
 app.use(fileUpload({
   useTempFiles: true,
-  tempFileDir: '/tmp/', 
+  tempFileDir: '/tmp/',
 }));
 
 
@@ -46,40 +46,74 @@ app.use(fileUpload({
 // }));
 
 const startServer = async () => {
-    try {
-      await sequelize.authenticate
+  try {
+    await sequelize.authenticate
       ();
-      console.log("Database connected successfully.");
-      sequelize.sync({ alter: false }) 
+    console.log("Database connected successfully.");
+    sequelize.sync({ alter: false })
       .then(() => console.log("DB synced"))
       .catch(err => console.error("Sync failed:", err))
-    } catch (error) {
-      console.error(" Unable to connect to the database:", error);
-    }
-  };
-  
-  startServer();
+  } catch (error) {
+    console.error(" Unable to connect to the database:", error);
+  }
+};
 
-  
-
-  //  route
-  app.use("/api/auth" , authRoute)
-
-  app.use("/api/user" ,userAuth, userRoute)
-
-  app.use("/api/driver" ,driverAuth, driverRoute)
-
-  app.use("/api/vehicle" , driverAuth , vehicleRoute )
-
-  app.use("/api/ride" ,  userAuth ,rideRoute)
-
-  app.use("/api/review" , userAuth , reviewRoute)
-  
-  app.use("/api/payment" ,userAuth, paymentRoute)
+startServer();
 
 
 
-app.listen(port,()=>console.log(`run on ${port}`))
+//  route
+app.use("/api/auth", authRoute)
+
+app.use("/api/user", userAuth, userRoute)
+
+app.use("/api/driver", driverAuth, driverRoute)
+
+app.use("/api/vehicle", driverAuth, vehicleRoute)
+
+app.use("/api/ride", userAuth, rideRoute)
+
+app.use("/api/review", userAuth, reviewRoute)
+
+app.use("/api/payment", userAuth, paymentRoute)
+
+const jwt = require('jsonwebtoken')
+
+const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key"
+
+app.get('/user/auth/verify', (req, res) => {
+  const token = req.cookies.usertoken
+
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" })
+  }
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY)
+    return res.json({ user: decoded })
+
+  } catch (err) {
+    console.log(err);
+    return res.status(401).json({ error: "Invalid token" })
+  }
+})
+
+app.get('/driver/auth/verify', (req, res) => {
+  const token = req.cookies.drivertoken
+
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" })
+  }
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY)
+    return res.json({ driver: decoded })
+
+  } catch (err) {
+    console.log(err);
+    return res.status(401).json({ error: "Invalid token" })
+  }
+})
+
+app.listen(port, () => console.log(`run on ${port}`))
 
 
 

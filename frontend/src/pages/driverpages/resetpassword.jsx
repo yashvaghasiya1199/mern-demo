@@ -1,5 +1,5 @@
 import React from 'react';
-import { DriverResetPassword } from '../../views/auth';
+import { DriverResetPassword } from '../../views/auth/driver';
 
 export function DriverResetPasswordPage() {
 

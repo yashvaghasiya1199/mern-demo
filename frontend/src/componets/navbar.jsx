@@ -84,7 +84,7 @@ export function Navbar() {
         {isUserLogIn && (
           <>
             <li>
-              <NavLink to="/user/me">Profile</NavLink>
+              <NavLink to="/profile">Profile</NavLink>
             </li>
             <li>
               <NavLink onClick={logoutUser}>

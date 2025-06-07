@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserHooks } from "../../hooks/user.hook";
+import { useUserHooks } from "../../hooks/useuser.hook";
 import '../../assets/css/navbar.css'
 
 export function PreviousRides(){

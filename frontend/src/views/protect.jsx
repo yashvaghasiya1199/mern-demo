@@ -1,82 +1,69 @@
-import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { errorToast } from '../componets/toast';
-import { useDriverHooks } from '../hooks/driver.hook';
-import { useUserHooks } from '../hooks/user.hook';
-import { useAuthHook } from '../hooks/auth';
-
+import { useNavigate } from "react-router-dom"
+import { api } from "../libs/axios" 
+import { useEffect, useState } from "react"
 
 export function DriverProtection({ children }) {
-  const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-  const { driverMe } = useAuthHook();
-  // const navigate = useNavigate();
+    const navigate = useNavigate()
+    const [authChecked, setAuthChecked] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  useEffect(() => {
-    async function validateDriver() {
-      try {
-        const driver = await driverMe();
-        const documentUploaded = driver?.driverData?.document_uploaded;
-
-        // if (!documentUploaded) {
-        //   errorToast("Please upload driver document");
-        //   navigate('/driver/document');
-        //   return;
-        // }
-
-        if (driver && !driver.error && documentUploaded) {
-          setAuthenticated(true);
-        } else {
-          setAuthenticated(false);
+    useEffect(() => {
+        async function verifyAuth() {
+            try {
+                const response = await api.get("/driver/auth/verify") 
+                if (response.data?.driver) {
+                    setIsAuthenticated(true)
+                } else {
+                    navigate("/login")
+                }
+            } catch (error) {
+                console.warn("Auth failed:", error)
+                navigate("/driver/login")
+            } finally {
+                setAuthChecked(true)
+            }
         }
-      } catch (error) {
-        console.error("Error validating driver:", error);
-        setAuthenticated(false);
-      } finally {
-        setLoading(false);
-      }
+
+        verifyAuth()
+    }, [navigate])
+
+    if (!authChecked) {
+        return <div>Checking authentication...</div> 
     }
 
-    validateDriver();
-  }, [driverMe]);
-
-  if (loading) return <div>Loading ...</div>;
-  if (!authenticated) return <Navigate to="/driver/login" replace />;
-
-  return children;
+    return isAuthenticated ? children : null
 }
 
 
 
-
 export function UserProtection({ children }) {
-  const { userProfile } = useUserHooks();
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const navigate = useNavigate()
+    const [authChecked, setAuthChecked] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  useEffect(() => {
-    async function fetchUserInfo() {
-      try {
-        const response = await userProfile();
-        if (response && !response.error) {
-          setIsAuthenticated(true);  
-        } else {
-          setIsAuthenticated(false); 
+    useEffect(() => {
+        async function verifyAuth() {
+            try {
+                const response = await api.get("/user/auth/verify") 
+                if (response.data?.user) {
+                    setIsAuthenticated(true)
+                } else {
+                    navigate("/login")
+                }
+            } catch (error) {
+                console.warn("Auth failed:", error)
+                navigate("/user/login")
+            } finally {
+                setAuthChecked(true)
+            }
         }
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-        setIsAuthenticated(false);
-      } finally {
-        setLoading(false); 
-      }
+
+        verifyAuth()
+    }, [navigate])
+
+    if (!authChecked) {
+        return <div>Checking authentication...</div> // or loader
     }
 
-    fetchUserInfo();
-  }, [userProfile]);  
-
-  if (loading) return <h1>Loading...</h1>;
-
-  if (!isAuthenticated) return <Navigate to="/user/login" replace />;
-
-  return children; 
+    return isAuthenticated ? children : null
 }

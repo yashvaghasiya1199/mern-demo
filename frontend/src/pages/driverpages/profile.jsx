@@ -1,4 +1,4 @@
-import { DriverProfile } from '../../views/driver/driverprofile';
+import { DriverProfile } from '../../views/driver/profile';
 
 export function DriverProfilePage() {
   return (

@@ -59,6 +59,10 @@ async function allPayment(req,res){
 
     const allPaymentofUser = await payments.findAll({ where: { user_id: userId } });
 
+    if(!allPaymentofUser){
+        return res.status(401).json({msg:"data not found"})
+    }
+
     return res.json({allPaymentofUser,error:false})
 
 }
@@ -69,7 +73,7 @@ async function myProfile(req,res){
     const finduser = await Users.findOne({where:{user_id:userId}})
 
     if(!finduser){
-        return res.json({msg:"user not found" , error:true })
+        return res.status(401).json({msg:"user not found" , error:true })
     }
      let jwtCreate = jwtTokenCreate({userid:finduser.user_id})
      res.cookie("userid",jwtCreate)

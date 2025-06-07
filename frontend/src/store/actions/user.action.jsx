@@ -3,97 +3,90 @@ import { api } from "../../libs/axios";
 
 export const rideFindAction = createAsyncThunk(
     '/api/ride/findride',
-    async (credentials, { rejectWithValue }) => {
+    async (credentials, { fulfillWithValue,rejectWithValue }) => {
         try {
             const response = await api.post('/api/ride/findride', credentials);
-            return response.data;
+            return fulfillWithValue (response?.data)
         } catch (error) {
-            const message = error.response?.data?.msg || 'Failed to find ride';
-            return rejectWithValue({ error: true, msg: message });
+             return rejectWithValue(error.response?.data.msg|| "falid to find ride");
         }
     }
 );
 
 export const bookRideAction = createAsyncThunk(
     '/api/ride/create',
-    async (credentials, { rejectWithValue }) => {
+    async (credentials, { fulfillWithValue,rejectWithValue }) => {
         try {
             const response = await api.post('/api/ride/create', credentials);
-            return response.data;
+            return fulfillWithValue (response?.data)
         } catch (error) {
-            const message = error.response?.data?.msg || 'Failed to book ride';
-            return rejectWithValue({ error: true, msg: message });
+             return rejectWithValue(error.response?.data.msg|| "falid to bokking ride");
         }
     }
 );
 
 export const paymentAction = createAsyncThunk(
     '/api/payment/pay/',
-    async (credentials, { rejectWithValue }) => {
+    async (credentials, { fulfillWithValue,rejectWithValue }) => {
         console.log(credentials);
         
         try {
             const response = await api.post(`/api/payment/pay/${credentials.ride_id}`, credentials);
-            return response.data;
+            return fulfillWithValue (response?.data)
         } catch (error) {
-            const message = error.response?.data?.msg || 'Failed to payment';
-            return rejectWithValue({ error: true, msg: message });
+             return rejectWithValue(error.response?.data.msg|| "falid to payment");
         }
     }
 );
 
 export const AllUserRidesAction = createAsyncThunk(
     '/api/ride/userallride',
-    async (_, { rejectWithValue }) => {
+    async (_, { fulfillWithValue,rejectWithValue }) => {
         
         try {
             const response = await api.get(`/api/ride/userallride`);
-            return response.data;
+            return fulfillWithValue (response?.data)
         } catch (error) {
-            const message = error.response?.data?.msg || 'Failed to fetch all rides';
-            return rejectWithValue({ error: true, msg: message });
+             return rejectWithValue(error.response?.data.msg|| "falid to fetch Rides");
         }
     }
 );
 
 export const userProfileAction = createAsyncThunk(
     '/api/user/me',
-    async (_, { rejectWithValue }) => {
+    async (_, { fulfillWithValue,rejectWithValue }) => {
         
         try {
             const response = await api.get(`/api/user/me`);
-            return response.data;
+            return fulfillWithValue (response?.data)
         } catch (error) {
-            const message = error.response?.data?.msg || 'Failed to fetch user data';
-            return rejectWithValue({ error: true, msg: message });
+             return rejectWithValue(error.response?.data.msg|| "falid to fetch profile");
         }
     }
 );
 
 export const userProfileUpdateAction = createAsyncThunk(
     '/api/user/profile',
-    async (credentials, { rejectWithValue }) => {
+    async (credentials, { fulfillWithValue,rejectWithValue }) => {
         
         try {
             const response = await api.put(`/api/user/profile`,credentials);
-            return response.data;
+            return fulfillWithValue (response?.data)
         } catch (error) {
-            const message = error.response?.data?.msg || 'Failed to fetch user data';
-            return rejectWithValue({ error: true, msg: message });
+             return rejectWithValue(error.response?.data.msg|| "falid to update profile");
         }
     }
 );
 
 export const userReviewAction = createAsyncThunk(
     '/api/review/postreview',
-    async (credentials, { rejectWithValue }) => {
+    async (credentials, { fulfillWithValue,rejectWithValue }) => {
         
         try {
             const response = await api.post(`/api/review/postreview`,credentials);
-            return response.data;
+            return fulfillWithValue (response?.data)
         } catch (error) {
-            const message = error.response?.data?.msg || 'Failed to fetch user data';
-            return rejectWithValue({ error: true, msg: message });
+             return rejectWithValue(error.response?.data.msg|| "falid to post reviews");
         }
     }
 );

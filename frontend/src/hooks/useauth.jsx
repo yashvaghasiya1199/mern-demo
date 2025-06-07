@@ -40,13 +40,13 @@ export function useAuthHook(){
         return await dispatch(driverForgotPasswordAction(body))
     }
     async function resetPasswordDriver(body) {
-        return await dispatch(driverResetPasswordAction(body)).unwrap()
+        return await dispatch(driverResetPasswordAction(body))
     }
     async function forgotPasswordUser(body) {
-        return await dispatch(userForgotPasswordAction(body)).unwrap()
+        return await dispatch(userForgotPasswordAction(body))
     }
     async function resetPasswordUser(body) {
-        return await dispatch(userResetPasswordAction(body)).unwrap()
+        return await dispatch(userResetPasswordAction(body))
     }
     
 

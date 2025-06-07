@@ -6,7 +6,7 @@ const userSlice = createSlice({
     name: "userslice",
     initialState: {
         userLogin:false,
-        userMessage:[],
+        userMessage:null,
         rideinformation:null,
         userPending:null,
         // userMessage:[],
@@ -50,6 +50,7 @@ const userSlice = createSlice({
         state.userMessage = action.payload
       }),
       builder.addCase(userSignupAction.rejected,(state,action)=>{
+        state.userPending=false
         state.userError=true
         state.userMessage = action.payload
       })
@@ -72,6 +73,7 @@ const userSlice = createSlice({
         state.userMessage = action.payload
       }),
       builder.addCase(bookRideAction.rejected,(state,action)=>{
+        state.userPending = false
         state.userError=true
         state.userMessage = action.payload
       })

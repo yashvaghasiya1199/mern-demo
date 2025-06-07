@@ -2,20 +2,22 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { errorToast } from "../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import { useUserHooks } from "../../hooks/user.hook"
+import { useUserHooks } from "../../hooks/useuser.hook"
 import { CircularIndeterminate } from "../../componets/loadder"
+import { ErrorNote } from "../../componets/common/errornote"
 
 
 export function FindRide() {
 
     const { userPending, findRide } = useUserHooks()
+    const [nearRide, setNearRide] = useState([])
+    const [isError,setIsError] = useState(false)
+    const navigate = useNavigate()
 
     const [data, setData] = useState({
         pickup_latitude: "",
         pickup_longitude: ""
     })
-    const [nearRide, setNearRide] = useState([])
-    const navigate = useNavigate()
 
     function formHandel(e) {
         const { name, value } = e.target
@@ -27,15 +29,20 @@ export function FindRide() {
 
     async function formSumbit(e) {
         e.preventDefault();
+        if(data.pickup_latitude === data.pickup_longitude){
+            setIsError(true)
+        }
 
         try {
             const response = await findRide(data)
             console.log(response.payload);
-            
+            if(response.payload.error){
+                return errorToast(response.payload.msg) 
+            }
             setNearRide(response.payload.drivers);
         } catch (error) {
             if (error.response) {
-                errorToast(error.response.data.errors[0])
+               return errorToast(error.response.data.errors[0])
             } else {
                 console.error("Unexpected error:", error);
             }
@@ -43,9 +50,12 @@ export function FindRide() {
     }
 
 
-    function ridebook(e) {
+    function ridebook(e,data) {
+        console.log(e);
+        console.log(data)
         // dispatch(ridedata(e))
         localStorage.setItem('rideinformation', JSON.stringify(e))
+        localStorage.setItem('location', JSON.stringify(data))
         navigate('/bookride')
     }
 
@@ -54,7 +64,7 @@ export function FindRide() {
         <div className="location-form-container">
             <form className="location-form" onSubmit={formSumbit} >
                 <h2>Find Ride</h2>
-
+        {isError && <ErrorNote data="longitude and latitude does not equal"/>}
                 <label htmlFor="longitude">pickup_latitude</label>
                 <input
                     type="text"
@@ -111,7 +121,7 @@ export function FindRide() {
                                     <td>{vehicle.model}</td>
                                     <td>{driverItem.Driver.phone}</td>
                                     <td>
-                                        <button onClick={() => ridebook(vehicle)}>
+                                        <button onClick={() => ridebook(vehicle,data)}>
                                             Book
                                         </button>
                                     </td>

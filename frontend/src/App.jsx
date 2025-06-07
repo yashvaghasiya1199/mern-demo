@@ -1,28 +1,30 @@
-import { useDispatch } from "react-redux"
 import { routes } from "./routes"
-import { useEffect } from "react"
 import Cookies from 'js-cookie'
-import { userlogin } from "./store/redusers/user.reduser"
 import { RouterProvider } from "react-router-dom"
-import { driverLogins } from "./store/redusers/driver.reduser"
+import { Cookieprovider } from "./context/cokiecontext";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { userlogin } from "./store/redusers/user.reduser";
+import { driverLogins } from "./store/redusers/driver.reduser";
 
 function App() {
 
-
   const dispatch = useDispatch()
-  useEffect(() => {
-    const token = Cookies.get('usertoken')
-    const driverToken = Cookies.get('drivertoken')
-    if (token) {
-      dispatch(userlogin())
-    }
-    if(driverToken){
-      dispatch(driverLogins())
-    }
+    useEffect(() => {
+      const token = Cookies.get('usertoken')
+      const driverToken = Cookies.get('drivertoken')
+      if (token) {
+        dispatch(userlogin())
+      }
+      if(driverToken){
+        dispatch(driverLogins())
+      }
+    }, [])
 
-  }, [])
   return <>
-    <RouterProvider router={routes} />
+    <Cookieprovider>
+      <RouterProvider router={routes} />
+    </Cookieprovider>
   </>
 }
 export default App

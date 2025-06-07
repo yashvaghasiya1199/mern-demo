@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../assets/css/payment.css'
-import { useUserHooks } from '../../hooks/user.hook';
+import { useUserHooks } from '../../hooks/useuser.hook';
 import { errorToast, successToast } from '../../componets/toast';
 import { ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -41,10 +41,6 @@ export function Payments(){
     
             }
             console.log(response);
-            if(response.payload.error){
-                // errorToast(response.msg)    
-            }
-            
         } catch (error) {
             console.log(error);
             errorToast(error.msg)

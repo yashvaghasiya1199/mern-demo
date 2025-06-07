@@ -5,11 +5,15 @@ import { Map } from "./common/map"
 
 export function Hero() {
     const isDriverLogin = useSelector(state => state.driverLogin.driverLogin)
+    const isUserLogin = useSelector(state => state.userlogin)
+    
 
     if (isDriverLogin) {
         return <Navigate to="/driveradmin" />
     }
-
+    // if(isUserLogin){
+    //     return <Navigate to="/profile"/>
+    // }
     return (
         <div className="main">
             <div className="left">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import '../../assets/css/driveradmin.css'
 import { errorToast, successToast } from "../../componets/toast";
 import { ToastContainer } from "react-toastify";
-import { useDriverHooks } from "../../hooks/driver.hook";
+import { useDriverHooks } from "../../hooks/usedriver";
 import { CircularIndeterminate } from "../../componets/loadder";
 import { MdDelete } from "react-icons/md";
 import { ErrorNote } from "../../componets/common/errornote";
@@ -61,16 +61,7 @@ export function DriverLocation(){
         <form className="location-form" onSubmit={handleSubmit}>
           <h2>Driver Location</h2>
           {/* {isError && <ErrorNote data={"falied to add location"}/>} */}
-          <label htmlFor="longitude">Longitude</label>
-          <input
-            type="text"
-            id="longitude"
-            name="longitude"
-            value={longitude}
-            onChange={(e) => setLongitude(e.target.value)}
-            placeholder="Enter longitude"
-            required
-          />
+          
 
           <label htmlFor="latitude">Latitude</label>
           <input
@@ -80,6 +71,16 @@ export function DriverLocation(){
             value={latitude}
             onChange={(e) => setLatitude(e.target.value)}
             placeholder="Enter latitude"
+            required
+          />
+          <label htmlFor="longitude">Longitude</label>
+           <input
+            type="text"
+            id="longitude"
+            name="longitude"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+            placeholder="Enter longitude"
             required
           />
 

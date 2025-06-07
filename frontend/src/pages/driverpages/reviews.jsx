@@ -1,4 +1,4 @@
-import { Reviews } from "../../views/driver/driverreview";
+import { Reviews } from "../../views/driver/review";
 
 export function ReviewsPage() {
     return <>

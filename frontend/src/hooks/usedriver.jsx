@@ -1,37 +1,35 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addVehicleAction, deleteVehiclesAction, getDriverReviewsAction, getVehicleAction, updateVehicleAction, driverMeAction, imageUpdateAction, profileUpdateDriverAction, getDriverLocationsAction, addLocationAction, deleteDriverLocationAction } from "../store/actions/driver.action";
+import { addVehicleAction,  deleteVehiclesAction, getDriverReviewsAction, getVehicleAction, updateVehicleAction, driverMeAction, imageUpdateAction, profileUpdateDriverAction, getDriverLocationsAction, addLocationAction, deleteDriverLocationAction  } from "../store/actions/driver.action";
 import { messageClear } from "../store/redusers/driver.reduser";
 
-export function useDriverHooks() {
+export function useDriverHooks(){
 
     const dispatch = useDispatch()
 
-    const { isPending, isError, message } = useSelector(state => state.driverLogin)
+    const {isPending,isError,message} = useSelector(state => state.driverLogin)
 
     async function locationDriver(body) {
         return await dispatch(addLocationAction(body))
     }
 
     async function getDriverLocation() {
-        const { payload } = await dispatch(getDriverLocationsAction())
-        console.log("payload>>>>>>>>>>>>>>>>>>>>>>", payload)
-        return payload
+        return await dispatch(getDriverLocationsAction())
     }
 
     async function deleteDriverLocation(body) {
         return await dispatch(deleteDriverLocationAction(body))
     }
-    async function getDriverReview() {
+    async function  getDriverReview() {
         return await dispatch(getDriverReviewsAction())
     }
 
-    async function getDriverVehicle() {
+    async function  getDriverVehicle() {
         return await dispatch(getVehicleAction())
     }
-    async function addVehicle(body) {
+    async function  addVehicle(body) {
         return await dispatch(addVehicleAction(body))
     }
-    async function deleteVehicle(body) {
+    async function  deleteVehicle(body) {
         return await dispatch(deleteVehiclesAction(body))
     }
 
@@ -44,16 +42,16 @@ export function useDriverHooks() {
     async function imageupdateDriver(body) {
         return await dispatch(imageUpdateAction(body))
     }
-    async function profileUpdateDriver(body) {
+    async function profileUpdateDriver(body) { 
         return await dispatch(profileUpdateDriverAction(body))
     }
-    async function clearData() {
+    async function clearData() { 
         return await dispatch(messageClear())
     }
+    
 
 
-
-    return {
+    return{
         locationDriver,
         getDriverLocation,
         deleteDriverLocation,
@@ -70,5 +68,5 @@ export function useDriverHooks() {
         isError,
         message
 
-    }
+}
 }

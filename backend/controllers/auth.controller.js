@@ -95,7 +95,7 @@ async function logIn(req, res) {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            return res.json({ msg: "Invalid password", error: true });
+            return res.status(401).json({ msg: "Invalid password", error: true });
         }
 
         const payload = { userid: user.user_id };
@@ -149,7 +149,7 @@ async function changePassword(req, res) {
     const otpFind = await Users.findOne({ where: { otp: otp } })
 
     if (!otpFind) {
-        return res.json({ msg: "invalid otp", error: true })
+        return res.status(401).json({ msg: "invalid otp", error: true })
     }
     const hasPsssword = await bcrypt.hash(newpassword, 10)
     const update = await Users.update(
@@ -201,7 +201,7 @@ async function driverSignup(req, res) {
     const FindUserName = await drivers.findOne({ where: { username: username } })
 
     if (FindUserName) {
-        return res.json({ msg: "username already exists", error: true })
+        return res.status(400).json({ msg: "username already exists", error: true })
     }
 
     // if file > 1 mb then user can't upload image
@@ -232,7 +232,7 @@ async function driverSignup(req, res) {
 
     const existingDriver = await findDriverUsernameandEmail(email);
     if (existingDriver) {
-        return res.json({ msg: "Email or username already exists.", error: true });
+        return res.status(401).json({ msg: "Email or username already exists.", error: true });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10); // 10 salt rounds
@@ -287,12 +287,12 @@ async function driverSendOtp(req, res) {
 
     const { email, duplicate } = req.body
     if (!email) {
-        return res.json.status(401)({ msg: "please enter email", error: true })
+        return res.status(401).json({ msg: "please enter email", error: true })
     }
 
     const findUser = await drivers.findOne({ where: { email: email } })
     if (!findUser) {
-        return res.json.status(401)({ msg: "please enter valid email", error: true })
+        return res.status(401).json({ msg: "please enter valid email", error: true })
     }
 
     let updated = await drivers.update(
@@ -314,7 +314,7 @@ async function driverChangePassword(req, res) {
     const otpFind = await drivers.findOne({ where: { otp: otp } })
 
     if (!otpFind) {
-        return res.json({ msg: "invalid otp", error: true })
+        return res.status(401).json({ msg: "invalid otp", error: true })
     }
     const hasPsssword = await bcrypt.hash(newpassword, 10)
     const update = await drivers.update(

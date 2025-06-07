@@ -1,31 +1,29 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AppLayout } from "../layout/applayout";
 import { Home } from "../pages/home";
-import { UserSignupPage } from "../pages/userpages/usersignup";
-import { UserLoginPage } from "../pages/userpages/userlogin";
+import { UserSignupPage } from "../pages/userpages/signup";
+import { UserLoginPage } from "../pages/userpages/login";
 import { UserResetPasswordPage } from "../pages/userpages/resetpassword";
 import { FindRidePage } from "../pages/userpages/findride";
 import { BookRidePage } from "../pages/userpages/bookride";
 import { PaymentsPage } from "../pages/userpages/payment";
-import { DriverSignupPage } from "../pages/driverpages/driversignup";
-import { DriverLoginPage } from "../pages/driverpages/driverlogin";
-import { DriverForgotPasswordpage } from "../pages/driverpages/driverforgotpassword";
-import { DriverResetPasswordPage } from "../pages/driverpages/driverresetpassword";
-import { DriverDocumentsPage } from "../pages/driverpages/driverdocument";
-import { DriverProtectionPage } from "../pages/driverpages/driverprotected";
+import { DriverSignupPage } from "../pages/driverpages/signup";
+import { DriverLoginPage } from "../pages/driverpages/login";
+import { DriverForgotPasswordpage } from "../pages/driverpages/forgotpassword";
+import { DriverResetPasswordPage } from "../pages/driverpages/resetpassword";
+import { DriverDocumentsPage } from "../pages/driverpages/document";
 import { DriverAdmin } from "../layout/driveradminpage";
-import { DriverLocationPage } from "../pages/driverpages/driverlocation";
-import { ReviewsPage } from "../pages/driverpages/driverreviews";
-import { DriverVehiclePage } from "../pages/driverpages/drivervehicle";
-import { DriverProfilePage } from "../pages/driverpages/driverprofile";
+import { DriverLocationPage } from "../pages/driverpages/location";
+import { ReviewsPage } from "../pages/driverpages/reviews";
+import { DriverVehiclePage } from "../pages/driverpages/vehicle";
+import { DriverProfilePage } from "../pages/driverpages/profile";
 import { CurrentPage } from "../pages/userpages/currentpage";
 import { PreviousRidesPages } from "../pages/userpages/previosride";
-import { UserProfilePage } from "../pages/userpages/userprofile";
-import { UserForgotPassword, } from "../views/auth";
+import { UserProfilePage } from "../pages/userpages/profile";
 import { ErrorPage } from "../componets/errorpage";
-import { UserProtectionPage } from "../pages/userpages/userprotected";
-import { DriverProtectedRoute } from "./DriverProtectedRoute";
-import { DriverAuthProvider } from "../context/DriverAuthContext";
+import { UserProtectionPage } from "../pages/userpages/protected";
+import { UserForgotPasswordPage } from "../pages/userpages/forgotpassword";
+import { DriverProtectionPage } from "../pages/driverpages/protected";
 
 export const routes = createBrowserRouter([
 
@@ -47,7 +45,7 @@ export const routes = createBrowserRouter([
       },
       {
         path: '/user/forgot-password',
-        element: <UserForgotPassword />
+        element: <UserForgotPasswordPage />
       },
       {
         path: '/user/reset-password',
@@ -86,11 +84,11 @@ export const routes = createBrowserRouter([
         </>
       },
       {
-        path: '/user/me',
+        path: '/profile',
         element: <>
-          <UserProtectionPage>
+          {/* <UserProtectionPage> */}
             <UserProfilePage />
-          </UserProtectionPage>
+          {/* </UserProtectionPage> */}
         </>
       },
       {
@@ -122,11 +120,9 @@ export const routes = createBrowserRouter([
       {
         path: '/driveradmin',
         element: (
-          <DriverAuthProvider>
-            <DriverProtectedRoute>
+             <DriverProtectionPage> 
               <DriverAdmin />
-            </DriverProtectedRoute>
-          </DriverAuthProvider>
+              </DriverProtectionPage>
         ),
         children: [
           {

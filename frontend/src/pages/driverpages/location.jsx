@@ -1,6 +1,4 @@
-import { DriverLocation } from "../../views/driver/driverlocation";
-
-
+import { DriverLocation } from "../../views/driver/location";
 
 export function DriverLocationPage() {
 
