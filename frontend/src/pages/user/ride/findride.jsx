@@ -1,4 +1,4 @@
-import { FindRide } from "../../views/user/findride";
+import { FindRide } from "../../../views/ride/findride";
 
 export function FindRidePage() {
   return <>

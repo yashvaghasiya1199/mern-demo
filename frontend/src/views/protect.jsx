@@ -34,8 +34,6 @@ export function DriverProtection({ children }) {
     return isAuthenticated ? children : null
 }
 
-
-
 export function UserProtection({ children }) {
     const navigate = useNavigate()
     const [authChecked, setAuthChecked] = useState(false)
@@ -62,7 +60,7 @@ export function UserProtection({ children }) {
     }, [navigate])
 
     if (!authChecked) {
-        return <div>Checking authentication...</div> // or loader
+        return <div>Checking authentication...</div>    
     }
 
     return isAuthenticated ? children : null

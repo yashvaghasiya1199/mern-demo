@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import '../../assets/css/driverprofile.css'
-import { useDriverHooks } from '../../hooks/usedriver';
+import { useDriverHooks } from '../../hooks/useDriver';
 import defaultpng from '../../../src/assets/images/default.png'
-import { useAuthHook } from '../../hooks/useauth';
+import { useAuthHook } from '../../hooks/useAuth';
 import { Uploadfile } from '../../componets/common/fileuploader';
 import { styled } from '@mui/material/styles';
 

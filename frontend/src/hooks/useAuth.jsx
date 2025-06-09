@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { driverForgotPasswordAction, driverLoginAction, DriverMeAction, driverResetPasswordAction, driverSignupAction, userForgotPasswordAction, userLoginAction, userMeAction, userResetPasswordAction, userSignupAction } from "../store/actions/auth.action";import { useCallback } from "react";
+import { driverForgotPasswordAction, driverLoginAction, driverMeAction, driverResetPasswordAction, driverSignupAction, userForgotPasswordAction, userLoginAction, userMeAction, userResetPasswordAction, userSignupAction } from "../store/actions/auth.action";import { useCallback } from "react";
 ;
 
 export function useAuthHook(){
@@ -25,11 +25,11 @@ export function useAuthHook(){
     }
     
     // async function driverMe(){
-    //     return await dispatch(DriverMeAction())
+    //     return await dispatch(driverMeAction())
     // }
 
     const driverMe = useCallback(
-        () => dispatch(DriverMeAction()).unwrap?.() ?? dispatch(DriverMeAction()),
+        () => dispatch(driverMeAction()).unwrap?.() ?? dispatch(driverMeAction()),
         [dispatch]
       );
 

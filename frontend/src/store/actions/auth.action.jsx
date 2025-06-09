@@ -51,7 +51,7 @@ export const driverLoginAction = createAsyncThunk(
   }
 )
 
-export const DriverMeAction = createAsyncThunk(
+export const driverMeAction = createAsyncThunk(
   "/api/driver/me",
   async function (_, { fulfillWithValue,rejectWithValue }) {
     try {

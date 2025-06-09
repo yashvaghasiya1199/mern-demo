@@ -2,16 +2,16 @@ import React, {  useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../componets/toast';
-import { useAuthHook } from '../../hooks/useauth';
+import { useAuthHook } from '../../hooks/useAuth';
 import '../../assets/css/login.css'
 import { useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
 import { userlogout } from '../../store/redusers/user.reduser';
-import { driverDocument, driverLogins } from '../../store/redusers/driver.reduser';
+import {  driverLogins } from '../../store/redusers/driver.reduser';
 import '../../assets/css/signup.css'
 import { CircularIndeterminate, Loaders } from '../../componets/loadder';
 import { ErrorNote } from '../../componets/common/errornote';  
-import { useDriverHooks } from '../../hooks/usedriver';
+import { useDriverHooks } from '../../hooks/useDriver';
 
 export function DriverSignup(){
   const [formData, setFormData] = useState({
@@ -200,7 +200,7 @@ export function DriverSignup(){
       <ToastContainer />
     </div>
   );
-}
+  }
 
 
 export function DriverLogin() {
@@ -347,8 +347,7 @@ export function DriverLogin() {
       <ToastContainer />
     </div>
   );
-}
-
+  }
 
   export function DriverPassword(){
     const [email, setEmail] = useState("");
@@ -434,7 +433,6 @@ export function DriverLogin() {
       </div>
     );
   }
-
 
   export function DriverResetPassword() {
     const [newData, setNewdata] = useState({

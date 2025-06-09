@@ -1,7 +1,7 @@
-import { routes } from "./routes"
+import { routes } from "./router"
 import Cookies from 'js-cookie'
 import { RouterProvider } from "react-router-dom"
-import { Cookieprovider } from "./context/cokiecontext";
+import { Cookieprovider } from "./context/cokieContext";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { userlogin } from "./store/redusers/user.reduser";

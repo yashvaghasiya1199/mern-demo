@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { Navbar } from "../componets/navbar";
+import { Navbar } from "../layout/navbar";
 
-export function AppLayout(){
+export function UserPrivate(){
 
     return<>
     <Navbar/>

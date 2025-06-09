@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AppLayout } from "../layout/appLayout";
 import { Home } from "../pages/home";
-import { UserSignupPage } from "../pages/user/signup";
-import { UserLoginPage } from "../pages/user/login";
-import { UserResetPasswordPage } from "../pages/user/resetpassword";
+import { UserSignupPage } from "../pages/user/auth/signup";
+import { UserLoginPage } from "../pages/user/auth/login";
+import { UserResetPasswordPage } from "../pages/user/auth/resetpassword";
 import { FindRidePage } from "../pages/user/ride/findride";
 import { BookRidePage } from "../pages/user/ride/bookride";
 import {PaymentsPage} from '../pages/user/ride/payment'
@@ -18,7 +18,7 @@ import { PreviousRidesPages } from "../pages/user/ride/previosride";
 import { UserProfilePage } from "../pages/user/settings/profile";
 import { ErrorPage } from "../componets/errorpage";
 import { UserProtectionPage } from "../pages/user/settings/protected";
-import { UserForgotPasswordPage } from "../pages/user/forgotpassword";
+import { UserForgotPasswordPage } from "../pages/user/auth/forgotpassword";
 import { DriverProtectionPage } from "../pages/driver/protected";
 import {  UserPrivate } from "./main";
 import { DriverSignupPage } from "../pages/driver/auth/signup";

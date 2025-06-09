@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import '../../assets/css/driveradmin.css'
-import { useDriverHooks } from "../../hooks/usedriver";
+import { useDriverHooks } from "../../hooks/useDriver";
 
 
 export function Reviews(){

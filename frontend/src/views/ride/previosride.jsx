@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserHooks } from "../../hooks/useuser.hook";
+import { useUserHooks } from "../../hooks/useUser";
 import '../../assets/css/navbar.css'
 
 export function PreviousRides(){
@@ -10,7 +10,6 @@ export function PreviousRides(){
     async function myinfo() {
       try {
         const response = await userAllRide();
-        console.log(response.payload.rides);
         setRideData(response.payload.rides);
       } catch (error) {
         console.error("Error fetching rides:", error);

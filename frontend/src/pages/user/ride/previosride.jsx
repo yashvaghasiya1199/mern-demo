@@ -1,4 +1,4 @@
-import { PreviousRides } from "../../views/user/previosride";
+import { PreviousRides } from "../../../views/ride/previosride";
 
 export function PreviousRidesPages() {
   return (

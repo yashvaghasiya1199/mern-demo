@@ -2,66 +2,81 @@ import { useEffect, useState } from "react";
 import '../../assets/css/driveradmin.css'
 import { errorToast, successToast } from "../../componets/toast";
 import { ToastContainer } from "react-toastify";
-import { useDriverHooks } from "../../hooks/usedriver";
+import { useDriverHooks } from "../../hooks/useDriver";
 import { CircularIndeterminate } from "../../componets/loadder";
 import { MdDelete } from "react-icons/md";
 import { ErrorNote } from "../../componets/common/errornote";
-export function DriverLocation(){
 
-    const [longitude, setLongitude] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [location, setLocation] = useState([])
-  
-    const { isPending,locationDriver,getDriverLocation ,deleteDriverLocation,message,isError } = useDriverHooks()
+export function DriverLocation() {
+  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [location, setLocation] = useState([]);
 
-  
-    async function getLocations() {
-      const getLocation = await getDriverLocation()
-      console.log("data",getLocation );
-      setLocation(getLocation.payload.driver.driverlocations)
-    }
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-  
-  
-        const response = await locationDriver({ longitude, latitude })
-        console.log(response.payload);
-  
-        getLocations()
-        if (!response.err) {
-          successToast(response.msg)
-          setLongitude('');
-          setLatitude('');
-        }
-        if (response.err) {
-          errorToast(response.msg)
-        }
-      } catch (error) {
-        console.error("Error submitting location:", error);
-        errorToast("falied to add location")
+  const [errors, setErrors] = useState({
+    latitude: "",
+    longitude: ""
+  });
+
+  const {
+    isPending,
+    locationDriver,
+    getDriverLocation,
+    deleteDriverLocation,
+    message,
+    isError
+  } = useDriverHooks();
+
+  const getLocations = async () => {
+    const getLocation = await getDriverLocation();
+    setLocation(getLocation.payload.driver.driverlocations);
+  };
+
+  const validate = () => {
+    const newErrors = {};
+    if (!latitude.trim()) newErrors.latitude = "Latitude is required";
+    if (!longitude.trim()) newErrors.longitude = "Longitude is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    try {
+      const response = await locationDriver({ longitude, latitude });
+      getLocations();
+
+      if (!response.err) {
+        successToast(response.msg);
+        setLongitude("");
+        setLatitude("");
+        setErrors({});
+      } else {
+        errorToast(response.msg);
       }
-    };
-  
-    async function deleteLocation(id) {
-      const response = await deleteDriverLocation(id)
-      console.log(response.payload);
-      setLocation((prev) => prev.filter((val, ind) => val.location_id !== id))
-  
+    } catch (error) {
+      console.error("Error submitting location:", error);
+      errorToast("Failed to add location");
     }
-  
-    useEffect(() => {
-      getLocations()
-    }, [])
+  };
 
-    return<>
-     <div className="location-main">
+  const deleteLocation = async (id) => {
+    await deleteDriverLocation(id);
+    setLocation((prev) => prev.filter((loc) => loc.location_id !== id));
+  };
+
+  useEffect(() => {
+    getLocations();
+  }, []);
+
+  return (
+    <div className="location-main">
       <div className="location-form-container">
         <form className="location-form" onSubmit={handleSubmit}>
           <h2>Driver Location</h2>
-          {/* {isError && <ErrorNote data={"falied to add location"}/>} */}
-          
+          {isError && <ErrorNote data={"Failed to add location"} />}
 
           <label htmlFor="latitude">Latitude</label>
           <input
@@ -69,32 +84,43 @@ export function DriverLocation(){
             id="latitude"
             name="latitude"
             value={latitude}
-            onChange={(e) => setLatitude(e.target.value)}
+            onChange={(e) => {
+              setLatitude(e.target.value);
+              setErrors((prev) => ({ ...prev, latitude: "" }));
+            }}
             placeholder="Enter latitude"
-            required
           />
+          {errors.latitude && (
+            <p style={{ color: "red", marginTop: "5px" }}>{errors.latitude}</p>
+          )}
+
           <label htmlFor="longitude">Longitude</label>
-           <input
+          <input
             type="text"
             id="longitude"
             name="longitude"
             value={longitude}
-            onChange={(e) => setLongitude(e.target.value)}
+            onChange={(e) => {
+              setLongitude(e.target.value);
+              setErrors((prev) => ({ ...prev, longitude: "" }));
+            }}
             placeholder="Enter longitude"
-            required
           />
+          {errors.longitude && (
+            <p style={{ color: "red", marginTop: "5px" }}>{errors.longitude}</p>
+          )}
 
-           <button
-                    type="submit"
-                    disabled={isPending}
-                    style={{ backgroundColor: `${isPending ? "#9b9090" : "green"}` }}
-                  >
-                    {isPending ? <CircularIndeterminate /> : "Add Location"}
-                  </button>
+          <button
+            type="submit"
+            disabled={isPending}
+            style={{ backgroundColor: isPending ? "#9b9090" : "green" }}
+          >
+            {isPending ? <CircularIndeterminate /> : "Add Location"}
+          </button>
         </form>
-
       </div>
-      <h2 className="text-center">Previous Location</h2>
+
+      <h2 className="text-center">Previous Locations</h2>
       <div className="location-table">
         <table className="previosloc">
           <thead>
@@ -103,33 +129,43 @@ export function DriverLocation(){
               <th>Latitude</th>
               <th>Longitude</th>
               <th>Date</th>
-              <th>Oprations</th>
+              <th>Operations</th>
             </tr>
           </thead>
           <tbody>
             {location.length > 0 ? (
-              location.map((c, i) => (
-                <tr key={i}>
-                  <td>{i + 1}</td>
-                  <td>{c.latitude}</td>
-                  <td>{c.longitude}</td>
-                  <td>{c.createdAt.slice(0, c.createdAt.indexOf('T'))} {c.createdAt.slice(c.createdAt + 1, c.createdAt + 9)}</td>
-                  {/* <td><div><button onClick={() => deleteLocation(c.location_id)} ><MdDelete /></button></div></td> */}
-                  <td className="tbl-delete-btn" onClick={() => deleteLocation(c.location_id)}  ><MdDelete  color="red" fontSize='25px' /></td>
-                </tr>
-              ))
+              location.map((loc, i) => {
+                const date = new Date(loc.createdAt);
+                return (
+                  <tr key={loc.location_id}>
+                    <td>{i + 1}</td>
+                    <td>{loc.latitude}</td>
+                    <td>{loc.longitude}</td>
+                    <td>
+                      {date.toLocaleDateString()}{" "}
+                      {date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    </td>
+                    <td
+                      className="tbl-delete-btn"
+                      onClick={() => deleteLocation(loc.location_id)}
+                    >
+                      <MdDelete color="red" fontSize="25px" />
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
-                <td colSpan="4" className="text-center">
-                  Loading...
+                <td colSpan="5" className="text-center">
+                  {isPending ? "Loading..." : "No locations found."}
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-
       <ToastContainer />
     </div>
-    </>
+  );
 }
+

@@ -1,4 +1,4 @@
-import { UserProtection } from "../../views/protect";
+import { UserProtection } from "../../../views/protect";
 
 export function UserProtectionPage({ children }) {
   return<>

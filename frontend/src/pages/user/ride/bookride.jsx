@@ -1,4 +1,4 @@
-import { Bookride } from "../../views/user/bookride";
+import { Bookride } from "../../../views/ride/bookride";
 
 export function BookRidePage() {
     return (

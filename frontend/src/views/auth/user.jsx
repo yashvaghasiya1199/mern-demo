@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../componets/toast';
-import { useAuthHook } from '../../hooks/useauth';
+import { useAuthHook } from '../../hooks/useAuth';
 import '../../assets/css/login.css'
 import { useDispatch } from 'react-redux';
 import Cookies from "js-cookie";
@@ -12,8 +12,8 @@ import { userlogin } from '../../store/redusers/user.reduser';
 import '../../assets/css/signup.css'
 import { CircularIndeterminate, Loaders } from '../../componets/loadder';
 import { ErrorNote } from '../../componets/common/errornote';
-import { useDriverHooks } from '../../hooks/usedriver';
-import { useUserHooks } from '../../hooks/useuser.hook';
+import { useDriverHooks } from '../../hooks/useDriver';
+import { useUserHooks } from '../../hooks/useUser';
 
 
 
@@ -254,7 +254,6 @@ export function UserResetPassword() {
 
 export function UserLogin() {
   const { userPending, loginUser, userMe, userError, userMessage } = useAuthHook();
-  console.log(userMessage);
   
   const { userClear } = useUserHooks();
 
