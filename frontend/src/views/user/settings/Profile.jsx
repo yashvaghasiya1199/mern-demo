@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useUserHooks } from "../../hooks/useUser";
-import '../../assets/css/userprofile.css'
-import { errorToast, successToast } from "../../componets/toast";
+import { useUserHooks } from "../../../hooks/useUser";
+import '../../../assets/css/userprofile.css'
+import { errorToast, successToast } from "../../../componets/toast";
 import { ToastContainer } from "react-toastify";
 
 export function UserProfile() {

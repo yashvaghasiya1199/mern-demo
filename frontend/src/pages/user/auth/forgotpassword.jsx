@@ -1,4 +1,4 @@
-import { UserForgotPassword } from "../../../views/auth/user";
+import { UserForgotPassword } from "../../../views/user/auth/ForgotPassword";
 
 
 export function UserForgotPasswordPage(){

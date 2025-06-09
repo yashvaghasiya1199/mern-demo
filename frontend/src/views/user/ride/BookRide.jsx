@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { ridedata } from "../../store/redusers/user.reduser"
-import { errorToast, successToast } from "../../componets/toast"
+import { ridedata } from "../../../store/redusers/user.reduser"
+import { errorToast, successToast } from "../../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import { useUserHooks } from "../../hooks/useUser"
-import { CircularIndeterminate } from "../../componets/loadder"
+import { useUserHooks } from "../../../hooks/useUser"
+import { CircularIndeterminate } from "../../../componets/loadder"
         
 export function Bookride() {
     const [loading, setLoading] = useState(true)

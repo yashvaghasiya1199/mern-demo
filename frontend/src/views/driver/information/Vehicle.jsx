@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { errorToast, successToast } from "../../componets/toast"
+import { errorToast, successToast } from "../../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import '../../assets/css/driveradmin.css'
-import { useDriverHooks } from "../../hooks/useDriver"
-import { CircularIndeterminate } from "../../componets/loadder"
+import '../../../assets/css/driveradmin.css'
+import { useDriverHooks } from "../../../hooks/useDriver"
+import { CircularIndeterminate } from "../../../componets/loadder"
 import { MdDelete, MdEditSquare } from "react-icons/md"
-import { ErrorNote } from "../../componets/common/errornote"
+import { ErrorNote } from "../../../componets/common/errornote"
 
 
 // export function DriverVehical() {

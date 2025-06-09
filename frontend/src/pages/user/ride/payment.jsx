@@ -1,4 +1,4 @@
-import { Payments } from "../../../views/ride/ payment";
+import { Payments } from "../../../views/user/ride/Payment";
 
 export function PaymentsPage() {
 

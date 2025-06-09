@@ -1,5 +1,5 @@
 import React from 'react';
-import { DriverSignup } from '../../../views/auth/driver';
+import { DriverSignup } from '../../../views/driver/auth/Signup';
 
 export const DriverSignupPage = () => {
   return <>

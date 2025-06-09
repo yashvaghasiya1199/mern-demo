@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import '../../assets/css/driverprofile.css'
-import { useDriverHooks } from '../../hooks/useDriver';
-import defaultpng from '../../../src/assets/images/default.png'
-import { useAuthHook } from '../../hooks/useAuth';
-import { Uploadfile } from '../../componets/common/fileuploader';
+import '../../../assets/css/driverprofile.css'
+import { useDriverHooks } from '../../../hooks/useDriver';
+// import defaultpng from '../../../src/assets/images/default.png'
+import defaultpng from '../../../assets/images/default.png'
+import { useAuthHook } from '../../../hooks/useAuth';
+import { Uploadfile } from '../../../componets/common/fileuploader';
 import { styled } from '@mui/material/styles';
 
 const VisuallyHiddenInput = styled('input')({
@@ -83,12 +84,6 @@ export function DriverProfile() {
     }
   }
 
-
-
-  useEffect(() => {
-    fetchDriverData();
-  }, []);
-
   return (
     <>
 
@@ -98,7 +93,9 @@ export function DriverProfile() {
           <h2 className="profile-title">🚗 Driver Profile</h2>
 
           <div className="driver-card">
-            <img src={profileImage} alt="Driver Profile" className="driver-image" />
+            {/* <img src={profileImage} alt="Driver Profile" className="driver-image" /> */}
+            
+            
             <div className="driver-info">
               <h2>{data.first_name} {data.last_name}</h2>
               <p><strong>Username:</strong> {data.username}</p>

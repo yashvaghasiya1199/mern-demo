@@ -1,4 +1,4 @@
-import { UserProfile } from "../../../views/user/userprofile";
+import { UserProfile } from "../../../views/user/settings/Profile";
 
 export function UserProfilePage() {
     return <>

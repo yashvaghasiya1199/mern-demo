@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import '../../assets/css/driveradmin.css'
-import { errorToast, successToast } from "../../componets/toast";
+import '../../../assets/css/driveradmin.css'
+import { errorToast, successToast } from "../../../componets/toast";
 import { ToastContainer } from "react-toastify";
-import { useDriverHooks } from "../../hooks/useDriver";
-import { CircularIndeterminate } from "../../componets/loadder";
+import { useDriverHooks } from "../../../hooks/useDriver";
+import { CircularIndeterminate } from "../../../componets/loadder";
 import { MdDelete } from "react-icons/md";
-import { ErrorNote } from "../../componets/common/errornote";
+import { ErrorNote } from "../../../componets/common/errornote";
 
 export function DriverLocation() {
   const [longitude, setLongitude] = useState("");
@@ -22,7 +22,6 @@ export function DriverLocation() {
     locationDriver,
     getDriverLocation,
     deleteDriverLocation,
-    message,
     isError
   } = useDriverHooks();
 

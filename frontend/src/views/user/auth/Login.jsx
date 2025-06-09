@@ -1,0 +1,146 @@
+import React, { useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import {  NavLink, useNavigate } from 'react-router-dom';
+import { errorToast, successToast } from '../../../componets/toast';
+import { useAuthHook } from '../../../hooks/useAuth';
+import '../../../assets/css/login.css'
+import { useDispatch } from 'react-redux';
+import Cookies from "js-cookie";
+import { userlogin } from '../../../store/redusers/user.reduser';
+import '../../../assets/css/signup.css'
+import { CircularIndeterminate } from '../../../componets/loadder';
+import { ErrorNote } from '../../../componets/common/errornote';
+import { useUserHooks } from '../../../hooks/useUser';
+
+export function UserLogin() {
+    const { userPending, loginUser, userMe, userError, userMessage } = useAuthHook();
+    
+    const { userClear } = useUserHooks();
+  
+    const [logIn, setLogIn] = useState({
+      emailorusername: "",
+      password: "",
+    });
+  
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const userToken = Cookies.get("usertoken");
+  
+    
+    
+    const formHandel = (e) => {
+      const { name, value } = e.target;
+      setLogIn((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+      
+      // Clear error as user types
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    };
+    
+    const validate = () => {
+      let tempErrors = {};
+      
+      if (!logIn.emailorusername.trim()) tempErrors.emailorusername = "Email or username is required";
+      if (!logIn.password.trim()) tempErrors.password = "Password is required";
+      
+      setErrors(tempErrors);
+      return Object.keys(tempErrors).length === 0;
+    };
+    
+    const myProfile = async () => {
+      try {
+        const response = await userMe();
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      
+      if (!validate()) return;
+      
+      try {
+        const response = await loginUser(logIn);
+        console.log(response.payload);
+        
+        
+        if (!response.payload.error) {
+          successToast(response.payload.msg);
+        }
+        if (response.error) {
+          errorToast(response.msg);
+        } else {
+          dispatch(userlogin());
+          Cookies.remove("drivertoken");
+          myProfile();
+          
+          setTimeout(() => {
+            navigate("/findride");
+          }, 2000);
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+      }
+    };
+    useEffect(() => {
+      return () => {
+        userClear();
+      };
+    }, []);
+  
+    return (
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleSubmit}>
+          <h2 className="login-title">Login</h2>
+          {userError && <ErrorNote data={userMessage} />}
+  
+          <label htmlFor="email">Email or Username</label>
+          <input
+            type="text"
+            id="email"
+            placeholder="Enter your email or username"
+            name="emailorusername"
+            value={logIn.emailorusername}
+            onChange={formHandel}
+          />
+          {errors.emailorusername && <p className="error">{errors.emailorusername}</p>}
+  
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            name="password"
+            value={logIn.password}
+            onChange={formHandel}
+          />
+          {errors.password && <p className="error">{errors.password}</p>}
+  
+          <p className="login-footer">
+            Forgot password? <NavLink to="/user/forgot-password">Reset it here</NavLink>
+          </p>
+  
+          <button
+            type="submit"
+            disabled={userPending}
+            style={{ backgroundColor: userPending ? "#9b9090" : "white" }}
+          >
+            {userPending ? <CircularIndeterminate /> : "Login"}
+          </button>
+  
+          <p className="login-footer">
+            Don't have an account? <NavLink to="/user/signup">Sign up</NavLink>
+          </p>
+        </form>
+        <ToastContainer />
+      </div>
+    );
+  } 

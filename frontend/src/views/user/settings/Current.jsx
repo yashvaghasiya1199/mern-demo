@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Map } from "../../componets/common/map";
-import { useUserHooks } from "../../hooks/useUser";
+import { Map } from "../../../componets/common/map";
+import { useUserHooks } from "../../../hooks/useUser";
 
 export function Current(){
 

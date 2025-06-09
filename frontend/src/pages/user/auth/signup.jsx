@@ -1,4 +1,4 @@
-import { UserSignup } from "../../../views/auth/user";
+import { UserSignup } from "../../../views/user/auth/Signup";
 
 export function UserSignupPage(){
     return<>
