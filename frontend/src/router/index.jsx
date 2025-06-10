@@ -20,11 +20,11 @@ import { ErrorPage } from "../componets/errorpage";
 import { UserProtectionPage } from "../pages/user/settings/protected";
 import { UserForgotPasswordPage } from "../pages/user/auth/forgotpassword";
 import { DriverProtectionPage } from "../pages/driver/information/protected";
-import {  UserPrivate } from "./main";
 import { DriverSignupPage } from "../pages/driver/auth/signup";
 import { DriverLoginPage } from "../pages/driver/auth/login";
 import { DriverForgotPasswordpage } from "../pages/driver/auth/forgotpassword";
 import { DriverResetPasswordPage } from "../pages/driver/auth/resetpassword";
+import { UserPrivate } from "../layout/userLayout";
 
 // export const routes = createBrowserRouter([
 
@@ -152,7 +152,6 @@ import { DriverResetPasswordPage } from "../pages/driver/auth/resetpassword";
 
 //   }
 // ])
-
 
 export const routes = createBrowserRouter([
 

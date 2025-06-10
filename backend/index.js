@@ -15,7 +15,6 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-// app.options('*', cors(corsOptions));
 
 const userRoute = require("./routes/user.route")
 const driverRoute = require("./routes/driver.route")
@@ -35,15 +34,6 @@ app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: '/tmp/',
 }));
-
-
-
-// app.use(cors({
-//   origin: 'http://localhost:5173',
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization']
-// }));
 
 const startServer = async () => {
   try {

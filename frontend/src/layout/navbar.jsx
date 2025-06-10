@@ -22,6 +22,9 @@ export function Navbar() {
     Cookies.remove("usertoken");
   };
 
+  function close(){
+    setOpen(false)
+  }
   // If driver is logged in, hide the navbar (based on your original logic)
   if (isDriverLogin) return null;
 
@@ -42,14 +45,14 @@ export function Navbar() {
 
       <ul className={`nav-links ${open ? 'open' : ''}`}>
         <li>
-          <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')}>
+          <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : '')} onClick={close} >
             Home
           </NavLink>
         </li>
 
         {!isUserLogIn && (
           <li>
-            <NavLink to="/driver/signup" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink to="/driver/signup" className={({ isActive }) => (isActive ? 'active' : '')} onClick={close} >
               Driver Signup
             </NavLink>
           </li>
@@ -57,7 +60,7 @@ export function Navbar() {
 
         {!isUserLogIn && (
           <li>
-            <NavLink to="/driver/login" className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink to="/driver/login" className={({ isActive }) => (isActive ? 'active' : '')} onClick={close} >
               Driver Login
             </NavLink>
           </li>
@@ -67,6 +70,7 @@ export function Navbar() {
           <NavLink
             to={isUserLogIn ? "/findride" : "/user/signup"}
             className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={close}
           >
             {isUserLogIn ? "Book Ride" : "User Signup"}
           </NavLink>
@@ -76,6 +80,7 @@ export function Navbar() {
           <NavLink
             to={isUserLogIn ? "/previousrides" : "/user/login"}
             className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={close}
           >
             {isUserLogIn ? "Rides" : "User Login"}
           </NavLink>
@@ -84,10 +89,10 @@ export function Navbar() {
         {isUserLogIn && (
           <>
             <li>
-              <NavLink to="/profile">Profile</NavLink>
+              <NavLink to="/profile" onClick={close} >Profile</NavLink>
             </li>
             <li>
-              <NavLink onClick={logoutUser}>
+              <NavLink onClick={logoutUser} >
                 Logout
               </NavLink>
             </li>

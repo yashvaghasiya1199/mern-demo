@@ -1,255 +1,279 @@
-.location-table{
+.location-table {
   height: 38vh;
   overflow: scroll;
 }
-.admin-main{
-    width: 100vw;
-    height: 90vh;
-    background-color: red;
-    display: flex;
+
+.admin-main {
+  width: 100vw;
+  height: 90vh;
+  background-color: red;
+  display: flex;
 }
-.admin-right{
-    width: 80vw;
-    height: 105vh;
-    overflow: hidden;
-    background-color: white;
-    background-image: linear-gradient(45deg, #FCFAFB, #C8D3D6);
-    color: black;
+
+.admin-right {
+  width: 100vw;
+  margin-left: 20vw;
+  height: 120vh;
+  overflow: hidden;
+  background-color: white;
+  background-image: linear-gradient(45deg, #FCFAFB, #C8D3D6);
+  color: black;
 }
+
 .admin-left {
-    width: 20vw;
-    background-color: black;
-    color: white;
-    height: 100vh; 
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .admin-left a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .admin-left a:hover {
-    background-color: #2e2e4f;
-  }
-  
-  .admin-left a.active {
-    background-color: #3e3e6f;
-    font-weight: bold;
-  }
-  
-  .location-form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-  }
-  
-  .location-form {
-    background-color: #f9f9f9;
-    padding: 30px 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .location-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .location-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  .location-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .location-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .location-form button:hover {
-    background-color: #45a049;
-  }
-  
-  .text-center{
-    text-align: center;
-  }
+  width: 20vw;
+  background-color: black;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: fixed;
+}
 
-  .previosloc {
-    width: 80%;
-    max-height: 20vh;
-    overflow: scroll;
-    margin: 0 auto;
-    border-collapse: collapse;
-    background-color: #f0f0f0; 
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    font-family: Arial, sans-serif;
-  }
-  
-  .previosloc th, .previosloc td {
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    text-align: center;
-  }
-  
-  .previosloc thead {
-    background-color: #999999; 
-    color: white;
-    font-weight: bold;
-  }
-  
-  .previosloc tbody tr:nth-child(even) {
-    background-color: #e0e0e0;
-  }
-  
-  .previosloc tbody tr:hover {
-    background-color: #d0d0d0;
-    cursor: pointer;
-  }
-  
-  .text-center {
-    text-align: center;
-    color: #555;
-  }
+.admin-left a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
 
-  .updatevheclebuttton{
-    display: flex;
-    gap: 2vw;
-  }
-  .edit-profile {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    max-width: 300px;
-    margin: 20px auto;
-  }
-  
-  .upload-label {
-    font-weight: bold;
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .upload-input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 14px;
-    width: 100%;
-  }
-  
-  .update-button {
-    padding: 10px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .update-button:hover {
-    background-color: #0056b3;
-  }
-  
+.admin-left a:hover {
+  background-color: #2e2e4f;
+}
 
-  .location-table {
-    width: 100%;
-    max-width: 900px;
-    margin: 30px auto;
-    background-color: #ffffff;
-    height: 22vh;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    overflow-x: auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .previosloc {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .previosloc thead {
-    background-color: #e8f5e9; /* Light green background */
-  }
-  
-  .previosloc th {
-    padding: 14px 18px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 15px;
-    color: #2e7d32; /* Dark green text */
-    border-bottom: 2px solid #c8e6c9;
-  }
-  
-  .previosloc td {
-    padding: 12px 16px;
-    font-size: 14px;
-    color: #424242;
-    border-bottom: 1px solid #eeeeee;
-  }
-  
-  .previosloc tbody tr {
-    transition: background-color 0.25s ease;
-  }
-  
-  .previosloc tbody tr:hover {
-    background-color: #f1f8f4; /* Softer green hover */
-  }
-  
-  .text-center {
-    text-align: center;
-    color: #757575;
-    padding: 20px;
-  }
-  
-  /* Delete Icon */
-  td svg {
-    cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
-    color: #ef5350;
-  }
-  
-  td svg:hover {
-    transform: scale(1.2);
-    color: #c62828;
-  }
-.tbl-delete-btn{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 17px;
+.admin-left a.active {
+  background-color: #3e3e6f;
+  font-weight: bold;
+}
+
+.location-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.location-form {
+  background-color: #f9f9f9;
+  padding: 30px 40px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.location-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.location-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.location-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.location-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.location-form button:hover {
+  background-color: #45a049;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.previosloc {
+  width: 80%;
+  max-height: 20vh;
+  overflow: scroll;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #f0f0f0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.previosloc th,
+.previosloc td {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.previosloc thead {
+  background-color: #999999;
+  color: white;
+  font-weight: bold;
+}
+
+.previosloc tbody tr:nth-child(even) {
+  background-color: #e0e0e0;
+}
+
+.previosloc tbody tr:hover {
+  background-color: #d0d0d0;
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+  color: #555;
+}
+
+.updatevheclebuttton {
+  display: flex;
+  gap: 2vw;
+}
+
+.edit-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.upload-label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.upload-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  width: 100%;
+}
+
+.update-button {
+  padding: 10px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #0056b3;
+}
+
+
+.location-table {
+  width: 100%;
+  max-width: 900px;
+  margin: 30px auto;
+  background-color: #ffffff;
+  height: 22vh;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.previosloc {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.previosloc thead {
+  background-color: #e8f5e9;
+  /* Light green background */
+}
+
+.previosloc th {
+  padding: 14px 18px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 15px;
+  color: #2e7d32;
+  /* Dark green text */
+  border-bottom: 2px solid #c8e6c9;
+}
+
+.previosloc td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #424242;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.previosloc tbody tr {
+  transition: background-color 0.25s ease;
+}
+
+.previosloc tbody tr:hover {
+  background-color: #f1f8f4;
+  /* Softer green hover */
+}
+
+.text-center {
+  text-align: center;
+  color: #757575;
+  padding: 20px;
+}
+
+/* Delete Icon */
+td svg {
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #ef5350;
+}
+
+td svg:hover {
+  transform: scale(1.2);
+  color: #c62828;
+}
+
+.tbl-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+}
+
+.btn2 {
+  background-color: black;
+  color: white;
+  border: 2px solid grey;
+  height: 4vh;
+  margin-top: 60vh;
+  transition: all 1s;
+}
+.btn2:hover{
+  background-color: white;
+  color: black;
 }
