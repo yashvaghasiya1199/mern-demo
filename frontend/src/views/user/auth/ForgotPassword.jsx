@@ -7,14 +7,12 @@ import '../../../assets/css/login.css'
 import '../../../assets/css/signup.css'
 import { CircularIndeterminate, Loaders } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';
-import { useUserHooks } from '../../../hooks/useUser';
 
 export function UserForgotPassword() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
-  const { userPending, forgotPasswordUser, userError, userMessage } = useAuthHook();
-  const { userClear } = useUserHooks();
+  const { isPending, forgotPasswordUser, isError, message, clearAuth } = useAuthHook();
 
   const navigate = useNavigate();
 
@@ -42,12 +40,12 @@ export function UserForgotPassword() {
 
     try {
       const response = await forgotPasswordUser({ email });
-      console.log(response);
+      console.log(response.payload);
 
-      if (response.error) {
+      if (response.payload.error) {
         errorToast(response.msg);
       } else {
-        successToast(response.msg);
+        successToast(response.payload.msg);
         setTimeout(() => {
           navigate("/user/reset-password");
         }, 1500);
@@ -61,7 +59,7 @@ export function UserForgotPassword() {
 
   useEffect(() => {
     return () => {
-      userClear();
+      clearAuth();
     };
   }, []);
 
@@ -69,7 +67,7 @@ export function UserForgotPassword() {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit} noValidate>
         <h2 className="login-title">Forgot password</h2>
-        {userError && <ErrorNote data={userMessage.msg} />}
+        {isError && <ErrorNote data={message?.msg || message} />}
 
         <label htmlFor="email">Enter email</label>
         <input
@@ -90,10 +88,10 @@ export function UserForgotPassword() {
 
         <button
           type="submit"
-          disabled={userPending}
-          style={{ backgroundColor: `${userPending ? "#9b9090" : "white"}` }}
+          disabled={isPending}
+          style={{ backgroundColor: `${isPending ? "#9b9090" : "white"}` }}
         >
-          {userPending ? <CircularIndeterminate /> : "Send OTP"}
+          {isPending ? <CircularIndeterminate /> : "Send OTP"}
         </button>
       </form>
       <ToastContainer />

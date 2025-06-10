@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { driverForgotPasswordAction, driverLoginAction,driverResetPasswordAction,driverSignupAction } from "../actions/auth.action";
 import {  addLocationAction, addVehicleAction, deleteVehiclesAction, driverMeAction, updateVehicleAction } from "../actions/driver.action";
 
 const driverSlice = createSlice({
@@ -28,30 +27,6 @@ const driverSlice = createSlice({
 
     },
     extraReducers:(builder)=>{
-        builder.addCase(driverLoginAction.pending,(state)=>{
-            state.isPending=true
-        })
-        builder.addCase(driverLoginAction.fulfilled,(state,action)=>{
-            state.isPending=false,
-            state.message=action.payload
-        })
-        builder.addCase(driverLoginAction.rejected,(state,action)=>{
-            state.isError=true
-            state.message=action.payload
-            state.isPending = false
-        })
-        builder.addCase(driverSignupAction.pending,(state)=>{
-            state.isPending=true
-        })
-        builder.addCase(driverSignupAction.fulfilled,(state,action)=>{
-            state.isPending=false,
-            state.message=action.payload
-        })
-        builder.addCase(driverSignupAction.rejected,(state,action)=>{
-            state.isError=true
-            state.message=action.payload
-            state.isPending = false
-        })   
         builder.addCase(addLocationAction.pending,(state)=>{
             state.isPending=true
         })
@@ -100,32 +75,6 @@ const driverSlice = createSlice({
             state.message = action.payload
             state.isPending = false
         })
-        builder.addCase(driverForgotPasswordAction.pending,(state)=>{
-            state.isPending=true
-            state.isError=false
-        })
-        builder.addCase(driverForgotPasswordAction.fulfilled,(state,action)=>{
-            state.isPending = false
-            state.message = action.payload
-            state.isError=false
-        })
-        builder.addCase(driverForgotPasswordAction.rejected,(state,action)=>{
-            state.message = action.payload 
-            state.isError = true
-            state.isPending = false
-        })
-        builder.addCase(driverResetPasswordAction.pending,(state)=>{
-            state.isPending=true
-        })
-        builder.addCase(driverResetPasswordAction.fulfilled,(state,action)=>{
-            state.isPending = false
-            state.message = action.payload
-        })
-        builder.addCase(driverResetPasswordAction.rejected,(state,action)=>{
-            state.isError = true
-            state.message = action.payload
-            state.isPending = false
-        })
      
         builder.addCase(driverMeAction.pending,(state)=>{
             state.isPending=true
@@ -139,6 +88,7 @@ const driverSlice = createSlice({
             state.message = action.payload
             state.isPending = false
         })
+        
     }
    
     

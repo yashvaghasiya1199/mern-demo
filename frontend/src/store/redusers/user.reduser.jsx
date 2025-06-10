@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userForgotPasswordAction, userLoginAction, userMeAction, userResetPasswordAction, userSignupAction } from "../actions/auth.action";
-import { bookRideAction, rideFindAction, paymentAction, AllUserRidesAction, userProfileAction, userProfileUpdateAction } from "../actions/user.action";
+import { bookRideAction, rideFindAction, paymentAction, AllUserRidesAction,  userProfileUpdateAction } from "../actions/user.action";
 
 const userSlice = createSlice({
     name: "userslice",
@@ -28,32 +27,6 @@ const userSlice = createSlice({
     }
     },
     extraReducers: (builder)=>{
-      builder.addCase(userLoginAction.pending ,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(userLoginAction.fulfilled , (state,action)=>{
-        state.userPending  = false,
-        state.userMessage = action.payload
-      }),
-      builder.addCase(userLoginAction.rejected,(state,action)=>{
-        state.userError =true,
-        state.userMessage=action.payload,
-        state.userPending = false
-      })
-
-      //user signup
-      builder.addCase(userSignupAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(userSignupAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userMessage = action.payload
-      }),
-      builder.addCase(userSignupAction.rejected,(state,action)=>{
-        state.userPending=false
-        state.userError=true
-        state.userMessage = action.payload
-      })
       builder.addCase(rideFindAction.pending,(state)=>{
         state.userPending =true
       }),
@@ -100,31 +73,7 @@ const userSlice = createSlice({
         state.userError=true
         state.userMessage = action.payload
       })
-      builder.addCase(userForgotPasswordAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(userForgotPasswordAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userMessage = action.payload
-      }),
-      builder.addCase(userForgotPasswordAction.rejected,(state,action)=>{
-        state.userPending=false
-        state.userMessage = action.payload
-        state.userError=true
-      })
-      builder.addCase(userResetPasswordAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(userResetPasswordAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userMessage = action.payload
-      }),
-      builder.addCase(userResetPasswordAction.rejected,(state,action)=>{
-        state.userPending=false
-        state.userMessage = action.payload
-        state.userError=true
-      })
-    
+     
     }
 });
 

@@ -7,7 +7,6 @@ import '../../../assets/css/login.css'
 import '../../../assets/css/signup.css'
 import { CircularIndeterminate } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';  
-import { useDriverHooks } from '../../../hooks/useDriver';
 
 export function DriverPassword(){
     const [email, setEmail] = useState("");
@@ -15,8 +14,7 @@ export function DriverPassword(){
   
     const navigate = useNavigate();
   
-    const { isPending, forgotPasswordDriver, isError } = useAuthHook();
-    const { clearData } = useDriverHooks();
+    const { isPending, forgotPasswordDriver, isError,clearAuth } = useAuthHook();
   
     // Basic email validation function
     function validateEmail(email) {
@@ -38,9 +36,10 @@ export function DriverPassword(){
   
       try {
         const response = await forgotPasswordDriver({ email });
+        
   
         if (response.payload.error) {
-          errorToast(response.payload.msg);
+          // errorToast(response.payload.msg);
         } else {
           successToast(response.payload.msg);
           setTimeout(() => {
@@ -55,7 +54,7 @@ export function DriverPassword(){
   
     useEffect(() => {
       return () => {
-        clearData()
+        clearAuth()
       }
     }, []);
   

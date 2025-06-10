@@ -7,7 +7,6 @@ import '../../../assets/css/login.css'
 import '../../../assets/css/signup.css'
 import { CircularIndeterminate } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';  
-import { useDriverHooks } from '../../../hooks/useDriver';
 
 
   export function DriverResetPassword() {
@@ -19,8 +18,7 @@ import { useDriverHooks } from '../../../hooks/useDriver';
   
     const [errors, setErrors] = useState({});
   
-    const { clearData } = useDriverHooks();
-    const { isPending, resetPasswordDriver, isError, message } = useAuthHook();
+    const { isPending, resetPasswordDriver, isError, message,clearAuth } = useAuthHook();
   
     const navigate = useNavigate();
   
@@ -65,14 +63,12 @@ import { useDriverHooks } from '../../../hooks/useDriver';
         const response = await resetPasswordDriver(newData);
         console.log(response);
   
-        if (response.payload.error) {
-          errorToast(response.payload.msg);
-        } else {
+        if (!response.payload.error) {
           successToast(response.payload.msg);
           setTimeout(() => {
             navigate("/");
           }, 1000);
-        }
+        } 
       } catch (error) {
         console.error("Error during password reset:", error);
         errorToast("Something went wrong. Please try again.");
@@ -90,7 +86,7 @@ import { useDriverHooks } from '../../../hooks/useDriver';
   
     useEffect(() => {
       return () => {
-        clearData();
+        clearAuth();
       };
     }, []);
   
@@ -98,7 +94,7 @@ import { useDriverHooks } from '../../../hooks/useDriver';
       <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit} noValidate>
           <h2 className="login-title">Reset password</h2>
-          {isError && <ErrorNote data={message} />}
+          {isError && <ErrorNote data={message?.msg} />}
   
           <label htmlFor="otp">Enter OTP</label>
           <input

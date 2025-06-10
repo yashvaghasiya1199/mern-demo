@@ -44,6 +44,8 @@ export const driverLoginAction = createAsyncThunk(
   async function (credentials, { fulfillWithValue,rejectWithValue }) {
     try {
       const response = await api.post('/api/auth/driver/login', credentials)
+      console.log(response);
+      
       return fulfillWithValue (response?.data)
     } catch (error) {
       return rejectWithValue(error.response?.data  || "falied driver login");
@@ -89,7 +91,7 @@ export const driverForgotPasswordAction = createAsyncThunk(
       const response = await api.put('/api/auth/driver/forgot-password',credentials )
       return fulfillWithValue (response?.data)
     } catch (error) {
-      return rejectWithValue(error.response?.data.msg || "falied to send otp");
+      return rejectWithValue(error.response?.data || "falied to send otp");
     }
   }
 )
@@ -101,7 +103,7 @@ export const driverResetPasswordAction = createAsyncThunk(
       const response = await api.put('/api/auth/driver/change-password',credentials )
       return fulfillWithValue (response?.data)
     } catch (error) {
-      return rejectWithValue(error.response?.data.msg || "falied to reset password");
+      return rejectWithValue(error.response?.data || "falied to reset password");
     }
   }
 )

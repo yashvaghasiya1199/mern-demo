@@ -11,9 +11,10 @@ import '../../../assets/css/signup.css'
 import { CircularIndeterminate } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';
 import { useUserHooks } from '../../../hooks/useUser';
+import { clearAuthData } from '../../../store/redusers/auth.reduser';
 
 export function UserLogin() {
-    const { userPending, loginUser, userMe, userError, userMessage } = useAuthHook();
+    const { message, loginUser, userMe, isError, isPending ,clearAuth} = useAuthHook();
     
     const { userClear } = useUserHooks();
   
@@ -27,7 +28,11 @@ export function UserLogin() {
     const dispatch = useDispatch();
     const userToken = Cookies.get("usertoken");
   
-    
+    useEffect(() => {
+      return () => {
+        clearAuth();
+      };
+    }, []);
     
     const formHandel = (e) => {
       const { name, value } = e.target;
@@ -90,17 +95,13 @@ export function UserLogin() {
         console.error("Login error:", error);
       }
     };
-    useEffect(() => {
-      return () => {
-        userClear();
-      };
-    }, []);
+    
   
     return (
       <div className="login-container">
         <form className="login-form" onSubmit={handleSubmit}>
           <h2 className="login-title">Login</h2>
-          {userError && <ErrorNote data={userMessage} />}
+          {isError && <ErrorNote data={message?.msg || message} />}
   
           <label htmlFor="email">Email or Username</label>
           <input
@@ -130,10 +131,10 @@ export function UserLogin() {
   
           <button
             type="submit"
-            disabled={userPending}
-            style={{ backgroundColor: userPending ? "#9b9090" : "white" }}
+            disabled={isPending}
+            style={{ backgroundColor: isPending ? "#9b9090" : "white" }}
           >
-            {userPending ? <CircularIndeterminate /> : "Login"}
+            {isPending ? <CircularIndeterminate /> : "Login"}
           </button>
   
           <p className="login-footer">

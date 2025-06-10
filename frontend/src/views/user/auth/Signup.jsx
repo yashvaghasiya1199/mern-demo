@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import {  NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../../componets/toast';
@@ -7,6 +7,7 @@ import '../../../assets/css/login.css'
 import '../../../assets/css/signup.css'
 import { CircularIndeterminate } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';
+import { clearAuthData } from '../../../store/redusers/auth.reduser';
 
 export function UserSignup() {
     const [signUp, setSignUp] = useState({
@@ -18,7 +19,7 @@ export function UserSignup() {
       phone: '',
     });
     const [errors, setErrors] = useState({});
-    const { userPending, signupUser, userError, userMessage } = useAuthHook()
+    const { isPending, signupUser, isError, message,clearAuth } = useAuthHook()
   
     const navigate = useNavigate()
     const handleChange = (e) => {
@@ -65,12 +66,16 @@ export function UserSignup() {
   
   
     };
-  
+useEffect(() => {
+      return () => {
+        clearAuth();
+      };
+    }, []);
     return (
       <div className="signup-container">
         <form className="signup-form" onSubmit={handleSubmit}>
           <h2 className="form-title">User Signup</h2>
-          {userError && <ErrorNote data={userMessage} />}
+          {isError && <ErrorNote data={message?.msg || message} />}
   
           <div className="name-row">
             <div>
@@ -145,10 +150,10 @@ export function UserSignup() {
   
           <button
             type="submit"
-            disabled={userPending}
-            style={{ backgroundColor: userPending ? '#9b9090' : 'white' }}
+            disabled={isPending}
+            style={{ backgroundColor: isPending ? '#9b9090' : 'white' }}
           >
-            {userPending ? <CircularIndeterminate /> : 'Signup'}
+            {isPending ? <CircularIndeterminate /> : 'Signup'}
           </button>
   
           <p className="form-footer">

@@ -12,6 +12,7 @@ import '../../../assets/css/signup.css'
 import { CircularIndeterminate } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';  
 import { useDriverHooks } from '../../../hooks/useDriver';
+import { clearAuthData } from '../../../store/redusers/auth.reduser';
 
 export function DriverLogin() {
   const [logIn, setLogIn] = useState({
@@ -24,7 +25,7 @@ export function DriverLogin() {
     password: ""
   });
 
-  const { message, isError, isPending, loginDriver, driverMe } = useAuthHook();
+  const { message, isError, isPending, loginDriver, clearAuth } = useAuthHook();
   const { clearData } = useDriverHooks();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -85,10 +86,6 @@ export function DriverLogin() {
           navigate("/driveradmin");
         }, 1000);
       }
-
-      // if (response.payload.driver?.document_uploaded) {
-      //   dispatch(driverDocument());
-      // }
     } catch (error) {
       console.error("Error during login:", error);
     }
@@ -97,7 +94,7 @@ export function DriverLogin() {
 
   useEffect(() => {
     return () => {
-      clearData();
+      clearAuth();
     };
   }, []);
 
@@ -110,7 +107,7 @@ export function DriverLogin() {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Driver Login</h2>
-        {isError && <ErrorNote data={message.msg} />}
+        {isError && <ErrorNote data={message?.msg || message} />}
 
         <label htmlFor="email">Email or Username</label>
         <input

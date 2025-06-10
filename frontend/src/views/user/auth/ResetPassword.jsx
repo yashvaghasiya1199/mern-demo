@@ -7,7 +7,6 @@ import '../../../assets/css/login.css'
 import '../../../assets/css/signup.css'
 import { CircularIndeterminate, Loaders } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';
-import { useUserHooks } from '../../../hooks/useUser';
 
 export function UserResetPassword() {
   const [newData, setNewdata] = useState({
@@ -16,8 +15,7 @@ export function UserResetPassword() {
     checkpassword: ""
   });
   const [errors, setErrors] = useState({});
-  const { userPending, resetPasswordUser, userError, userMessage } = useAuthHook();
-  const { userClear } = useUserHooks();
+  const { isPending, resetPasswordUser, isError, message,clearAuth } = useAuthHook();
 
 
 
@@ -84,7 +82,7 @@ export function UserResetPassword() {
 
   useEffect(() => {
     return () => {
-      userClear();
+      clearAuth();
     };
   }, []);
 
@@ -92,7 +90,7 @@ export function UserResetPassword() {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit} noValidate>
         <h2 className="login-title">Reset password</h2>
-        {userError && <ErrorNote data={userMessage.msg} />}
+        {isError && <ErrorNote data={message?.msg ||  message} />}
 
         <label htmlFor="otp">Enter OTP</label>
         <input
@@ -141,10 +139,10 @@ export function UserResetPassword() {
 
         <button
           type="submit"
-          disabled={userPending}
-          style={{ backgroundColor: `${userPending ? "#9b9090" : "white"}` }}
+          disabled={isPending}
+          style={{ backgroundColor: `${isPending ? "#9b9090" : "white"}` }}
         >
-          {userPending ? <CircularIndeterminate /> : "Reset Password"}
+          {isPending ? <CircularIndeterminate /> : "Reset Password"}
         </button>
       </form>
       <ToastContainer />

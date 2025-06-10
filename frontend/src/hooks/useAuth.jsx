@@ -1,11 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { driverForgotPasswordAction, driverLoginAction, driverMeAction, driverResetPasswordAction, driverSignupAction, userForgotPasswordAction, userLoginAction, userMeAction, userResetPasswordAction, userSignupAction } from "../store/actions/auth.action";import { useCallback } from "react";
+import { clearAuthData } from "../store/redusers/auth.reduser";
 ;
 
 export function useAuthHook(){
 
-    const {message,isPending,isError} = useSelector(state => state.driverLogin)
+    // const {message,isPending,isError} = useSelector(state => state.driverLogin)
     const {userPending,userError,userMessage} = useSelector(state => state.userlogin)
+    const {message,isPending,isError} = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
 
@@ -48,6 +50,9 @@ export function useAuthHook(){
     async function resetPasswordUser(body) {
         return await dispatch(userResetPasswordAction(body))
     }
+    async function clearAuth(body) {
+        return await dispatch(clearAuthData())
+    }
     
 
     return{
@@ -61,6 +66,7 @@ export function useAuthHook(){
         resetPasswordDriver,
         forgotPasswordUser,
         resetPasswordUser,
+        clearAuth,
         isPending,
         isError,
         userPending,
