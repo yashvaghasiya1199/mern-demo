@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AppLayout } from "../layout/appLayout";
+import { AppLayout } from "../layout/AppLayout";
 import { Home } from "../pages/home";
 import { UserSignupPage } from "../pages/user/auth/signup";
 import { UserLoginPage } from "../pages/user/auth/login";
@@ -8,7 +8,7 @@ import { FindRidePage } from "../pages/user/ride/findride";
 import { BookRidePage } from "../pages/user/ride/bookride";
 import {PaymentsPage} from '../pages/user/ride/payment'
 import { DriverDocumentsPage } from "../pages/driver/information/document";
-import { DriverAdmin } from "../layout/driverLayout";
+import { DriverAdmin } from "../layout/DriverLayout";
 import { DriverLocationPage } from "../pages/driver/information/location";
 import { ReviewsPage } from "../pages/driver/information/reviews";
 import { DriverVehiclePage } from "../pages/driver/information/vehicle";
@@ -24,7 +24,7 @@ import { DriverSignupPage } from "../pages/driver/auth/signup";
 import { DriverLoginPage } from "../pages/driver/auth/login";
 import { DriverForgotPasswordpage } from "../pages/driver/auth/forgotpassword";
 import { DriverResetPasswordPage } from "../pages/driver/auth/resetpassword";
-import { UserPrivate } from "../layout/userLayout";
+import { UserPrivate } from "../layout/UserLayout";
 
 
 // export const routes = createBrowserRouter([
