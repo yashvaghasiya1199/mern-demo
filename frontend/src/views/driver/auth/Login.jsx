@@ -11,8 +11,6 @@ import {  driverLogins } from '../../../store/redusers/driver.reduser';
 import '../../../assets/css/signup.css'
 import { CircularIndeterminate } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';  
-import { useDriverHooks } from '../../../hooks/useDriver';
-import { clearAuthData } from '../../../store/redusers/auth.reduser';
 
 export function DriverLogin() {
   const [logIn, setLogIn] = useState({
@@ -25,8 +23,7 @@ export function DriverLogin() {
     password: ""
   });
 
-  const { message, isError, isPending, loginDriver, clearAuth } = useAuthHook();
-  const { clearData } = useDriverHooks();
+  const { message, isError, isPending, loginDriver, clearAuth,driverLogin } = useAuthHook();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -98,7 +95,9 @@ export function DriverLogin() {
     };
   }, []);
 
-
+if(driverLogin){
+  return <Navigate to='/driveradmin'/>
+}
   if (driverToken) {
     return <Navigate to='/driveradmin' />;
   }

@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
-import {  NavLink, useNavigate } from 'react-router-dom';
+import {  Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { errorToast, successToast } from '../../../componets/toast';
 import { useAuthHook } from '../../../hooks/useAuth';
 import '../../../assets/css/login.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Cookies from "js-cookie";
 import { userlogin } from '../../../store/redusers/user.reduser';
 import '../../../assets/css/signup.css'
 import { CircularIndeterminate } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';
-import { useUserHooks } from '../../../hooks/useUser';
-import { clearAuthData } from '../../../store/redusers/auth.reduser';
 
 export function UserLogin() {
-    const { message, loginUser, userMe, isError, isPending ,clearAuth} = useAuthHook();
+    const { userLogin,message, loginUser, userMe, isError, isPending ,clearAuth} = useAuthHook();
     
-    const { userClear } = useUserHooks();
+    
   
     const [logIn, setLogIn] = useState({
       emailorusername: "",
@@ -95,7 +93,11 @@ export function UserLogin() {
         console.error("Login error:", error);
       }
     };
+    console.log(userLogin);
     
+    if(userLogin){
+      return <Navigate to="/findride"/>
+    }
   
     return (
       <div className="login-container">

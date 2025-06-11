@@ -5,9 +5,10 @@ import { clearAuthData } from "../store/redusers/auth.reduser";
 
 export function useAuthHook(){
 
-    // const {message,isPending,isError} = useSelector(state => state.driverLogin)
-    const {userPending,userError,userMessage} = useSelector(state => state.userlogin)
+    const {userPending,userError,userMessage} = useSelector(state => state.user)
     const {message,isPending,isError} = useSelector(state => state.auth)
+    const {userLogin}= useSelector(state => state.user)
+    const {driverLogin} = useSelector(state => state.driver)
 
     const dispatch = useDispatch()
 
@@ -50,7 +51,7 @@ export function useAuthHook(){
     async function resetPasswordUser(body) {
         return await dispatch(userResetPasswordAction(body))
     }
-    async function clearAuth(body) {
+    async function clearAuth() {
         return await dispatch(clearAuthData())
     }
     
@@ -72,7 +73,9 @@ export function useAuthHook(){
         userPending,
         userError,
         message,
-        userMessage
+        userMessage,
+        userLogin,
+        driverLogin
 
     }
 }

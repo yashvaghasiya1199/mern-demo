@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { errorToast } from "../../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import { useUserHooks } from "../../../hooks/useUser"
-import { CircularIndeterminate } from "../../../componets/loadder"
 import { ErrorNote } from "../../../componets/common/errornote"
+import { useRide } from "../../../hooks/useRide"
+import { errorToast } from "../../../componets/toast"
+import { CircularIndeterminate } from "../../../componets/loadder"
 
 export function FindRide() {
-    const { userPending, findRide } = useUserHooks()
+    const {isError,isPending,findRide} = useRide()
     const [nearRide, setNearRide] = useState([])
     const [formErrors, setFormErrors] = useState({})
     const navigate = useNavigate()
@@ -73,14 +73,14 @@ export function FindRide() {
         localStorage.setItem('location', JSON.stringify(locationData))
         navigate('/bookride')
     }
-
+    
     return (
         <>
             <h2 className="text-center">Find Near Ride</h2>
             <div className="location-form-container">
                 <form className="location-form" onSubmit={formSumbit}>
                     <h2>Find Ride</h2>
-
+        {isError && <ErrorNote data="invalid locations" />}
                     <label htmlFor="pickup_latitude">Pickup Latitude</label>
                     <input
                         type="text"
@@ -89,7 +89,7 @@ export function FindRide() {
                         value={data.pickup_latitude}
                         onChange={formHandel}
                         placeholder="Enter latitude"
-                    />
+                        />
                     {formErrors.pickup_latitude && (
                         <p className="error">{formErrors.pickup_latitude}</p>
                     )}
@@ -113,10 +113,11 @@ export function FindRide() {
 
                     <button
                         type="submit"
-                        disabled={userPending}
-                        style={{ backgroundColor: userPending ? "#9b9090" : "green" }}
+                        disabled={isPending}
+                        style={{ backgroundColor: isPending ? "#9b9090" : "green" }}
+
                     >
-                        {userPending ? <CircularIndeterminate /> : "Find ride"}
+                        {isPending ? <CircularIndeterminate /> : "Find ride"}
                     </button>
                 </form>
             </div>
@@ -135,7 +136,7 @@ export function FindRide() {
                         </tr>
                     </thead>
                     <tbody>
-                        {nearRide.length > 0 ? (
+                        {nearRide?.length > 0 ? (
                             nearRide.flatMap((driverItem, i) =>
                                 (driverItem.Driver?.Vehicles || []).map((vehicle, vi) => (
                                     <tr key={`${i}-${vi}`}>

@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { ridedata } from "../../../store/redusers/user.reduser"
 import { errorToast, successToast } from "../../../componets/toast"
 import { ToastContainer } from "react-toastify"
-import { useUserHooks } from "../../../hooks/useUser"
 import { CircularIndeterminate } from "../../../componets/loadder"
+import { useRide } from "../../../hooks/useRide"
         
 export function Bookride() {
     const [loading, setLoading] = useState(true)
@@ -22,9 +22,9 @@ export function Bookride() {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { userPending, bookRide } = useUserHooks()
+    const {isPending,isError,bookRide} = useRide()
 
-    const driverInformation = useSelector(state => state.userlogin.rideinformation)
+    const driverInformation = useSelector(state => state.user.rideinformation)
     const location = JSON.parse(localStorage.getItem("location"))
 
     useEffect(() => {
@@ -184,10 +184,10 @@ export function Bookride() {
                     )}
                     <button
                         type="submit"
-                        disabled={userPending}
-                        style={{ backgroundColor: userPending ? "#9b9090" : "green" }}
+                        disabled={isPending}
+                        style={{ backgroundColor: isPending ? "#9b9090" : "green" }}
                     >
-                        {userPending ? <CircularIndeterminate /> : "Book ride"}
+                        {isPending ? <CircularIndeterminate /> : "Book ride"}
                     </button>
                 </form>
             </div>

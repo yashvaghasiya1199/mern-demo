@@ -10,8 +10,8 @@ export function Navbar() {
   const dispatch = useDispatch();
 
   // Redux selectors
-  const isUserLogIn = useSelector(state => state.userlogin.userLogin);
-  const isDriverLogin = useSelector(state => state.driverLogin.driverLogin);
+  const isUserLogIn = useSelector(state => state.user.userLogin);
+  const isDriverLogin = useSelector(state => state.driver.driverLogin);
 
   // Toggle mobile menu
   const toggleMenu = () => setOpen(!open);

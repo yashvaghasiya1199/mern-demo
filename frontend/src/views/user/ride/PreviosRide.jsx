@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useUserHooks } from "../../../hooks/useUser";
 import '../../../assets/css/navbar.css'
+import { useRide } from "../../../hooks/useRide";
 
 export function PreviousRides(){
 
-    const { userAllRide } = useUserHooks();
+    const {userAllRide} =useRide()
     const [rideData, setRideData] = useState([]);
   
     async function myinfo() {

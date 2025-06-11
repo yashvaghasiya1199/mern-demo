@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {  addLocationAction, addVehicleAction, deleteVehiclesAction, driverMeAction, updateVehicleAction } from "../actions/driver.action";
+import {  addLocationAction,  driverMeAction } from "../actions/driver.action";
 
 const driverSlice = createSlice({
     name:"driver",
@@ -27,6 +27,7 @@ const driverSlice = createSlice({
 
     },
     extraReducers:(builder)=>{
+        
         builder.addCase(addLocationAction.pending,(state)=>{
             state.isPending=true
         })
@@ -39,43 +40,6 @@ const driverSlice = createSlice({
             state.message=action.payload
             state.isPending = false
         })       
-        builder.addCase(addVehicleAction.pending,(state)=>{
-            state.isPending=true
-        })
-        builder.addCase(addVehicleAction.fulfilled,(state,action)=>{
-            state.isPending = false
-            state.message = action.payload
-        })
-        builder.addCase(addVehicleAction.rejected,(state,action)=>{
-            state.isPending = false
-            state.isError = true
-            state.message = action.payload
-        })
-        builder.addCase(deleteVehiclesAction.pending,(state)=>{
-            state.isPending=true
-        })
-        builder.addCase(deleteVehiclesAction.fulfilled,(state,action)=>{
-            state.isPending = false
-            state.message = action.payload
-        })
-        builder.addCase(deleteVehiclesAction.rejected,(state,action)=>{
-            state.isError = true
-            state.message = action.payload
-            state.isPending = false
-        })
-        builder.addCase(updateVehicleAction.pending,(state)=>{
-            state.isPending=true
-        })
-        builder.addCase(updateVehicleAction.fulfilled,(state,action)=>{
-            state.isPending = false
-            state.message = action.payload
-        })
-        builder.addCase(updateVehicleAction.rejected,(state,action)=>{
-            state.isError = true
-            state.message = action.payload
-            state.isPending = false
-        })
-     
         builder.addCase(driverMeAction.pending,(state)=>{
             state.isPending=true
         })

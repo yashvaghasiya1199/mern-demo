@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { bookRideAction, rideFindAction, paymentAction, AllUserRidesAction,  userProfileUpdateAction } from "../actions/user.action";
+import {   userProfileUpdateAction } from "../actions/user.action";
 
 const userSlice = createSlice({
     name: "userslice",
@@ -8,7 +8,6 @@ const userSlice = createSlice({
         userMessage:null,
         rideinformation:null,
         userPending:null,
-        // userMessage:[],
         userError:null
     },
     reducers: {
@@ -27,41 +26,9 @@ const userSlice = createSlice({
     }
     },
     extraReducers: (builder)=>{
-      builder.addCase(rideFindAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(rideFindAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userMessage = action.payload
-      }),
-      builder.addCase(rideFindAction.rejected,(state,action)=>{
-        state.userError=true
-        state.userMessage = action.payload
-      })
-      builder.addCase(bookRideAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(bookRideAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userMessage = action.payload
-      }),
-      builder.addCase(bookRideAction.rejected,(state,action)=>{
-        state.userPending = false
-        state.userError=true
-        state.userMessage = action.payload
-      })
-      builder.addCase(paymentAction.pending,(state)=>{
-        state.userPending =true
-      }),
-      builder.addCase(paymentAction.fulfilled,(state,action)=>{
-        state.userPending =false
-        state.userMessage = action.payload
-      }),
-      builder.addCase(paymentAction.rejected,(state,action)=>{
-        state.userError=true
-        state.userMessage = action.payload
-      })
 
+      // user profile update
+      
       builder.addCase(userProfileUpdateAction.pending,(state)=>{
         state.userPending =true
       }),
@@ -80,6 +47,3 @@ const userSlice = createSlice({
 export const {userlogin,userlogout,ridedata,clearUserData} = userSlice.actions
 
 export default userSlice.reducer;
-
-
-

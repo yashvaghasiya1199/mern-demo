@@ -28,7 +28,7 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        // 🚗 Driver Login
+        //  Driver Login
         builder.addCase(driverLoginAction.pending, (state) => {
             state.isPending = true;
         });
@@ -38,12 +38,12 @@ const authSlice = createSlice({
             state.message = action.payload || "driver login";
         });
         builder.addCase(driverLoginAction.rejected, (state, action) => {
+            state.isPending = false;
             state.isError = true;
             state.message = action.payload;
-            state.isPending = false;
         });
 
-        // 🚗 Driver Signup
+        //  Driver Signup
         builder.addCase(driverSignupAction.pending, (state) => {
             state.isPending = true;
         });
@@ -58,7 +58,7 @@ const authSlice = createSlice({
             state.isPending = false;
         });
 
-        // 👤 User Login
+        // User Login
         builder.addCase(userLoginAction.pending, (state) => {
             state.isPending = true;
         });
@@ -73,7 +73,7 @@ const authSlice = createSlice({
             state.isPending = false;
         });
 
-        // 🚗 Driver Forgot Password
+        //  Driver Forgot Password
         builder.addCase(driverForgotPasswordAction.pending, (state) => {
             state.isPending = true;
             state.isError = false;
@@ -89,7 +89,7 @@ const authSlice = createSlice({
             state.isPending = false;
         });
 
-        // 🚗 Driver Reset Password
+        //  Driver Reset Password
         builder.addCase(driverResetPasswordAction.pending, (state) => {
             state.isPending = true;
         });
@@ -104,7 +104,7 @@ const authSlice = createSlice({
             state.isPending = false;
         });
 
-        // 👤 User Signup
+        // User Signup
         builder.addCase(userSignupAction.pending, (state) => {
             state.isPending = true;
         });
@@ -119,7 +119,7 @@ const authSlice = createSlice({
             state.message = action.payload;
         });
 
-        // 👤 User Forgot Password
+        // User Forgot Password
         builder.addCase(userForgotPasswordAction.pending, (state) => {
             state.isPending = true;
         });
@@ -134,7 +134,7 @@ const authSlice = createSlice({
             state.isError = true;
         });
 
-        // 👤 User Reset Password
+        // User Reset Password
         builder.addCase(userResetPasswordAction.pending, (state) => {
             state.isPending = true;
         });

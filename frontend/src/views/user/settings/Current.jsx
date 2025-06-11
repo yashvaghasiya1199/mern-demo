@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Map } from "../../../componets/common/map";
-import { useUserHooks } from "../../../hooks/useUser";
+import { useRide } from "../../../hooks/useRide";
 
 export function Current(){
 
@@ -8,7 +8,7 @@ export function Current(){
     const [rating, setRating] = useState(1);
     const [hover, setHover] = useState(0);
     const rideId = JSON.parse(localStorage.getItem("rideid")).ride.ride_id;
-    const { userReview } = useUserHooks()
+    const { userReview } = useRide()
     const data = {
         ride_id: rideId,
         rating

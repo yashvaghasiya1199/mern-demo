@@ -4,8 +4,8 @@ import { useSelector } from "react-redux"
 import { Map } from "./common/map"
 
 export function Hero() {
-    const isDriverLogin = useSelector(state => state.driverLogin.driverLogin)
-    const isUserLogin = useSelector(state => state.userlogin)
+    const isDriverLogin = useSelector(state => state.driver.driverLogin)
+    const isUserLogin = useSelector(state => state.user)
     
 
     if (isDriverLogin) {

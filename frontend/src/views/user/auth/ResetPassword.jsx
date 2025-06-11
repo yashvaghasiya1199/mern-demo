@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
-import { errorToast, successToast } from '../../../componets/toast';
 import { useAuthHook } from '../../../hooks/useAuth';
 import '../../../assets/css/login.css'
 import '../../../assets/css/signup.css'
-import { CircularIndeterminate, Loaders } from '../../../componets/loadder';
 import { ErrorNote } from '../../../componets/common/errornote';
+import { CircularIndeterminate } from '../../../componets/loadder';
+import { errorToast,successToast } from '../../../componets/toast';
+
 
 export function UserResetPassword() {
   const [newData, setNewdata] = useState({

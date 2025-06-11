@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Navbar } from "../layout/navbar";
+import { Navbar } from "./navbar";
 
 export function UserPrivate(){
 

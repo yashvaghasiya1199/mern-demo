@@ -27,7 +27,7 @@ export function UserProfile() {
         e.preventDefault()
         try {
             const response = await userProfileUpdate(data)
-            setIsUpdate(false)
+            setIsUpdate(!update)
             successToast("profile update succesfully")
             if (response.payload.error) {
                 errorToast(response.msg)
@@ -47,9 +47,6 @@ export function UserProfile() {
     }, [])
 
     return <>
-
-
-
         {
             update ? <div className="location-form-container">
                 <form className="location-form" onSubmit={formSumit} >
@@ -100,7 +97,7 @@ export function UserProfile() {
                     />
 
                     <div className="updatevheclebuttton">
-                        <button type="submit" >Save</button>
+                        <button type="submit"  >Save</button>
                         <button type="button" onClick={() => setIsUpdate(!update)} >Cancel</button>
                     </div>
                 </form>

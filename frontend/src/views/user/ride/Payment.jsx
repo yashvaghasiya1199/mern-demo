@@ -4,6 +4,7 @@ import { useUserHooks } from '../../../hooks/useUser';
 import { errorToast, successToast } from '../../../componets/toast';
 import { ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useRide } from '../../../hooks/useRide';
 
 
 export function Payments(){
@@ -25,7 +26,7 @@ export function Payments(){
           
         }
     
-      const{payment} = useUserHooks()
+      const {payment} = useRide()
     
       async function formSubmit(e){
         e.preventDefault()
@@ -81,7 +82,8 @@ export function Payments(){
               <input type="text" id="paymentid" value={paymentId} onChange={(e)=>setPaymentId(e.target.value)}  required />
             </div>
           )}
-          <button type='submit' className='payment-submit-btn'  >submit</button>
+          <button type='submit' className='payment-submit-btn'  >Pay
+          </button>
           <ToastContainer/>
         </form>
       );

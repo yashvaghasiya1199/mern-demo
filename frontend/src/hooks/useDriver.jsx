@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addVehicleAction,  deleteVehiclesAction, getDriverReviewsAction, getVehicleAction, updateVehicleAction, driverMeAction, imageUpdateAction, profileUpdateDriverAction, getDriverLocationsAction, addLocationAction, deleteDriverLocationAction  } from "../store/actions/driver.action";
+import {  getDriverReviewsAction,  driverMeAction, imageUpdateAction, profileUpdateDriverAction, getDriverLocationsAction, addLocationAction, deleteDriverLocationAction  } from "../store/actions/driver.action";
 import { messageClear } from "../store/redusers/driver.reduser";
 
 export function useDriverHooks(){
 
     const dispatch = useDispatch()
 
-    const {isPending,isError,message} = useSelector(state => state.driverLogin)
+    const {isPending,isError,message} = useSelector(state => state.driver)
 
     async function locationDriver(body) {
         return await dispatch(addLocationAction(body))
@@ -23,19 +23,6 @@ export function useDriverHooks(){
         return await dispatch(getDriverReviewsAction())
     }
 
-    async function  getDriverVehicle() {
-        return await dispatch(getVehicleAction())
-    }
-    async function  addVehicle(body) {
-        return await dispatch(addVehicleAction(body))
-    }
-    async function  deleteVehicle(body) {
-        return await dispatch(deleteVehiclesAction(body))
-    }
-
-    async function updateVehicle(id, body) {
-        return await dispatch(updateVehicleAction({ id, credentials: body }))
-    }
     async function driverMe() {
         return await dispatch(driverMeAction()).unwrap();
     }
@@ -56,13 +43,9 @@ export function useDriverHooks(){
         getDriverLocation,
         deleteDriverLocation,
         getDriverReview,
-        deleteVehicle,
-        updateVehicle,
         driverMe,
         imageupdateDriver,
         profileUpdateDriver,
-        getDriverVehicle,
-        addVehicle,
         clearData,
         isPending,
         isError,
