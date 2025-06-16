@@ -1,3 +1,6 @@
+import { Request, Response } from "express";
+import { UploadedFile } from 'express-fileupload';
+
 const Users = require('../models/user.model');
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
@@ -16,7 +19,7 @@ const { where } = require('sequelize');
 // USER AUTH
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-async function signUp(req, res) {
+async function signUp(req:any, res:Response) {
     try {
 
         const { error, value } = userSignUpValidation.validate(req.body, { abortEarly: false });
@@ -75,13 +78,13 @@ async function signUp(req, res) {
             error: false
         });
 
-    } catch (error) {
+    } catch (error:any) {
         console.error("Signup error:", error);
-        return res.status(500).json({ msg: "Server error", error: error.message, error: true });
+        return res.status(500).json({ msg: "Server error", error: true });
     }
 }
 
-async function logIn(req, res) {
+async function logIn(req:Request, res:Response) {
     const { emailorusername, password } = req.body;
 
     try {
@@ -108,16 +111,16 @@ async function logIn(req, res) {
 
         return res.json({ msg: "Login successful", error: false, user });
 
-    } catch (error) {
+    } catch (error:any) {
         console.log(error.message);
-        return res.status(500).json({ msg: "Server error", error: error.message, error: true });
+        return res.status(500).json({ msg: "Server error", error: true });
     }
 }
 
 
 // forgot password 
 
-async function sendOtp(req, res) {
+async function sendOtp(req:Request, res:Response) {
 
     const otp = Math.floor(Math.random() * 10000 + 10000)
 
@@ -143,7 +146,7 @@ async function sendOtp(req, res) {
 }
 
 //   update password 
-async function changePassword(req, res) {
+async function changePassword(req:Request, res:Response) {
     const { otp, newpassword } = req.body
 
     const otpFind = await Users.findOne({ where: { otp: otp } })
@@ -172,7 +175,7 @@ cloudinary.config({
 
 
 
-async function driverSignup(req, res) {
+async function driverSignup(req:Request, res:Response) {
 
     const { error, value } = driverSignupValidation.validate(req.body, { abortEarly: false });
     console.log(error);
@@ -182,7 +185,7 @@ async function driverSignup(req, res) {
         console.log(error);
 
         return res.status(400).json({
-            msg: error.details ? error.details[0].message : "",
+            msg: error.details?error.details[0].message : "",
             error: true
         });
     }
@@ -195,7 +198,7 @@ async function driverSignup(req, res) {
         return res.status(400).json({ msg: "All required fields must be provided.", error: true });
     }
 
-    const file = req.files.profileimage
+    const file = req.files?.profileimage as UploadedFile
     console.log(file);
 
     const FindUserName = await drivers.findOne({ where: { username: username } })
@@ -221,12 +224,12 @@ async function driverSignup(req, res) {
         uploadResult = await cloudinary.uploader.upload(file.tempFilePath);
         // console.log(uploadResult);
 
-    } catch (err) {
+    } catch (err:any) {
         console.error("Cloudinary Upload Error:", err);
         if (err.name === "SequelizeUniqueConstraintError") {
             return res.status(400).json({ msg: "Username or email already exists.", error: true });
         }
-        consol
+        
         return res.status(500).json({ msg: "Image upload failed.", error: true });
     }
 
@@ -252,7 +255,7 @@ async function driverSignup(req, res) {
 }
 
 
-async function driverLogin(req, res) {
+async function driverLogin(req:Request, res:Response) {
     const { emailorusername, password } = req.body;
     if (!emailorusername || !password) {
         return res.status(401).json({ msg: "Please enter both fields", error: true });
@@ -281,7 +284,7 @@ async function driverLogin(req, res) {
 }
 
 //  driver forgot password
-async function driverSendOtp(req, res) {
+async function driverSendOtp(req:Request, res:Response) {
 
     const otp = Math.floor(Math.random() * 10000 + 10000)
 
@@ -308,7 +311,7 @@ async function driverSendOtp(req, res) {
     
 }
 
-async function driverChangePassword(req, res) {
+async function driverChangePassword(req:Request, res:Response) {
     const { otp, newpassword } = req.body
 
     const otpFind = await drivers.findOne({ where: { otp: otp } })

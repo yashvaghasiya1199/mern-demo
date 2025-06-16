@@ -1,8 +1,8 @@
 const {literal} = require("sequelize")
 
-function calculateDistance(lat1, lon1, lat2, lon2) {
+function calculateDistance(lat1:number, lon1:number, lat2:number, lon2:number) {
     const R = 6371;
-    const toRad = deg => (deg * Math.PI) / 180;
+    const toRad = (deg:any) => (deg * Math.PI) / 180;
   
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
@@ -17,7 +17,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   }
 
 
-  function distanceCondition(userLat, userLng, radiusKm = 10) {
+  function distanceCondition(userLat:number, userLng:number, radiusKm = 10) {
     return literal(`
       6371 * acos(
         cos(radians(${userLat})) *

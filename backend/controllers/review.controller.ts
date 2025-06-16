@@ -1,10 +1,11 @@
+import { Request, Response } from "express";
 const jwt = require("jsonwebtoken")
 const Review = require("../models/review.model");
 const Ride = require("../models/ride.model");
 const validator = require("validator");
 const { userIdFromRequest } = require("../services/user.services");
  
-async function postReview (req, res)  {
+async function postReview (req:Request, res:Response)  {
   try {
 
     const userId = userIdFromRequest(req,res); 
@@ -51,13 +52,13 @@ async function postReview (req, res)  {
 
     res.status(201).json({review,error:false});
 
-  } catch (error) {
+  } catch (error:any) {
     console.error("Error creating review:", error);
     res.status(500).json({ message: "Internal server error",error:true});
   }
 };
 
-async function deleteReview(req,res){
+async function deleteReview(req:Request, res:Response){
 
   const reviewId = req.params.reviewid
 

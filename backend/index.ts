@@ -1,3 +1,6 @@
+import { Response } from "express";
+import { error, log } from "node:console";
+
 const express = require("express");
 const sequelize = require("./config/db");
 const cookieparser = require("cookie-parser")
@@ -37,16 +40,17 @@ app.use(fileUpload({
 
 const startServer = async () => {
   try {
-    await sequelize.authenticate
-      ();
+    await sequelize.authenticate();
     console.log("Database connected successfully.");
-    sequelize.sync({ alter: false })
-      .then(() => console.log("DB synced"))
-      .catch(err => console.error("Sync failed:", err))
-  } catch (error) {
-    console.error(" Unable to connect to the database:", error);
+
+    await sequelize.sync({ alter: false });
+    console.log("DB synced");
+    
+  } catch (error: any) {
+    console.error("Unable to connect to the database:", error);
   }
 };
+
 
 startServer();
 
@@ -71,7 +75,7 @@ const jwt = require('jsonwebtoken')
 
 const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key"
 
-app.get('/user/auth/verify', (req, res) => {
+app.get('/user/auth/verify', (req:any, res:Response) => {
   const token = req.cookies.usertoken
 
   if (!token) {
@@ -87,7 +91,7 @@ app.get('/user/auth/verify', (req, res) => {
   }
 })
 
-app.get('/driver/auth/verify', (req, res) => {
+app.get('/driver/auth/verify', (req:any, res:Response) => {
   const token = req.cookies.drivertoken
 
   if (!token) {

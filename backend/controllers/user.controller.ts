@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+
 const Users = require('../models/user.model');
 const payments = require("../models/payment.model")
 const jwt = require("jsonwebtoken");
@@ -6,7 +8,7 @@ const { jwtTokenCreate } = require('../utills/jwtToken.utill');
 const { configDotenv } = require('dotenv');
 
 
-async function userProfileUpdate(req, res) {
+async function userProfileUpdate(req:Request, res:Response) {
     try {
      
 
@@ -46,14 +48,14 @@ async function userProfileUpdate(req, res) {
                 updated_at: updatedUser.updated_at,
             },error:false
         });
-    } catch (error) {
+    } catch (error:any) {
         console.error("User profile update error:", error);
         return res.status(500).json({ msg: "Server error", error: error.message });
     }
 }
 
 
-async function allPayment(req,res){
+async function allPayment(req:Request, res:Response){
   
     const userId = userIdFromRequest(req,res)
 
@@ -67,7 +69,7 @@ async function allPayment(req,res){
 
 }
 
-async function myProfile(req,res){
+async function myProfile(req:Request, res:Response){
     const userId = userIdFromRequest(req,res)
 
     const finduser = await Users.findOne({where:{user_id:userId}})

@@ -1,4 +1,6 @@
-async function userAuth(req,res,next){
+import { NextFunction, Response } from "express"
+
+async function userAuth(req:any,res:Response,next:NextFunction){
 
     let token = req.cookies?.usertoken
     

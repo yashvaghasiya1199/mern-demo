@@ -1,11 +1,12 @@
+import { Request, Response } from "express"
+
 const vehicals = require("../models/vehicle.model")
-const jwt = require("jsonwebtoken")
 const Driver = require("../models/driver.model")
 const Vehicle = require("../models/vehicle.model")
 const rideModel = require("../models/ride.model")
 const { driverIdFromRequest } = require("../services/driver.services")
 
-async function addVehicle(req, res) {
+async function addVehicle(req:Request, res:Response) {
 
   const { type, model, registration_number, color } = req.body
 
@@ -32,7 +33,7 @@ async function addVehicle(req, res) {
   
 }
 
-async function updateVehicle(req, res) {
+async function updateVehicle(req:Request, res:Response) {
 
   const vehicleId = req.params.vehicleid
 
@@ -55,7 +56,7 @@ async function updateVehicle(req, res) {
 
 }
 
-async function getDriverAllVehicles(req,res) {
+async function getDriverAllVehicles(req:Request, res:Response) {
 
   const driverId = driverIdFromRequest(req,res)
   
@@ -73,13 +74,13 @@ async function getDriverAllVehicles(req,res) {
     }
 
     return res.json({driver,error:false});  
-  } catch (error) {
+  } catch (error:any) {
     console.error(error);
     return { message: 'Error fetching data' ,error:true};
   }
 }
 
-async function findSingleVahicle(req,res){
+async function findSingleVahicle(req:Request, res:Response){
 
   let vehicleId = req.params.vehicleid
 
@@ -90,36 +91,14 @@ async function findSingleVahicle(req,res){
   let findvehicle = await Vehicle.findOne({where:{vehicle_id:vehicleId}})
   
   if(!findvehicle){
-    return res.josn({msg:"vehicle not found",error:true})
+    return res.json({msg:"vehicle not found",error:true})
   }
 
   return res.json({msg:findvehicle,error:false})
   
 }
 
-// async function deleteVehicle(req,res) {
-  
-//   const vehicleId =  req.params.vehicleid
-
-//   const driverId = driverIdFromRequest(req,res)
-  
-//   let vehicle = await Vehicle.findOne({where:{vehicle_id:vehicleId}})
-//   // console.log(vehicle);
-
-//   if(!vehicle){
-//     return res.json({msg:"vehicle id not find",error:true})
-//   }
-//   if (vehicle.driver_id !== driverId) {
-//     return res.status(403).json({ msg: "Unauthorized: You cannot delete this vehicle" ,error:true});
-//   }
-
-//   let removeVehicles = await vehicals.destroy({where:{vehicle_id:vehicleId}})
-  
-
-//   return res.json({msg:"vehicle delete successfull" , deleteVehicle,error:false})
-
-// }
-async function deleteVehicle(req, res) {
+async function deleteVehicle(req:Request, res:Response) {
   const vehicleId = req.params.vehicleid;
   const driverId = driverIdFromRequest(req, res);
 
@@ -138,7 +117,7 @@ async function deleteVehicle(req, res) {
     const deletedCount = await Vehicle.destroy({ where: { vehicle_id: vehicleId } });
 
     return res.json({ msg: "Vehicle deleted successfully", deleted: deletedCount, error: false });
-  } catch (err) {
+  } catch (err:any) {
     console.error(err);
     return res.status(500).json({ msg: "Server error", error: true });
   }

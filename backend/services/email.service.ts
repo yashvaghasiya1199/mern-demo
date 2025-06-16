@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 
-async function emailService (email,otp) {
+async function emailService (email:string,otp:string) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -15,7 +15,6 @@ async function emailService (email,otp) {
             to: email,
             subject: "Hello ✔",
             text: "Hello user",
-            // html: `<b>Your OTP is: ${otp}</b>`,
             html: `<div style="font-family: Arial, sans-serif; background-color: #F4F4F4; padding: 30px;">
       <div style="max-width: 600px; margin: auto; background-color: #FFFFFF; border-radius: 8px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
         <div style="padding: 20px; text-align: center; background-color: #4A90E2; color: white;">

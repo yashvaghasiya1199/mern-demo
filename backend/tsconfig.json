@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+ "include": ["**/*.ts", "models/vehicle.model.js", "models/driver.model.js"],       
+  "exclude": ["node_modules"]  
+}
