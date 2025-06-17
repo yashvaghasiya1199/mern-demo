@@ -9,7 +9,7 @@ export const Uploadfile = ({ setimage }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) return; 
     setimage(file);
 
     const reader = new FileReader();

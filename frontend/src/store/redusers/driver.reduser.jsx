@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {  addLocationAction,  driverMeAction } from "../actions/driver.action";
+import {  addLocationAction,  driverMeAction, imageUpdateAction } from "../actions/driver.action";
 
 const driverSlice = createSlice({
     name:"driver",
@@ -52,7 +52,19 @@ const driverSlice = createSlice({
             state.message = action.payload
             state.isPending = false
         })
-        
+        builder.addCase(imageUpdateAction.pending,(state)=>{
+            state.isPending=true
+        })
+        builder.addCase(imageUpdateAction.fulfilled,(state,action)=>{
+            state.isPending = false
+            state.isError =false
+            state.message = action.payload
+        })
+        builder.addCase(imageUpdateAction.rejected,(state,action)=>{
+            state.isError = true
+            state.message = action.payload
+            state.isPending = false
+        })
     }
    
     

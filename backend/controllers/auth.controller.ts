@@ -1,19 +1,14 @@
 import { Request, Response } from "express";
 import { UploadedFile } from 'express-fileupload';
-
 const Users = require('../models/user.model');
-const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
 const drivers = require("../models/driver.model")
-const review = require("../models/review.model");
-const nodemailer = require("nodemailer");
 const cloudinary = require("cloudinary").v2
 const { findUserByEmailorUsername } = require("../services/user.services");
 const { jwtTokenCreate } = require('../utills/jwtToken.utill');
 const { findDriverUsernameandEmail } = require("../services/driver.services");
 const { emailService } = require('../services/email.service');
 const { userSignUpValidation, driverSignupValidation } = require('../utills/validation.utill');
-const { where } = require('sequelize');
 
 
 // USER AUTH
@@ -35,7 +30,6 @@ async function signUp(req:any, res:Response) {
             });
         }
 
-        // const { first_name, last_name, email, password, phone, username } = req.body;
         const { first_name, last_name, email, password, phone, username } = value
 
         // Validate input
@@ -167,13 +161,6 @@ async function changePassword(req:Request, res:Response) {
 // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // for uploaddin profile image setup
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET,
-});
-
-
 
 async function driverSignup(req:Request, res:Response) {
 
@@ -273,7 +260,7 @@ async function driverLogin(req:Request, res:Response) {
         return res.status(401).json({ msg: "Invalid password", error: true });
     }
 
-    const payload = { driverid: driver.id };
+    const payload = { driverid: driver.id,documentes:driver.document_uploaded };
 
     const jwtCreate = jwtTokenCreate(payload);
 

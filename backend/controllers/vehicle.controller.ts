@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-
 const vehicals = require("../models/vehicle.model")
 const Driver = require("../models/driver.model")
 const Vehicle = require("../models/vehicle.model")

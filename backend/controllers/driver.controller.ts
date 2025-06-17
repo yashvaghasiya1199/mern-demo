@@ -1,15 +1,14 @@
-import { Request,Response } from "express"
-import { object } from "joi"
+import { Request, Response } from "express"
 
 //  models
-const driverlocation = require("../models/driverlocation.model")
+const driverlocationModel = require("../models/driverlocation.model")
 const drivers = require("../models/driver.model")
 const driverDocumetModel = require("../models/driverdocument.model")
-const Vehicle = require("../models/vehicle.model")
+const VehicleModel = require("../models/vehicle.model")
 const reviews = require("../models/review.model")
-const review = require("../models/review.model")
 const cloudinary = require("cloudinary").v2
 const { driverIdFromRequest, updateProfileImageService, uploadDriverDocumentsService, updateDriverDocumentsService } = require("../services/driver.services");
+const { UploadedFile } = require("express-fileupload");
 
 
 
@@ -73,7 +72,7 @@ async function driverLocations(req:Request, res:Response) {
         return res.json({ msg: "please enter both latitude and longitude", error: true })
     }
 
-    const locationcreate = await driverlocation.create({
+    const locationcreate = await driverlocationModel.create({
         driver_id: driverId,
         driverid: driverId,
         latitude,
@@ -93,7 +92,7 @@ async function getDriverAllLocation(req:Request, res:Response) {
         const driver = await drivers.findOne({
             where: { id: driverId },
             include: [{
-                model: driverlocation,
+                model: driverlocationModel,
                 required: false,
             }]
         });
@@ -103,93 +102,52 @@ async function getDriverAllLocation(req:Request, res:Response) {
         }
 
         return res.json({ driver, error: false });
-    } catch (error:any) {
+    } catch (error) {
         console.error(error);
         return { message: 'Error fetching data', error: true };
     }
 }
 
-// async function driverUpdateProfileImage(req:Request, res:Response) {
-//     try {
-//         const file = req?.files?.profileimage;
+async function driverUpdateProfileImage(req:Request, res:Response) {
+    try {
+        const file = req?.files?.profileimage;
+        const uploadedFile = Array.isArray(file) ? file[0] : file;
 
-//         if (!file) {
-//             return res.status(400).json({ msg: "Please select an image", error: true });
-//         }
+        const driverId = driverIdFromRequest(req, res);
+        const maxSize = 1 * 1024 * 1024;
 
-//         const driverId = driverIdFromRequest(req, res);
-//         const maxSize = 1 * 1024 * 1024;
+        if (!uploadedFile) {
+            return res.status(400).json({ msg: "Please select an image", error: true });
+        }
+        
+        if (uploadedFile.size > maxSize) {
+            return res.status(400).json({ msg: "Your image is too large. Max allowed size is 1MB.", error: true });
+        }
 
-//         if (file.size > maxSize) {
-//             return res.status(400).json({ msg: "Your image is too large. Max allowed size is 10MB.", error: true });
-//         }
+        const driver = await drivers.findOne({ where: { id: driverId } });
 
-//         const driver = await drivers.findOne({ where: { id: driverId } });
+        if (!driver) {
+            return res.status(404).json({ msg: "Driver not found", error: true });
+        }
 
-//         if (!driver) {
-//             return res.status(404).json({ msg: "Driver not found", error: true });
-//         }
+        const url = driver.profile_image || "";
+        const parts = url.split("/");
+        const fileWithExt = parts[parts.length - 1];
+        const publicId = fileWithExt.split('.')[0];
 
-//         const url = driver.profile_image || "";
-//         const parts = url.split("/");
-//         const fileWithExt = parts[parts.length - 1];
-//         const publicId = fileWithExt.split('.')[0];
+        const uploadResult = await updateProfileImageService(file, publicId);
 
-//         const uploadResult = await updateProfileImageService(file, publicId);
+        const updateProfile = await driver.update({ profile_image: uploadResult.url });
 
-//         const updateProfile = await driver.update({ profile_image: uploadResult.url });
+        return res.json({ msg: "Image updated successfully", url: uploadResult.url, error: false });
 
-//         return res.json({ msg: "Image updated successfully", url: uploadResult.url, error: false });
-
-//     } catch (err) {
-//         console.error("Error updating profile image:", err);
-//         return res.status(500).json({ msg: "Something went wrong" });
-//     }
-// }
-
-
-async function driverUpdateProfileImage(req: Request, res: Response) {
-  try {
-    const file = req?.files?.profileimage;
-
-    // Handle file possibly being an array or single file
-    const singleFile = Array.isArray(file) ? file[0] : file;
-
-    if (!singleFile) {
-      return res.status(400).json({ msg: "Please select an image", error: true });
+    } catch (err) {
+        console.error("Error updating profile image:", err);
+        return res.status(500).json({ msg: "Something went wrong" });
     }
-
-    const driverId = driverIdFromRequest(req, res);
-    const maxSize = 10 * 1024 * 1024; // 10MB max size
-
-    if (singleFile.size > maxSize) {
-      return res.status(400).json({ msg: "Your image is too large. Max allowed size is 10MB.", error: true });
-    }
-
-    const driver = await drivers.findOne({ where: { id: driverId } });
-
-    if (!driver) {
-      return res.status(404).json({ msg: "Driver not found", error: true });
-    }
-
-    const url = driver.profile_image || "";
-    const parts = url.split("/");
-    const fileWithExt = parts[parts.length - 1];
-    const publicId = fileWithExt.split(".")[0];
-
-    const uploadResult = await updateProfileImageService(singleFile, publicId);
-
-    await driver.update({ profile_image: uploadResult.url });
-
-    return res.json({ msg: "Image updated successfully", url: uploadResult.url, error: false });
-  } catch (err:any) {
-    console.error("Error updating profile image:", err);
-    return res.status(500).json({ msg: "Something went wrong", error: true });
-  }
 }
 
 //  driver's document uploads
-
 async function driverDocument(req:Request, res:Response) {
     try {
         const driverId = driverIdFromRequest(req, res);
@@ -217,13 +175,11 @@ async function driverDocument(req:Request, res:Response) {
         )
         return res.json({ msg: "File upload successful", data: result, error: false });
 
-    } catch (error:any) {
+    } catch (error) {
         console.error("Document Upload Error:", error);
-        return res.status(500).json({ msg:"Internal Server Error", error: true });
+        return res.status(500).json({ msg: "Internal Server Error", error: true });
     }
 }
-
-
 
 // update driver documents
 async function updateDriverDocument(req:Request, res:Response) {
@@ -241,9 +197,9 @@ async function updateDriverDocument(req:Request, res:Response) {
         });
 
         return res.json({ msg: "Driver documents updated successfully", data: updatedDocument, error: false });
-    } catch (error:any) {
+    } catch (error) {
         console.error("Update Document Error:", error);
-        return res.status(500).json({ msg:"Failed to update documents", error: true });
+        return res.status(500).json({ msg: "Failed to update documents", error: true });
     }
 }
 
@@ -256,7 +212,7 @@ async function driverAllInformation(req:Request, res:Response) {
         where: { id: driverId },
         include: [
           { model: driverDocumetModel },
-          { model: Vehicle },
+          { model: VehicleModel },
         ],
       });
   
@@ -265,7 +221,7 @@ async function driverAllInformation(req:Request, res:Response) {
       }
   
       return res.json({ driverData, error: false });
-    } catch (error:any) {
+    } catch (error) {
       console.error('Error fetching driver info:', error);
       return res.status(500).json({ message: 'Internal Server Error', error: true });
     }
@@ -274,9 +230,9 @@ async function driverAllInformation(req:Request, res:Response) {
 
 const Users = require("../models/user.model")
 
-review.belongsTo(Users, { foreignKey: 'user_id' });
+reviews.belongsTo(Users, { foreignKey: 'user_id' });
 
-Users.hasMany(review, { foreignKey: 'user_id' });
+Users.hasMany(reviews, { foreignKey: 'user_id' });
 
 
 async function AllDriverReviews(req:Request, res:Response) {
@@ -297,17 +253,16 @@ async function AllDriverReviews(req:Request, res:Response) {
 
         return res.json({ reviews: findreview, error: false });
 
-    } catch (error:any) {
+    } catch (error) {
         console.error(error);
         return res.status(500).json({ msg: "Server error", error: true });
     }
 }
-
 async function removeLocation(req:Request,res:Response) {
 
     const locationId = req.params.id
 
-    const findLocation = await driverlocation.findOne({where:{location_id:locationId}})
+    const findLocation = await driverlocationModel.findOne({where:{location_id:locationId}})
 
     if(!findLocation){
         return res.json({msg:"location id not found" , error:true})

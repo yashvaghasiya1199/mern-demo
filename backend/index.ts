@@ -1,8 +1,6 @@
 import { Response } from "express";
-import { error, log } from "node:console";
-
 const express = require("express");
-const sequelize = require("./config/db");
+const {sequelize} = require("./config/db");
 const cookieparser = require("cookie-parser")
 const app = express()
 const fileUpload = require("express-fileupload")
@@ -12,13 +10,13 @@ require("dotenv").config()
 const db = require("./config/associate")
 
 
-// routes
 const corsOptions = {
   origin: 'http://localhost:5173',
   credentials: true,
 };
 app.use(cors(corsOptions));
 
+// routes
 const userRoute = require("./routes/user.route")
 const driverRoute = require("./routes/driver.route")
 const vehicleRoute = require("./routes/vehicle.route")
@@ -55,7 +53,6 @@ const startServer = async () => {
 startServer();
 
 
-
 //  route
 app.use("/api/auth", authRoute)
 
@@ -73,7 +70,7 @@ app.use("/api/payment", userAuth, paymentRoute)
 
 const jwt = require('jsonwebtoken')
 
-const SECRET_KEY = process.env.JWT_SECRET || "your_secret_key"
+const SECRET_KEY = process.env.JWT_SECRET 
 
 app.get('/user/auth/verify', (req:any, res:Response) => {
   const token = req.cookies.usertoken
@@ -91,7 +88,7 @@ app.get('/user/auth/verify', (req:any, res:Response) => {
   }
 })
 
-app.get('/driver/auth/verify', (req:any, res:Response) => {
+app.get('/driver/auth/verify', async (req:any, res:Response) => {
   const token = req.cookies.drivertoken
 
   if (!token) {

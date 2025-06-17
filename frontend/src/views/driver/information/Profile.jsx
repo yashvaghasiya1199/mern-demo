@@ -5,6 +5,7 @@ import { useAuthHook } from '../../../hooks/useAuth';
 import { Uploadfile } from '../../../componets/common/fileuploader';
 import defaultpng from '../../../assets/images/default.png';
 import { styled } from '@mui/material/styles';
+import { ErrorNote } from '../../../componets/common/errornote';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -25,8 +26,9 @@ export function DriverProfile() {
   const [isProfileFormVisible, setProfileFormVisible] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const { imageupdateDriver, profileUpdateDriver } = useDriverHooks();
+  const { imageupdateDriver, profileUpdateDriver,isError,isPending,message } = useDriverHooks();
   const { driverMe } = useAuthHook();
+  
 
   useEffect(() => {
     fetchDriverData();
@@ -83,7 +85,6 @@ export function DriverProfile() {
     try {
       await imageupdateDriver(formData);
       await fetchDriverData();
-      setImageFile(null);
     } catch (error) {
       console.error('Upload error:', error);
     } finally {
@@ -145,6 +146,7 @@ export function DriverProfile() {
         </div>
       ) : (
         <div className="edit-profile">
+          {isError && <ErrorNote data={message.msg} />}
           <label htmlFor="updateimage" className="upload-label">
             Update Profile Image
           </label>

@@ -78,7 +78,7 @@ export const imageUpdateAction = createAsyncThunk(
             return fulfillWithValue (response?.data);
         }
         catch(error){
-            return rejectWithValue(error.response?.data.msg|| "falid to update iprofile image");
+            return rejectWithValue(error.response?.data|| "falid to update iprofile image");
         }
     }
 );

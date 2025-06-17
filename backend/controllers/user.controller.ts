@@ -54,7 +54,6 @@ async function userProfileUpdate(req:Request, res:Response) {
     }
 }
 
-
 async function allPayment(req:Request, res:Response){
   
     const userId = userIdFromRequest(req,res)
