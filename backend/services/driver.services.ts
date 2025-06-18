@@ -1,5 +1,4 @@
-
-
+import { Request,Response } from "express";
 import { UploadedFile } from "express-fileupload";
 const driver = require("../models/driver.model")
 const {Op} = require("sequelize")
@@ -52,97 +51,48 @@ async function updateProfileImageService(file:UploadedFile, publicId?:string) {
     }
 }
 
-
-// upload driver documents
-
-// async function uploadDriverDocumentsService(driverId:string, files:UploadedFile) {
-//     const { pancardFile, aadharFrontFile, aadharBackFile } = files;
-
-//     const maxSize = 1 * 1024 * 1024;
-//     let pancardUrl = null;
-//     let aadharFrontUrl = null;
-//     let aadharBackUrl = null;
-
-//     // Upload pancard
-//     if (pancardFile) {
-//         if (pancardFile.size > maxSize) {
-//             throw new Error("Pancard image is too large. Max allowed size is 1MB.");
-//         }
-
-//         const uploadResult = await cloudinary.uploader.upload(pancardFile.tempFilePath);
-//         pancardUrl = uploadResult.url;
-//     }
-
-//     // Upload aadhar front
-//     if (aadharFrontFile && aadharBackFile) {
-//         const frontResult = await cloudinary.uploader.upload(aadharFrontFile.tempFilePath);
-//         aadharFrontUrl = frontResult.url;
-
-//         const backResult = await cloudinary.uploader.upload(aadharBackFile.tempFilePath);
-//         aadharBackUrl = backResult.url;
-//     } else if (aadharFrontFile || aadharBackFile) {
-//         throw new Error("Both front and back Aadhar images are required.");
-//     }
-
-//     const newDocument = await driverDocumetModel.create({
-//         driver_id: driverId,
-//         pancard: pancardUrl?pancardUrl : null ,
-//         aadharcard_front:aadharFrontUrl?aadharFrontUrl :null,
-//         aadharcard_back:aadharBackUrl?aadharBackUrl :null
-//     });
-    
-
-//     return newDocument;
-// }
-
-
- async function uploadDriverDocumentsService(
-    driverId: string,
-    files: IDriverDocumentFiles
-    ) {
+async function uploadDriverDocumentsService(driverId: string, files: IDriverDocumentFiles,req:Request,res:Response) {
     const { pancardFile, aadharFrontFile, aadharBackFile } = files;
-    
+  
     const maxSize = 1 * 1024 * 1024; // 1MB
     let pancardUrl: string | null = null;
     let aadharFrontUrl: string | null = null;
     let aadharBackUrl: string | null = null;
-    
+  
     // Upload Pancard
     if (pancardFile) {
-    if (pancardFile.size > maxSize) {
-    throw new Error("Pancard image is too large. Max allowed size is 1MB.");
+      if (pancardFile.size > maxSize) {
+        return res.status(401).json({msg:"please upload less then 1 mb image"})
+      }
+      const uploadResult = await cloudinary.uploader.upload(pancardFile.tempFilePath);
+      pancardUrl = uploadResult.secure_url;
     }
-    
-    const uploadResult = await cloudinary.v2.uploader.upload(pancardFile.tempFilePath);
-    pancardUrl = uploadResult.secure_url;
-    }
-    
+  
     // Upload Aadhar Front & Back
     if (aadharFrontFile && aadharBackFile) {
-    if (aadharFrontFile.size > maxSize || aadharBackFile.size > maxSize) {
-    throw new Error("Aadhar images are too large. Max allowed size is 1MB each.");
-    }
-    
-    const frontResult = await cloudinary.v2.uploader.upload(aadharFrontFile.tempFilePath);
-    aadharFrontUrl = frontResult.secure_url;
-    
-    const backResult = await cloudinary.v2.uploader.upload(aadharBackFile.tempFilePath);
-    aadharBackUrl = backResult.secure_url;
-    
+      if (aadharFrontFile.size > maxSize || aadharBackFile.size > maxSize) {
+        return res.status(401).json({msg:"please upload less then 1 mb image"})
+      }
+  
+      const frontResult = await cloudinary.uploader.upload(aadharFrontFile.tempFilePath);
+      aadharFrontUrl = frontResult.secure_url;
+  
+      const backResult = await cloudinary.uploader.upload(aadharBackFile.tempFilePath);
+      aadharBackUrl = backResult.secure_url;
     } else if (aadharFrontFile || aadharBackFile) {
-    throw new Error("Both front and back Aadhar images are required.");
+      return res.status(401).json({msg:"please upload less then 1 mb image"})
     }
-    
+  
     // Save to database
     const newDocument = await driverDocumetModel.create({
-    driver_id: driverId,
-    pancard: pancardUrl,
-    aadharcard_front: aadharFrontUrl,
-    aadharcard_back: aadharBackUrl,
+      driver_id: driverId,
+      pancard: pancardUrl,
+      aadharcard_front: aadharFrontUrl,
+      aadharcard_back: aadharBackUrl,
     });
-    
+  
     return newDocument;
-    }
+  }
 
 // update driver document services 
 

@@ -9,7 +9,7 @@ const { jwtTokenCreate } = require('../utills/jwtToken.utill');
 const { findDriverUsernameandEmail } = require("../services/driver.services");
 const { emailService } = require('../services/email.service');
 const { userSignUpValidation, driverSignupValidation } = require('../utills/validation.utill');
-
+var jwt = require("jsonwebtoken")
 
 // USER AUTH
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -260,7 +260,7 @@ async function driverLogin(req:Request, res:Response) {
         return res.status(401).json({ msg: "Invalid password", error: true });
     }
 
-    const payload = { driverid: driver.id,documentes:driver.document_uploaded };
+    const payload = { driverid: driver.id };
 
     const jwtCreate = jwtTokenCreate(payload);
 
@@ -314,6 +314,39 @@ async function driverChangePassword(req:Request, res:Response) {
     return res.json({ msg: "password update successfully", update, error: false })
 }
 
+async function driverVerify(req: Request, res: Response){
+    const token = req.cookies.drivertoken
+  
+    if (!token) {
+      return res.status(401).json({ error: "No token provided" })
+    }
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      var driverId = decoded.driverid
+      const find = await drivers.findOne({where:{id:driverId}})
+      return res.json({ driver: find })
+  
+    } catch (err) {
+      console.log(err);
+      return res.status(401).json({ error: "Invalid token" })
+    }
+  }
+
+  async function userVerify(req: any, res: Response) {
+    const token = req.cookies.usertoken
+  
+    if (!token) {
+      return res.status(401).json({ error: "No token provided" })
+    }
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      return res.json({ user: decoded })
+  
+    } catch (err) {
+      console.log(err);
+      return res.status(401).json({ error: "Invalid token" })
+    }
+  }
 
 module.exports = {
     signUp,
@@ -323,5 +356,7 @@ module.exports = {
     driverSignup,
     driverLogin,
     driverSendOtp,
-    driverChangePassword
+    driverVerify,
+    userVerify,
+    driverChangePassword,
 }

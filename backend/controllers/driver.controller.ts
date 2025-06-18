@@ -164,7 +164,7 @@ async function driverDocument(req:Request, res:Response) {
             pancardFile,
             aadharFrontFile,
             aadharBackFile
-        });
+        },req,res);
         const dId = result.driver_id
 
         // const driverDocument = await drivers.findOne({where:{id:{dId}}})

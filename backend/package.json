@@ -2,7 +2,7 @@
   "name": "uber_demo_final",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "type": "commonjs",
   "scripts": {
     "build": "tsc",

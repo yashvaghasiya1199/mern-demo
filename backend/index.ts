@@ -1,6 +1,7 @@
-import { Response } from "express";
+import { Request, Response } from "express";
+import { where } from "sequelize";
 const express = require("express");
-const {sequelize} = require("./config/db");
+const { sequelize } = require("./config/db");
 const cookieparser = require("cookie-parser")
 const app = express()
 const fileUpload = require("express-fileupload")
@@ -8,6 +9,7 @@ const cors = require("cors")
 const port = 8011
 require("dotenv").config()
 const db = require("./config/associate")
+ const driverModel = require("./models/driver.model")
 
 
 const corsOptions = {
@@ -43,7 +45,7 @@ const startServer = async () => {
 
     await sequelize.sync({ alter: false });
     console.log("DB synced");
-    
+
   } catch (error: any) {
     console.error("Unable to connect to the database:", error);
   }
@@ -69,40 +71,6 @@ app.use("/api/review", userAuth, reviewRoute)
 app.use("/api/payment", userAuth, paymentRoute)
 
 const jwt = require('jsonwebtoken')
-
-const SECRET_KEY = process.env.JWT_SECRET 
-
-app.get('/user/auth/verify', (req:any, res:Response) => {
-  const token = req.cookies.usertoken
-
-  if (!token) {
-    return res.status(401).json({ error: "No token provided" })
-  }
-  try {
-    const decoded = jwt.verify(token, SECRET_KEY)
-    return res.json({ user: decoded })
-
-  } catch (err) {
-    console.log(err);
-    return res.status(401).json({ error: "Invalid token" })
-  }
-})
-
-app.get('/driver/auth/verify', async (req:any, res:Response) => {
-  const token = req.cookies.drivertoken
-
-  if (!token) {
-    return res.status(401).json({ error: "No token provided" })
-  }
-  try {
-    const decoded = jwt.verify(token, SECRET_KEY)
-    return res.json({ driver: decoded })
-
-  } catch (err) {
-    console.log(err);
-    return res.status(401).json({ error: "Invalid token" })
-  }
-})
 
 app.listen(port, () => console.log(`run on ${port}`))
 
