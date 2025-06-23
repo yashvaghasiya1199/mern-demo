@@ -1,59 +1,58 @@
 const Driver = require('../models/driver.model');
 const Vehicle = require('../models/vehicle.model');
-const driverDocument = require("../models/driverdocument.model")
-const driverLocation = require("../models/driverlocation.model")
-const Rides = require("../models/ride.model")
-const User = require("../models/user.model")
-const Review = require("../models/review.model")
+const DriverDocuments = require("../models/driverdocument.model");
+const DriverLocation = require("../models/driverlocation.model");
+const Rides = require("../models/ride.model");
+const User = require("../models/user.model");
+const Review = require("../models/review.model");
 
-// driver and vehicle
+// Driver and Vehicle associations
 Driver.hasMany(Vehicle, {
   foreignKey: 'driver_id',
-  onDelete: 'CASCADE'
+  onDelete: 'CASCADE',
 });
 Vehicle.belongsTo(Driver, {
-  foreignKey: 'driver_id'
-});
-
-// driver and document
-Driver.hasOne(driverDocument, {
   foreignKey: 'driver_id',
-  onDelete: 'CASCADE'
-});
-driverDocument.belongsTo(Driver, {
-  foreignKey: 'driver_id'
 });
 
-// driver and document 
-Driver.hasMany(driverLocation, {
+// Driver and DriverDocument associations
+Driver.hasOne(DriverDocuments, {
   foreignKey: 'driver_id',
-  onDelete: 'CASCADE'
+  onDelete: 'CASCADE',
 });
-driverLocation.belongsTo(Driver, {
-  foreignKey: 'driver_id'
+DriverDocuments.belongsTo(Driver, {
+  foreignKey: 'driver_id',
 });
 
-// ride and user 
+// Driver and DriverLocation associations
+Driver.hasMany(DriverLocation, {
+  foreignKey: 'driver_id',
+  onDelete: 'CASCADE',
+});
+DriverLocation.belongsTo(Driver, {
+  foreignKey: 'driver_id',
+});
+
+// Rides and User association
 Rides.belongsTo(User, {
-  foreignKey: 'user_id'
+  foreignKey: 'user_id',
 });
 
-// ride and driver
+// Rides and Driver association
 Rides.belongsTo(Driver, {
-  foreignKey: 'driver_id'
+  foreignKey: 'driver_id',
 });
 
-// ride and vehicles
+// Rides and Vehicle association
 Rides.belongsTo(Vehicle, {
-  foreignKey: 'vehicle_id'
+  foreignKey: 'vehicle_id',
 });
 
-// ride and reviews
-
+// Rides and Review associations
 Rides.hasMany(Review, {
   foreignKey: 'ride_id',
-  onDelete: 'CASCADE'
+  onDelete: 'CASCADE',
 });
 Review.belongsTo(Rides, {
-  foreignKey: 'ride_id'
+  foreignKey: 'ride_id',
 });
